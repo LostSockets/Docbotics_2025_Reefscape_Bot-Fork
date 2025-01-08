@@ -1,4 +1,6 @@
+
 package frc.robot.subsystems;
+
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,8 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 
-
-import com.kauailabs.navx.frc;
+import com.studica.frc.AHRS;
 
 
 import org.littletonrobotics.junction.Logger;
@@ -92,8 +93,11 @@ public class SwerveSub extends SubsystemBase {
     new Rotation2d(0), getModulePositionsAuto() );
 
 
+    private RobotConfig config;
     
-    private final AHRS gyro = new AHRS(SerialPort.Port.kUSB1);
+    private final AHRS gyro = new AHRS(AHRS.NavXComType.kUSB1);
+    
+    //new AHRS(SerialPort.Port.kUSB1);
 
 
 
@@ -113,7 +117,7 @@ public class SwerveSub extends SubsystemBase {
         
             // Load the RobotConfig from the GUI settings. You should probably
             // store this in your Constants file
-            RobotConfig config;
+            
             try{
             config = RobotConfig.fromGUISettings();
             } catch (Exception e) {

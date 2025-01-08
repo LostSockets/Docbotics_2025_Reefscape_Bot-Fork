@@ -26,18 +26,14 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 
 public class SwerveModule {
     private final SparkMax driveMotor;
-    private final SparkMaxConfig driverConfig = new SparkMaxConfig();
+    private final SparkMaxConfig driveMotorConfig = new SparkMaxConfig();
 
     private final SparkMax turningMotor;
-    private final SparkMaxConfig turnConfig = new SparkMaxConfig();
+    private final SparkMaxConfig turnMotorConfig = new SparkMaxConfig();
  
  
 
 
-    private final RelativeEncoder driveEncoder;
-
-
-    private final RelativeEncoder turningEncoder;
 
 
     private final PIDController turningPidController;
@@ -62,23 +58,23 @@ public class SwerveModule {
 
 
 
-        driveMotor = new SparkMax((driveMotorID), MotorType.kBrushless);
+        driveMotor = new SparkMax(driveMotorID, MotorType.kBrushless);
         turningMotor = new SparkMax(turningMotorID, MotorType.kBrushless);
 
-        driverConfig
+        driveMotorConfig
         .inverted(driveMotorReversed);
-        turnConfig
+        turnMotorConfig
         .inverted(turningMotorReversed);
 
         
 
         
-        driverConfig.encoder
+        driveMotorConfig.encoder
         .positionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter)
         .velocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
 
 
-        turnConfig.encoder
+        turnMotorConfig.encoder
         .positionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad)
         .velocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
 
@@ -88,14 +84,14 @@ public class SwerveModule {
         turningPidController.enableContinuousInput(-Math.PI, Math.PI); // Tells PID that the system is circular
  
         resetEncoders();
-        turningMotor.configure(turnConfig,ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        turningMotor.configure(turnMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-        driveMotor.configure(driverConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        driveMotor.configure(driveMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
     }
 
     public double getDrivePostion(){
-        return driveEncoder.getPosition();
+        return driveMotor.getEncoder().getPosition();
     }
 
     public double getTurningPositon(){
@@ -103,11 +99,11 @@ public class SwerveModule {
         //returns a values between - pi and pi
     }
     public double getDriveVelocity(){
-        return driveEncoder.getVelocity();
+        return driveMotor.getEncoder().getVelocity();
     }
 
     public double getTurningVelocity(){
-        return turningEncoder.getVelocity();
+        return turningMotor.getEncoder().getVelocity();
     }
     public double getAbsoluteEncoderRad(){
 
@@ -121,8 +117,8 @@ public class SwerveModule {
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0); // gives the Encoder value based on if the Encoder is reversed
     }
     public void resetEncoders(){
-        driveEncoder.setPosition(0);
-        turningEncoder.setPosition(getAbsoluteEncoderRad()); // reset the turning encoder to absoulute encoder value
+        driveMotor.getEncoder().setPosition(0);
+        turningMotor.getEncoder().setPosition(getAbsoluteEncoderRad()); // reset the turning encoder to absoulute encoder value
     }
 
     public SwerveModuleState getState(){
