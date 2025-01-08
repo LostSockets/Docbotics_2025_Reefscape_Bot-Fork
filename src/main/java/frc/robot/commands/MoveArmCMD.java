@@ -37,9 +37,9 @@ public class MoveArmCMD extends Command{
     
     @Override
     public void execute(){
-        double output = armController.calculate(armSub.getGetArmEncoder().getAbsolutePosition(), setpoint);
-        SmartDashboard.putNumber("armPosition_ticks", armSub.getGetArmEncoder().getAbsolutePosition());
-        SmartDashboard.putNumber("armPowerOutput_PercentOfPower",output);
+        // double output = armController.calculate(armSub.getGetArmEncoder().getAbsolutePosition(), setpoint);
+        // SmartDashboard.putNumber("armPosition_ticks", armSub.getGetArmEncoder().getAbsolutePosition());
+        // SmartDashboard.putNumber("armPowerOutput_PercentOfPower",output);
         armSub.setArmSpeed(1);
         
     }
