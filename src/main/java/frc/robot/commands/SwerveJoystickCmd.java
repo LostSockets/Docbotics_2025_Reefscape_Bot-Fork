@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.config.LimelightHelpers;
 import frc.robot.subsystems.SwerveSub;
 
  
@@ -35,7 +36,9 @@ public class SwerveJoystickCmd extends Command {
       
   public SwerveJoystickCmd(
           SwerveSub swerveSubsystem, 
-          Supplier <Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
+          Supplier <Double> xSpdFunction,
+           Supplier<Double> ySpdFunction, 
+           Supplier<Double> turningSpdFunction,
           Supplier<Boolean> fieldOrientedFunction) { // Supplier<Boolean> limeTargetAccessed//
         
         this.swerveSubsystem = swerveSubsystem;
@@ -62,7 +65,7 @@ public class SwerveJoystickCmd extends Command {
   @Override
   public void execute() {
     // gett latest values from joystick
-
+    swerveSubsystem.orientToTarget();
     double xspeed = xSpdFunction.get();
     double yspeed = ySpdFunction.get();
     double turningSpeed = turningSpdFunction.get();
@@ -81,6 +84,7 @@ public class SwerveJoystickCmd extends Command {
 
     //select orintatin of robot
 
+    ;
     ChassisSpeeds chassisSpeeds;
      if(fieldOrientedFunction.get()){ // field orientations
         chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(

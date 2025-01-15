@@ -16,8 +16,9 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
-
+import frc.robot.config.LimelightHelpers;
 
 import com.studica.frc.AHRS;
 
@@ -285,6 +286,22 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
 
 
 
+
+    public double orientToTarget(){
+        double targetingAngularVelocity = 
+        LimelightHelpers.getTX("limelight") * 
+        Constants.DriveConstants.autoTargetConstants.autoOrientKp;
+        SmartDashboard.putNumber("limeLightTx", LimelightHelpers.getTX("limelight"));
+
+        // convert to radians per second for our drive method
+        targetingAngularVelocity *= DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond;
+
+        //invert since tx is positive when the target is to the right of the crosshair
+        targetingAngularVelocity *= -1.0;
+
+        return targetingAngularVelocity;
+
+    }
 
 
 
