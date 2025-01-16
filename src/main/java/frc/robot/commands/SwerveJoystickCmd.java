@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -98,6 +99,12 @@ public class SwerveJoystickCmd extends Command {
         //   xspeed, -yspeed, swerveSubsystem.orientToTarget(), swerveSubsystem.getRotation2d());
       // }
       // else{ // robot oriented
+      if(LimelightHelpers.getTV("limelight")){
+        LimelightHelpers.setLEDMode_ForceBlink("limelight");
+
+        SmartDashboard.putNumber("distanceFromTarget_inches", 
+        swerveSubsystem.estimateDistanceFromLimelightToTarget_Inches());
+      }
       chassisSpeeds = new ChassisSpeeds(xspeed,-yspeed, -turningSpeed); //hard coded -s
       // }
     CurrentXSpeed = xspeed;

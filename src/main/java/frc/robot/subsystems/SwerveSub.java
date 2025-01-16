@@ -302,6 +302,25 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
         return targetingAngularVelocity;
 
     }
+    public double estimateDistanceFromLimelightToTarget_Inches(){
+        
+        double targetOffsetAngle_Vertical = LimelightHelpers.getTY("limelight");
+        SmartDashboard.putNumber("targetOffsetAngle_Vertical", targetOffsetAngle_Vertical);
+        double limelightMountAngle_Degrees = 25.0; 
+
+        // distance from the center of the Limelight lens to the floor
+        double limelightLensHeight_Inches = 20.0; 
+    
+        // distance from the target to the floor
+        double goalHeight_Inches = 60.0; 
+    
+        double angleToGoalDegrees = limelightMountAngle_Degrees + targetOffsetAngle_Vertical;
+        double angleToGoalRadians = Math.toRadians(angleToGoalDegrees) ;
+    
+        //calculate distance
+        double distanceFromLimelightToGoalInches = (goalHeight_Inches - limelightLensHeight_Inches) / Math.tan(angleToGoalRadians);
+        return distanceFromLimelightToGoalInches;
+    }
 
 
 
