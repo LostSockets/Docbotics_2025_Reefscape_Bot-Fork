@@ -76,7 +76,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
 
-    return new PathPlannerAuto("auto_2024_02_29");
+    return new PathPlannerAuto("Auto_driveForwardAndMoveArm");
 
 
   }
