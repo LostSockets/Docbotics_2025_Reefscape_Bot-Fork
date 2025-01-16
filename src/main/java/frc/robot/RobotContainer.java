@@ -50,12 +50,16 @@ public class RobotContainer {
     
 
     // Configure the trigger bindings
-    swerveSub.setDefaultCommand(new SwerveJoystickCmd(
-      swerveSub,
-      () -> -driverJoyStick.getRawAxis(OIConstants.kDriverYAxis),
-      () -> driverJoyStick.getRawAxis(OIConstants.kDriverXAxis),
-      () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
-      () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx))); // by defualt will work on fields reference frame
+    swerveSub.setDefaultCommand(
+        new SwerveJoystickCmd(
+        swerveSub,
+        () -> -driverJoyStick.getRawAxis(OIConstants.kDriverYAxis),
+        () -> driverJoyStick.getRawAxis(OIConstants.kDriverXAxis),
+        () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
+        () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
+        () -> !driverJoyStick.getRawButton(0)
+        )
+      ); // by defualt will work on fields reference frame
     
     
 

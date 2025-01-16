@@ -26,6 +26,7 @@ public class SwerveJoystickCmd extends Command {
       public final Supplier<Double> ySpdFunction;
       public final Supplier<Double> turningSpdFunction;
       public final Supplier<Boolean> fieldOrientedFunction;
+      public final Supplier<Boolean> targetOrientedFunction;
       private final SlewRateLimiter xLimiter, yLimiter, turningLimiter; // slew rate limiter cap the the amount of change of a value
 
       
@@ -39,14 +40,15 @@ public class SwerveJoystickCmd extends Command {
           Supplier <Double> xSpdFunction,
            Supplier<Double> ySpdFunction, 
            Supplier<Double> turningSpdFunction,
-          Supplier<Boolean> fieldOrientedFunction) { // Supplier<Boolean> limeTargetAccessed//
+          Supplier<Boolean> fieldOrientedFunction,
+          Supplier<Boolean> targetOrientedFunction) { // Supplier<Boolean> limeTargetAccessed//
         
         this.swerveSubsystem = swerveSubsystem;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
-
+        this.targetOrientedFunction = targetOrientedFunction;
 
 
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -86,14 +88,18 @@ public class SwerveJoystickCmd extends Command {
 
     ;
     ChassisSpeeds chassisSpeeds;
-     if(fieldOrientedFunction.get()){ // field orientations
-        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-          xspeed, -yspeed, -turningSpeed, swerveSubsystem.getRotation2d());
+    //  if(fieldOrientedFunction.get()){ // field orientations
+    //     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+    //       xspeed, -yspeed, -turningSpeed, swerveSubsystem.getRotation2d());
 
-      }
-      else{ // robot oriented
+    //   }
+      // else if(targetOrientedFunction.get()){
+        // chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+        //   xspeed, -yspeed, swerveSubsystem.orientToTarget(), swerveSubsystem.getRotation2d());
+      // }
+      // else{ // robot oriented
       chassisSpeeds = new ChassisSpeeds(xspeed,-yspeed, -turningSpeed); //hard coded -s
-      }
+      // }
     CurrentXSpeed = xspeed;
     CurrentYSpeed = yspeed;
     CurrentTurningSpeed = turningSpeed;

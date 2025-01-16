@@ -77,21 +77,21 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 2.2242;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -2.03575;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -1.7908;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -2.1488 ;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.35864 * 2 * Math.PI ;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0.23388 * 2 * Math.PI;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -0.2861 * 2 * Math.PI;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.08715 * 2 * Math.PI ;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
-
+// Caden corpuz is a silly guy teehee
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 3;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
         public static class autoTargetConstants{
-          public static final double autoOrientKp = 0.35;
+          public static final double autoOrientKp = 0.0035;
           
 
         }
