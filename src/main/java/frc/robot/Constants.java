@@ -136,6 +136,10 @@ public final class Constants {
               new TrapezoidProfile.Constraints(
                       kMaxAngularSpeedRadiansPerSecond,
                       kMaxAngularAccelerationRadiansPerSecondSquared);
+      public static final class autoCommands{
+        public static final String moveArmCMD ="moveArmCMD";
+      }
+
   }
 
 
