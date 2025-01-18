@@ -2,6 +2,8 @@
 package frc.robot.subsystems;
 
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkMax;
 
@@ -15,19 +17,37 @@ import frc.robot.Constants.ArmConstants;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
 
 public class ArmSub extends SubsystemBase{
-    private SparkBaseConfig armMotorConfig;
+    private SparkMaxConfig armMotorConfig = new SparkMaxConfig();
     private SparkMax armMotor = new SparkMax(ArmConstants.kArmMotorPort, MotorType.kBrushless);
 
     
-    private PIDController armController = new PIDController(
-        ArmConstants.kP, 
-        ArmConstants.kI, 
-        ArmConstants.kD);
+    public ArmSub(){
+        //configures armMotors PID Constants, min and max power outputs,
+        //max veloctiy and acceleration
+        armMotorConfig
+        .closedLoop
+        .p(0.0005)
+        .i(0)
+        .d(0)
+        .maxOutput(1)
+        .minOutput(-1)
+        .maxMotion
+            .maxVelocity(10000)
+            .maxAcceleration(360)
+            .allowedClosedLoopError(1);
+
+
+        armMotor.configure(armMotorConfig,
+        ResetMode.kResetSafeParameters, 
+        PersistMode.kNoPersistParameters);
+        
+    }
 
 
 
@@ -39,9 +59,7 @@ public class ArmSub extends SubsystemBase{
     public AbsoluteEncoder getGetArmEncoder(){
         return armMotor.getAbsoluteEncoder();
     }
-    public PIDController getPIDController(){
-        return armController;
-    }
+
     
     public void setArmSpeed(double speed){
         armMotor.set(speed);
