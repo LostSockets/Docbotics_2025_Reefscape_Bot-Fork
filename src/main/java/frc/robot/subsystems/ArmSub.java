@@ -21,7 +21,6 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 
 public class ArmSub extends SubsystemBase{
     private SparkBaseConfig armMotorConfig;
-    private DutyCycleEncoder armEncoder;
     private SparkMax armMotor = new SparkMax(ArmConstants.kArmMotorPort, MotorType.kBrushless);
 
     
@@ -30,12 +29,7 @@ public class ArmSub extends SubsystemBase{
         ArmConstants.kI, 
         ArmConstants.kD);
 
-    public ArmSub(){
-        armMotorConfig.absoluteEncoder.setSparkMaxDataPortConfig();
-        armMotor.configure(armMotorConfig, ResetMode.kResetSafeParameters, 
-        PersistMode.kNoPersistParameters);
-    }
-    
+
 
 
     public SparkMax getMotor(){
