@@ -98,6 +98,7 @@ public class SwerveSub extends SubsystemBase {
     private RobotConfig config;
     
     private final AHRS gyro = new AHRS(AHRS.NavXComType.kUSB1);
+    private double autoTurnParrelleToCoralStationSetpoint_degrees = 0;
     
     //new AHRS(SerialPort.Port.kUSB1);
 
@@ -312,9 +313,15 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
         return targetingAngularVelocity;
 
     }
-    public double turnToPosition(){
-        double setpoint = 30;
-        double positionError_degrees = setpoint - getHeading();
+    public double turnParrelleToCoralStation(){
+        
+
+        
+        if(LimelightHelpers.getFiducialID("limelight") == 13){
+            autoTurnParrelleToCoralStationSetpoint_degrees = autoTargetConstants.Offsets.coralStationRED_degrees;
+        }
+
+        double positionError_degrees = autoTurnParrelleToCoralStationSetpoint_degrees - getHeading();
         return positionError_degrees * autoTargetConstants.autoOrientCoralSationKp;
     }
 

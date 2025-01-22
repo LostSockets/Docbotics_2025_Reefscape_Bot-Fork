@@ -106,7 +106,7 @@ public class SwerveJoystickCmd extends Command {
       chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
            xspeed, 
            -yspeed, 
-           swerveSubsystem.turnToPosition(), 
+           swerveSubsystem.turnParrelleToCoralStation(), 
            swerveSubsystem.getRotation2d());
 
      }
