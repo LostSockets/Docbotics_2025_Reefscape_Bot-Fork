@@ -115,9 +115,9 @@ public final class Constants {
         
     public static final class ArmConstants {
       public static final int kArmMotorPort = 13;
-      public static final int kP = 1;
-      public static final int kI = 0;
-      public static final int kD = 0;
+      public static final double kP = 0.00175;
+      public static final double kI = 0;
+      public static final double kD = 0.0000525;
       
     } 
 

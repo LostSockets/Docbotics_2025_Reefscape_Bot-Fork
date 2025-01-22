@@ -15,12 +15,12 @@ public class MoveArmCMD extends Command{
     public final SparkMax armMotor;
     public final PIDController armController;
 
-    private final int setpoint = 300;
+
     
     public MoveArmCMD(ArmSub armSub){
         this.armSub = armSub;
-        armController = armSub.getPIDController();
-        armMotor = armSub.getMotor();
+        this.armMotor = armSub.getMotor();
+        armController = armSub.getArmController();
         addRequirements(armSub);
         
     }
@@ -29,22 +29,35 @@ public class MoveArmCMD extends Command{
     public void initialize(){
         
 
-        armMotor.stopMotor();
         armMotor.set(0);
+        armMotor.stopMotor();
         
+        SmartDashboard.putBoolean("isArmCommandRunning", true);
     }
 
     
     @Override
     public void execute(){
-        // double output = armController.calculate(armSub.getGetArmEncoder().getAbsolutePosition(), setpoint);
-        // SmartDashboard.putNumber("armPosition_ticks", armSub.getGetArmEncoder().getAbsolutePosition());
-        // SmartDashboard.putNumber("armPowerOutput_PercentOfPower",output);
-        armSub.setArmSpeed(1);
-        
+        //telemetry
+        SmartDashboard.putData(armController);
+        SmartDashboard.putNumber("armPostionError_degrees",armController.getError());
+        SmartDashboard.putNumber("armPostion_degrees",armSub.getGetArmEncoderPosition_degrees());
+        //drive arm Motor to setpoint based on arm controller
+        double output = armController.calculate(armSub.getGetArmEncoderPosition_degrees(), 169);
+        armMotor.set(output);       
+    }
+    @Override
+    public void end(boolean interrupted){
+        SmartDashboard.putBoolean("isArmCommandRunning", false);
+        armMotor.set(0);
+        armMotor.stopMotor();
     }
     @Override
     public boolean isFinished(){
+        //
+        if(Math.abs(armController.getError()) <= 3){
+            return true;
+        }
         return false;
     }
 }
