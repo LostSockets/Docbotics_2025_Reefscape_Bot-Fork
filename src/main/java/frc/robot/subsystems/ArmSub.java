@@ -23,29 +23,15 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 
 
 public class ArmSub extends SubsystemBase{
-    private SparkMaxConfig armMotorConfig = new SparkMaxConfig();
     private SparkMax armMotor = new SparkMax(ArmConstants.kArmMotorPort, MotorType.kBrushless);
+    private PIDController armController= new PIDController(
+        ArmConstants.kP,
+        ArmConstants.kI,
+        ArmConstants.kD);
 
     
     public ArmSub(){
-        //configures armMotors PID Constants, min and max power outputs,
-        //max veloctiy and acceleration
-        armMotorConfig
-        .closedLoop
-        .p(0.0005)
-        .i(0)
-        .d(0)
-        .maxOutput(1)
-        .minOutput(-1)
-        .maxMotion
-            .maxVelocity(10000)
-            .maxAcceleration(360)
-            .allowedClosedLoopError(1);
 
-
-        armMotor.configure(armMotorConfig,
-        ResetMode.kResetSafeParameters, 
-        PersistMode.kNoPersistParameters);
         
     }
 
@@ -56,13 +42,17 @@ public class ArmSub extends SubsystemBase{
         return armMotor;
     }
 
-    public AbsoluteEncoder getGetArmEncoder(){
-        return armMotor.getAbsoluteEncoder();
+    public double getGetArmEncoderPosition_degrees(){
+        return armMotor.getAbsoluteEncoder().getPosition();
     }
 
-    
-    public void setArmSpeed(double speed){
-        armMotor.set(speed);
+    public PIDController getArmController(){
+        return armController;
     }
+    public void setArmMotorPower(double power){
+        armMotor.set(power);
+    }
+
+
 
 }

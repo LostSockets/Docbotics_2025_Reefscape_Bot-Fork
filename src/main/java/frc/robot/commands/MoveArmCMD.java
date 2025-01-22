@@ -22,15 +22,14 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 public class MoveArmCMD extends Command{
     public final ArmSub armSub; 
     public final SparkMax armMotor;
-
-    public SparkClosedLoopController armController;
+    public final PIDController armController;
 
 
     
     public MoveArmCMD(ArmSub armSub){
         this.armSub = armSub;
-        armMotor = armSub.getMotor();
-        armController = armMotor.getClosedLoopController();
+        this.armMotor = armSub.getMotor();
+        armController = armSub.getArmController();
         addRequirements(armSub);
         
     }
@@ -39,25 +38,28 @@ public class MoveArmCMD extends Command{
     public void initialize(){
         
 
-        armMotor.stopMotor();
         armMotor.set(0);
+        armMotor.stopMotor();
         
+        SmartDashboard.putBoolean("isArmCommandRunning", true);
     }
 
     
     @Override
     public void execute(){
-
-        //run arm motor to the setpoint in shuffleboard
-        
-        double setpoint  =  SmartDashboard.getNumber("armSetpoint", 0);
-        
-        armController.setReference
-        SmartDashboard.putNumber("armSetpoint", setpoint);
-         SmartDashboard.putNumber("armPosition_rotation", armSub.getGetArmEncoder().getPosition());
-
-      
-        
+        //telemetry
+        SmartDashboard.putData(armController);
+        SmartDashboard.putNumber("armPostionError_degrees",armController.getError());
+        SmartDashboard.putNumber("armPostion_degrees",armSub.getGetArmEncoderPosition_degrees());
+        //drive arm Motor to setpoint based on arm controller
+        double output = armController.calculate(armSub.getGetArmEncoderPosition_degrees(), 169);
+        armMotor.set(output);       
+    }
+    @Override
+    public void end(boolean interrupted){
+        SmartDashboard.putBoolean("isArmCommandRunning", false);
+        armMotor.set(0);
+        armMotor.stopMotor();
     }
     @Override
     public boolean isFinished(){
