@@ -7,6 +7,7 @@ package frc.robot;
 
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.MoveArmCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ArmSub;
 import frc.robot.subsystems.SwerveSub;
+import frc.robot.subsystems.LimelightSub;
 
 import com.fasterxml.jackson.core.io.IOContext;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -38,8 +40,8 @@ public class RobotContainer {
 
 
   private final SwerveSub swerveSub =  new SwerveSub();
-  private final ArmSub armsub = new ArmSub();
-
+ // private final ArmSub armsub = new ArmSub();
+  private final LimelightSub limelightSub = new LimelightSub();
   private final Joystick driverJoyStick = new Joystick(OIConstants.kDriverControllerPort);
 
 
@@ -57,18 +59,20 @@ public class RobotContainer {
         () -> driverJoyStick.getRawAxis(OIConstants.kDriverXAxis),
         () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
         () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
-        () -> !driverJoyStick.getRawButton(0)
+        () -> driverJoyStick.getRawButton(OIConstants.kOrientToTargetIdx)
         )
       ); // by defualt will work on fields reference frame
-    
-    
+      
+    limelightSub.setDefaultCommand(
+      new ManageLimeLightCMD(limelightSub)
+    );
 
     configureBindings();
   }
 
 
   private void configureBindings() {
-    new JoystickButton(driverJoyStick, OIConstants.kIndexerButtonIdx ).whileTrue(new MoveArmCMD(armsub));
+   // new JoystickButton(driverJoyStick, OIConstants.kIndexerButtonIdx ).whileTrue(new MoveArmCMD(armsub));
   }
 
 

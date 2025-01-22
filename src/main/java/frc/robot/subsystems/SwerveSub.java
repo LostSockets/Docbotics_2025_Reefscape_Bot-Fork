@@ -87,7 +87,7 @@ public class SwerveSub extends SubsystemBase {
         backLeft, backRight
     };
 
-
+    private double limeLightTX = 0;
 
 
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, 
@@ -288,16 +288,25 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
 
 
     public double orientToTarget(){
+        if(LimelightHelpers.getTV("limelight")){
+        limeLightTX =LimelightHelpers.getTX("limelight"); 
+        }
         double targetingAngularVelocity = 
-        LimelightHelpers.getTX("limelight") * 
+        limeLightTX * 
         Constants.DriveConstants.autoTargetConstants.autoOrientKp;
-        SmartDashboard.putNumber("limeLightTx", LimelightHelpers.getTX("limelight"));
+    
 
         // convert to radians per second for our drive method
         targetingAngularVelocity *= DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond;
 
         //invert since tx is positive when the target is to the right of the crosshair
         targetingAngularVelocity *= -1.0;
+
+        //if there were apply a really small power output to the 
+        // turning motor, stop applying power
+        if (Math.abs(targetingAngularVelocity)  <= 0.001){
+            targetingAngularVelocity = 0;
+        }
 
         return targetingAngularVelocity;
 
