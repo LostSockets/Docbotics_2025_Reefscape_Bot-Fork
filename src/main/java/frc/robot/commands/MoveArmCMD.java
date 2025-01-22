@@ -54,6 +54,10 @@ public class MoveArmCMD extends Command{
     }
     @Override
     public boolean isFinished(){
+        //
+        if(Math.abs(armController.getError()) <= 3){
+            return true;
+        }
         return false;
     }
 }
