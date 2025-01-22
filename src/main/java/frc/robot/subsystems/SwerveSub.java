@@ -16,8 +16,9 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
-
+import frc.robot.config.LimelightHelpers;
 
 import com.studica.frc.AHRS;
 
@@ -86,7 +87,7 @@ public class SwerveSub extends SubsystemBase {
         backLeft, backRight
     };
 
-
+    private double limeLightTX = 0;
 
 
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, 
@@ -285,6 +286,31 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
 
 
 
+
+    public double orientToTarget(){
+        if(LimelightHelpers.getTV("limelight")){
+        limeLightTX =LimelightHelpers.getTX("limelight"); 
+        }
+        double targetingAngularVelocity = 
+        limeLightTX * 
+        Constants.DriveConstants.autoTargetConstants.autoOrientKp;
+    
+
+        // convert to radians per second for our drive method
+        targetingAngularVelocity *= DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond;
+
+        //invert since tx is positive when the target is to the right of the crosshair
+        targetingAngularVelocity *= -1.0;
+
+        //if there were apply a really small power output to the 
+        // turning motor, stop applying power
+        if (Math.abs(targetingAngularVelocity)  <= 0.001){
+            targetingAngularVelocity = 0;
+        }
+
+        return targetingAngularVelocity;
+
+    }
 
 
 

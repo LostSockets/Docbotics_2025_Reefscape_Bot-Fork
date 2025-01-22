@@ -9,9 +9,11 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.config.LimelightHelpers;
 import frc.robot.subsystems.SwerveSub;
 
  
@@ -25,6 +27,7 @@ public class SwerveJoystickCmd extends Command {
       public final Supplier<Double> ySpdFunction;
       public final Supplier<Double> turningSpdFunction;
       public final Supplier<Boolean> fieldOrientedFunction;
+      public final Supplier<Boolean> targetOrientedFunction;
       private final SlewRateLimiter xLimiter, yLimiter, turningLimiter; // slew rate limiter cap the the amount of change of a value
 
       
@@ -35,15 +38,18 @@ public class SwerveJoystickCmd extends Command {
       
   public SwerveJoystickCmd(
           SwerveSub swerveSubsystem, 
-          Supplier <Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
-          Supplier<Boolean> fieldOrientedFunction) { // Supplier<Boolean> limeTargetAccessed//
+          Supplier <Double> xSpdFunction,
+           Supplier<Double> ySpdFunction, 
+           Supplier<Double> turningSpdFunction,
+          Supplier<Boolean> fieldOrientedFunction,
+          Supplier<Boolean> targetOrientedFunction) { // Supplier<Boolean> limeTargetAccessed//
         
         this.swerveSubsystem = swerveSubsystem;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
-
+        this.targetOrientedFunction = targetOrientedFunction;
 
 
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -62,7 +68,7 @@ public class SwerveJoystickCmd extends Command {
   @Override
   public void execute() {
     // gett latest values from joystick
-
+    swerveSubsystem.orientToTarget();
     double xspeed = xSpdFunction.get();
     double yspeed = ySpdFunction.get();
     double turningSpeed = turningSpdFunction.get();
@@ -81,15 +87,24 @@ public class SwerveJoystickCmd extends Command {
 
     //select orintatin of robot
 
+    ;
     ChassisSpeeds chassisSpeeds;
-     if(fieldOrientedFunction.get()){ // field orientations
-        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-          xspeed, -yspeed, -turningSpeed, swerveSubsystem.getRotation2d());
+    //  if(fieldOrientedFunction.get()){ // field orientations
+    //     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+    //       xspeed, -yspeed, -turningSpeed, swerveSubsystem.getRotation2d());
 
-      }
-      else{ // robot oriented
+    //   }
+       if(targetOrientedFunction.get()){
+         chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+           xspeed, -yspeed, swerveSubsystem.orientToTarget(), swerveSubsystem.getRotation2d());
+     }
+
+       else{ // robot oriented
       chassisSpeeds = new ChassisSpeeds(xspeed,-yspeed, -turningSpeed); //hard coded -s
-      }
+       }
+       
+    SmartDashboard.putBoolean("targetOn", targetOrientedFunction.get());
+    
     CurrentXSpeed = xspeed;
     CurrentYSpeed = yspeed;
     CurrentTurningSpeed = turningSpeed;

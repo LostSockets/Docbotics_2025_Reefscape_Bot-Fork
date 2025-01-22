@@ -8,6 +8,7 @@ package frc.robot;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.MoveArmCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ArmSub;
 
 import frc.robot.subsystems.SwerveSub;
+import frc.robot.subsystems.LimelightSub;
 
 import com.fasterxml.jackson.core.io.IOContext;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -41,8 +43,8 @@ public class RobotContainer {
 
 
   private final SwerveSub swerveSub =  new SwerveSub();
-  private final ArmSub armsub = new ArmSub();
-
+ // private final ArmSub armsub = new ArmSub();
+  private final LimelightSub limelightSub = new LimelightSub();
   private final Joystick driverJoyStick = new Joystick(OIConstants.kDriverControllerPort);
 
 
@@ -55,22 +57,27 @@ public class RobotContainer {
     
 
     // Configure the trigger bindings
-    swerveSub.setDefaultCommand(new SwerveJoystickCmd(
-      swerveSub,
-      () -> -driverJoyStick.getRawAxis(OIConstants.kDriverYAxis),
-      () -> driverJoyStick.getRawAxis(OIConstants.kDriverXAxis),
-      () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
-      () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx))); // by defualt will work on fields reference frame
-    
-  // register commaned into Pathplanner
-  NamedCommands.registerCommand(AutoConstants.autoCommands.moveArmCMD, new MoveArmCMD(armsub));    
+    swerveSub.setDefaultCommand(
+        new SwerveJoystickCmd(
+        swerveSub,
+        () -> -driverJoyStick.getRawAxis(OIConstants.kDriverYAxis),
+        () -> driverJoyStick.getRawAxis(OIConstants.kDriverXAxis),
+        () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
+        () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
+        () -> driverJoyStick.getRawButton(OIConstants.kOrientToTargetIdx)
+        )
+      ); // by defualt will work on fields reference frame
+      
+    limelightSub.setDefaultCommand(
+      new ManageLimeLightCMD(limelightSub)
+    );
 
     configureBindings();
   }
 
 
   private void configureBindings() {
-    new JoystickButton(driverJoyStick, 1 ).whileTrue(new MoveArmCMD(armsub));
+    //new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new MoveArmCMD(armsub));
 
 
     
