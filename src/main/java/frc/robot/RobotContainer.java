@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.MoveArmCMD;
 import frc.robot.commands.SwerveJoystickCmd;
@@ -24,6 +25,7 @@ import frc.robot.subsystems.ArmSub;
 import frc.robot.subsystems.SwerveSub;
 
 import com.fasterxml.jackson.core.io.IOContext;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -46,6 +48,8 @@ public class RobotContainer {
 
 
 
+
+
   public RobotContainer() {
     
     
@@ -58,8 +62,10 @@ public class RobotContainer {
       () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
       () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx))); // by defualt will work on fields reference frame
     
-      configureBindings();
-      
+  // register commaned into Pathplanner
+  NamedCommands.registerCommand(AutoConstants.autoCommands.moveArmCMD, new MoveArmCMD(armsub));    
+
+    configureBindings();
   }
 
 
@@ -74,7 +80,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
 
-    return new PathPlannerAuto("auto_2024_02_29");
+    return new PathPlannerAuto("Auto_driveForwardAndMoveArm");
 
 
   }
