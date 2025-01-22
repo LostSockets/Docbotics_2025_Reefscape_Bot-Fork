@@ -64,7 +64,8 @@ public class RobotContainer {
         () -> driverJoyStick.getRawAxis(OIConstants.kDriverXAxis),
         () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
         () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
-        () -> driverJoyStick.getRawButton(OIConstants.kOrientToTargetIdx)
+        () -> driverJoyStick.getRawButton(OIConstants.kOrientToTargetIdx),
+        () -> driverJoyStick.getRawButton(OIConstants.kFollowCoralStationTarget)
         )
       ); // by defualt will work on fields reference frame
       

@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.DriveConstants.autoTargetConstants;
 import frc.robot.config.LimelightHelpers;
 
 import com.studica.frc.AHRS;
@@ -293,7 +294,7 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
         }
         double targetingAngularVelocity = 
         limeLightTX * 
-        Constants.DriveConstants.autoTargetConstants.autoOrientKp;
+        Constants.DriveConstants.autoTargetConstants.autoOrientGenericTargetKp;
     
 
         // convert to radians per second for our drive method
@@ -310,6 +311,11 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
 
         return targetingAngularVelocity;
 
+    }
+    public double turnToPosition(){
+        double setpoint = 30;
+        double positionError_degrees = setpoint - getHeading();
+        return positionError_degrees * autoTargetConstants.autoOrientCoralSationKp;
     }
 
 

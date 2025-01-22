@@ -28,6 +28,7 @@ public class SwerveJoystickCmd extends Command {
       public final Supplier<Double> turningSpdFunction;
       public final Supplier<Boolean> fieldOrientedFunction;
       public final Supplier<Boolean> targetOrientedFunction;
+      public final Supplier<Boolean> moveToCoralStationTargetFunction;
       private final SlewRateLimiter xLimiter, yLimiter, turningLimiter; // slew rate limiter cap the the amount of change of a value
 
       
@@ -42,7 +43,8 @@ public class SwerveJoystickCmd extends Command {
            Supplier<Double> ySpdFunction, 
            Supplier<Double> turningSpdFunction,
           Supplier<Boolean> fieldOrientedFunction,
-          Supplier<Boolean> targetOrientedFunction) { // Supplier<Boolean> limeTargetAccessed//
+          Supplier<Boolean> targetOrientedFunction,
+          Supplier<Boolean> moveToCoralStationTargetFunction) { // Supplier<Boolean> limeTargetAccessed//
         
         this.swerveSubsystem = swerveSubsystem;
         this.xSpdFunction = xSpdFunction;
@@ -50,6 +52,7 @@ public class SwerveJoystickCmd extends Command {
         this.turningSpdFunction = turningSpdFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
         this.targetOrientedFunction = targetOrientedFunction;
+        this.moveToCoralStationTargetFunction = moveToCoralStationTargetFunction;
 
 
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -97,6 +100,15 @@ public class SwerveJoystickCmd extends Command {
        if(targetOrientedFunction.get()){
          chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
            xspeed, -yspeed, swerveSubsystem.orientToTarget(), swerveSubsystem.getRotation2d());
+     }
+     else if(moveToCoralStationTargetFunction.get()){
+
+      chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+           xspeed, 
+           -yspeed, 
+           swerveSubsystem.turnToPosition(), 
+           swerveSubsystem.getRotation2d());
+
      }
 
        else{ // robot oriented

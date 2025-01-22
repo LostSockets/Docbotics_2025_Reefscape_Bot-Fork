@@ -91,15 +91,29 @@ public final class Constants {
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
         public static class autoTargetConstants{
-          public static final double autoOrientKp = 0.0035;
+          public static final double autoOrientGenericTargetKp = 0.0035;
+
+          public static final double autoOrientCoralSationKp = 0.05;
+
+          public static final double followTarget_kP = 0;
           
+          public static final double followTarget_kI = 0;
+          
+          public static final double followTarget_kD = 0;
+
+
+          public static class Offsets{
+            public static final double coralStationRED_degrees = 10;
+
+          }
+
 
         }
     }
     
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
-
+        
         public static final int kDriverXAxis = 0;
         public static final int kDriverYAxis = 1;
         public static final int kDriverRotAxis = 4;
@@ -107,6 +121,8 @@ public final class Constants {
 
         public static final int kDriverFieldOrientedButtonIdx = 1;
         public static final int kOrientToTargetIdx = 2; //B button 
+        public static final int kFollowCoralStationTarget = 3;
+
         public static final int kDriveGyroResetButtonIdx = 2;
       
 
@@ -149,8 +165,5 @@ public final class Constants {
   }
 
 
-  public static class IndexerConstants {
-    public static final int kIndexerPWMPort = 2;
-    
-  }
+
 }
