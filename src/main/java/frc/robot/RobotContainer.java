@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ArmSub;
+import frc.robot.subsystems.DismountSub;
 import frc.robot.subsystems.SwerveSub;
 
 import com.fasterxml.jackson.core.io.IOContext;
@@ -36,7 +37,7 @@ public class RobotContainer {
   // private final CommandXboxController m_driverController =
   //     new CommandXboxController(OIConstants.kDriverControllerPort);
 
-
+  private final DismountSub dismountSub = new DismountSub();
   private final SwerveSub swerveSub =  new SwerveSub();
   private final ArmSub armsub = new ArmSub();
 
@@ -57,14 +58,14 @@ public class RobotContainer {
       () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
       () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx))); // by defualt will work on fields reference frame
     
-    
-
-    configureBindings();
+ 
   }
 
 
   private void configureBindings() {
-    new JoystickButton(driverJoyStick, OIConstants.kIndexerButtonIdx ).whileTrue(new MoveArmCMD(armsub));
+    new JoystickButton(driverJoyStick, 1 ).whileTrue(new MoveArmCMD(armsub));
+
+    
   }
 
 
