@@ -77,14 +77,21 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.35864 * 2 * Math.PI ;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0.23388 * 2 * Math.PI;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -0.2861 * 2 * Math.PI;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.08715 * 2 * Math.PI ;
+
+        /** absolute encoder offsets of the swerve module. This is set by aligning the swerve
+         * modules so that they are  parrelle and straight, with flat side out for better allignment.
+         * these values can be see on the Phoenix tuner and are given in rotation, so we convert to radians
+         */
+        public static final class DriveAbsoluteEncoderOffsetRad{
+          public static final double kFrontLeft = 0.35864 * 2 * Math.PI ;
+          public static final double kBackLeft = 0.23388 * 2 * Math.PI;
+          public static final double kFrontRight = -0.2861 * 2 * Math.PI;
+          public static final double kBackRight = 0.08715 * 2 * Math.PI ;
+        }
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
-// Caden corpuz is a silly guy teehee
+
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 3;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
@@ -106,7 +113,8 @@ public final class Constants {
   
 
         public static final int kDriverFieldOrientedButtonIdx = 1;
-        public static final int kOrientToTargetIdx = 2; //B button 
+        /** B button */
+        public static final int kOrientToTargetIdx = 2; 
         public static final int kDriveGyroResetButtonIdx = 2;
       
 

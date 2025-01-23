@@ -12,7 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
-import edu.wpi.first.wpilibj.SerialPort;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -44,7 +44,7 @@ public class SwerveSub extends SubsystemBase {
             DriveConstants.kFrontRightDriveEncoderReversed,
             DriveConstants.kFrontRightTurningEncoderReversed,
             DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
-            DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
+            DriveConstants.DriveAbsoluteEncoderOffsetRad.kBackRight,
             DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
     public final SwerveModule frontLeft = new SwerveModule(
@@ -53,7 +53,7 @@ public class SwerveSub extends SubsystemBase {
             DriveConstants.kFrontLeftDriveEncoderReversed,
             DriveConstants.kFrontLeftTurningEncoderReversed,
             DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
-            DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
+            DriveConstants.DriveAbsoluteEncoderOffsetRad.kFrontLeft,
             DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
 
@@ -65,7 +65,7 @@ public class SwerveSub extends SubsystemBase {
             DriveConstants.kBackRightDriveEncoderReversed,
             DriveConstants.kBackRightTurningEncoderReversed,
             DriveConstants.kBackRightDriveAbsoluteEncoderPort,
-            DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
+            DriveConstants.DriveAbsoluteEncoderOffsetRad.kBackRight,
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
     public final SwerveModule backLeft = new SwerveModule(
@@ -74,7 +74,7 @@ public class SwerveSub extends SubsystemBase {
             DriveConstants.kBackLeftDriveEncoderReversed,
             DriveConstants.kBackLeftTurningEncoderReversed,
             DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
-            DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
+            DriveConstants.DriveAbsoluteEncoderOffsetRad.kBackLeft,
             DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
             
     private final SwerveModuleState[] mySwerveStates = new SwerveModuleState[]{ // used for debugging to Adavantage Scope
@@ -87,18 +87,16 @@ public class SwerveSub extends SubsystemBase {
         backLeft, backRight
     };
 
-    private double limeLightTX = 0;
+    private double initial_limeLightTX = 0;
 
 
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, 
     new Rotation2d(0), getModulePositionsAuto() );
 
-
     private RobotConfig config;
     
     private final AHRS gyro = new AHRS(AHRS.NavXComType.kUSB1);
-    
-    //new AHRS(SerialPort.Port.kUSB1);
+
 
 
 
@@ -174,25 +172,26 @@ public class SwerveSub extends SubsystemBase {
         SmartDashboard.putNumber("SwerveModuleTurningPostions [" + 2 + "]" ,  frontRight.getTurningPositon());
         SmartDashboard.putNumber("SwerveModuleTurningPostions [" + 3 + "]" ,  backLeft.getTurningPositon());
         SmartDashboard.putNumber("SwerveModuleTurningPostions [" + 4 + "]" ,  backRight.getTurningPositon());
+        }
 
-
-
-
-}
         Logger.recordOutput("heading",getHeading());
       
-
-
-
 
         frontLeft.sendToDashboard();
         frontRight.sendToDashboard();
         backLeft.sendToDashboard();
         backRight.sendToDashboard();
     }
+
+    /**
+     * get the Pose2d of the robot (translation 2d, rotation 2d )
+     */
     public Pose2d getPose(){
         return odometer.getPoseMeters();
     } 
+    /**
+     * reset the current pose of the robot,
+     */
     public void resetPose(Pose2d pose){
         odometer.resetPosition(gyro.getRotation2d(), getModulePositionsAuto() , pose);
     }
@@ -210,15 +209,16 @@ public class SwerveSub extends SubsystemBase {
 
 
 
-
+    /**
+     * sets the swerve module states
+     */
     public void setModuleStates(SwerveModuleState[] desiredStates){
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
     // proportaionally decreases the change the speeds so driver always had control of robot
         frontRight.setDesiredState(desiredStates[0]);        
-        frontLeft.setDesiredState(desiredStates[1]); //1 
-        backRight.setDesiredState(desiredStates[2]); //2                     
-        backLeft.setDesiredState(desiredStates[3]); // 3
-
+        frontLeft.setDesiredState(desiredStates[1]); 
+        backRight.setDesiredState(desiredStates[2]);                    
+        backLeft.setDesiredState(desiredStates[3]); 
 
 
         //ouputs to Adavantage Log
@@ -234,7 +234,9 @@ public class SwerveSub extends SubsystemBase {
     
     }
 
-// get positions
+/**
+ get the current positions of the all the swerve modules
+ */
 public SwerveModulePosition[] getModulePositionsAuto() { // not updating
     SwerveModulePosition[] positions = new SwerveModulePosition[swerveModules.length];
     for (int i = 0; i < swerveModules.length; i++) {
@@ -248,8 +250,11 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
         gyro.reset();
     }
 
+    /**
+    puts the value between 0 and 360 because gryo is naturally continous 
+     */
     public double getHeading(){
-        return Math.IEEEremainder(-gyro.getAngle(), 360); //puts the value between 0 and 360 because gryo is naturally continous
+        return Math.IEEEremainder(-gyro.getAngle(), 360); 
     }
 
     public Rotation2d getRotation2d(){
@@ -258,14 +263,9 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
 
 
 
-
-
-
-
-
-    
-
-
+        /**
+         * returns the an array of all swerve moddule states
+         */
       public SwerveModuleState[] getModuleStates() {
         SwerveModuleState[] states = new SwerveModuleState[swerveModules.length];
         for (int i = 0; i < swerveModules.length; i++) {
@@ -275,7 +275,9 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
       }
 
 
-
+      /**
+       * stop all swerve modules
+       */
     public void stopModules(){
         frontLeft.stop();
         frontRight.stop();
@@ -286,13 +288,16 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
 
 
 
-
+    /**
+    * orient the robot so that the camera is facing the target directly
+    *
+     */
     public double orientToTarget(){
         if(LimelightHelpers.getTV("limelight")){
-        limeLightTX =LimelightHelpers.getTX("limelight"); 
+        initial_limeLightTX =LimelightHelpers.getTX("limelight"); 
         }
         double targetingAngularVelocity = 
-        limeLightTX * 
+        initial_limeLightTX * 
         Constants.DriveConstants.autoTargetConstants.autoOrientKp;
     
 

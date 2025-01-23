@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.CANcoder;
 
 
-import com.revrobotics.RelativeEncoder;
+
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,10 +16,10 @@ import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.DriveConstants;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.EncoderConfig;
+
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase;
+
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
@@ -61,6 +61,8 @@ public class SwerveModule {
         driveMotor = new SparkMax(driveMotorID, MotorType.kBrushless);
         turningMotor = new SparkMax(turningMotorID, MotorType.kBrushless);
 
+        //configure drive and turning motor of
+        //the swerve module
         driveMotorConfig
         .inverted(driveMotorReversed);
         turnMotorConfig
@@ -98,6 +100,9 @@ public class SwerveModule {
         return  ((absoluteEncoder.getAbsolutePosition().getValueAsDouble() * 2 * Math.PI) - absoluteEncoderOffsetRad);
         //returns a values between - pi and pi
     }
+    /*
+     * returns drive velocity in meters per second
+     */
     public double getDriveVelocity(){
         return driveMotor.getEncoder().getVelocity();
     }
@@ -110,17 +115,19 @@ public class SwerveModule {
         double angle = (absoluteEncoder.getAbsolutePosition().getValueAsDouble());  // give the how much percent of a rotation were readin
         angle *= 2.0 * Math.PI; // convert to radians
         angle -= absoluteEncoderOffsetRad; 
-      //  SwerveJoystickCmd.CurrentModuleAngles[MotorID] = angle * (absoluteEncoderReversed ? -1.0 : 1.0);
 
         
 
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0); // gives the Encoder value based on if the Encoder is reversed
     }
+
     public void resetEncoders(){
         driveMotor.getEncoder().setPosition(0);
         turningMotor.getEncoder().setPosition(getAbsoluteEncoderRad()); // reset the turning encoder to absoulute encoder value
     }
-
+    /*gets the current velocity and rotation (in raidians) of the swerve module, also known as the swerve state 
+     * 
+     */
     public SwerveModuleState getState(){
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPositon()));
     }
@@ -129,14 +136,28 @@ public class SwerveModule {
         return new SwerveModulePosition(getDrivePostion(), new Rotation2d(getTurningPositon()));
     }
 
+    /**
+   *sets the desired speeds and rotation  of the swerve module  
+   *
+   * @param state current state of the module 
+   */
     public void setDesiredState(SwerveModuleState state){
-        if(Math.abs(state.speedMetersPerSecond) < 0.001) // were not really moving do not reset the motors
+
+
+        if(Math.abs(state.speedMetersPerSecond) < 0.001) // if were barely moving do not reset the motors
         {
             stop();
             return;
         }
-
-        state = SwerveModuleState.optimize(state, getState().angle);
+        /* 
+        * Minimize the change in heading this swerve module state would require by potentially reversing
+        * the direction the wheel spins. If this is used with the PIDController class's continuous input
+        * functionality, the furthest a wheel will ever rotate is 90 degrees.
+        */
+        state.optimize(state.angle);
+        
+        
+      
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPositon(), state.angle.getRadians()));
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", state.toString());
@@ -144,11 +165,18 @@ public class SwerveModule {
 
 
     }
+    /*
+ * stops driving and turning speeds
+ */
     public void stop(){
         driveMotor.set(0);
         turningMotor.set(0);
         
     }
+
+/*
+ * send telemery on the swewrveModule 
+ */
     public void sendToDashboard(){
 
         SmartDashboard.putNumber("Drive[" + absoluteEncoder.getDeviceID() + "] output", driveMotor.getAppliedOutput());
