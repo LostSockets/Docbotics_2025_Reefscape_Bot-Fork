@@ -84,11 +84,23 @@ public final class Constants {
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
-// Caden corpuz is a silly guy teehee
+
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 3;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
+
+
+        /** constants used so robot can orient parrelle to coral station */
+        public static class PositionControllers {
+          public static final class drive{
+            public static final double Kp = 0;
+            public static final double Ki = 0;
+            public static final double Kd = 0;
+          }
+        }
+
+
 
         public static class autoTargetConstants{
           public static final double autoOrientGenericTargetKp = 0.0035;
@@ -158,6 +170,7 @@ public final class Constants {
               new TrapezoidProfile.Constraints(
                       kMaxAngularSpeedRadiansPerSecond,
                       kMaxAngularAccelerationRadiansPerSecondSquared);
+
       public static final class autoCommands{
         public static final String moveArmCMD ="moveArmCMD";
       }

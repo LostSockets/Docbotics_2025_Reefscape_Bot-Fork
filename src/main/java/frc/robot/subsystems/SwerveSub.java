@@ -2,8 +2,11 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -39,6 +42,7 @@ import com.pathplanner.lib.config.RobotConfig;
 
 
 public class SwerveSub extends SubsystemBase {
+    //define all our swerve modules
     public final SwerveModule frontRight = new SwerveModule(
             DriveConstants.kFrontRightDriveMotorPort,
             DriveConstants.kFrontRightTurningMotorPort,
@@ -56,7 +60,6 @@ public class SwerveSub extends SubsystemBase {
             DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
             DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
-
 
 
 
@@ -88,8 +91,6 @@ public class SwerveSub extends SubsystemBase {
         backLeft, backRight
     };
 
-    private double limeLightTX = 0;
-
 
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, 
     new Rotation2d(0), getModulePositionsAuto() );
@@ -100,8 +101,13 @@ public class SwerveSub extends SubsystemBase {
     private final AHRS gyro = new AHRS(AHRS.NavXComType.kUSB1);
     private double autoTurnParrelleToCoralStationSetpoint_degrees = 0;
     
-    //new AHRS(SerialPort.Port.kUSB1);
+    private final PIDController driveController = new PIDController(
+        DriveConstants.PositionControllers.drive.Kp, 
+        DriveConstants.PositionControllers.drive.Ki, 
+        DriveConstants.PositionControllers.drive.Kd);
 
+
+    private double limeLightTX = 0;
 
 
 
@@ -323,6 +329,18 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
 
         double positionError_degrees = autoTurnParrelleToCoralStationSetpoint_degrees - getHeading();
         return positionError_degrees * autoTargetConstants.autoOrientCoralSationKp;
+    }
+    
+    /**returns chassies power output to allow robot to drive to target,
+     *  element [0] of the output is x power output
+     * element[1] of the output is y power output
+     */
+    public double[] driveToTarget(double setpointX_meters, double setpointY_meters){
+        double drivePower[] = new double[2];
+        drivePower[0] = driveController.calculate(getPose().getX(), setpointX_meters);
+        drivePower[1] = driveController.calculate(getPose().getY(), setpointY_meters);
+
+        return  drivePower;
     }
 
 

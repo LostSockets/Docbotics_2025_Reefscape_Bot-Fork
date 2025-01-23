@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -103,10 +104,12 @@ public class SwerveJoystickCmd extends Command {
      }
      else if(moveToCoralStationTargetFunction.get()){
 
+      double[] powerOutput = swerveSubsystem.driveToTarget(30,0); 
       chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-           xspeed, 
-           -yspeed, 
-           swerveSubsystem.turnParrelleToCoralStation(), 
+            powerOutput[0],
+           -powerOutput[1], 
+           //swerveSubsystem.turnParrelleToCoralStation(), 
+           0,
            swerveSubsystem.getRotation2d());
 
      }
