@@ -101,10 +101,14 @@ public class SwerveSub extends SubsystemBase {
     private final AHRS gyro = new AHRS(AHRS.NavXComType.kUSB1);
     private double autoTurnParrelleToCoralStationSetpoint_degrees = 0;
     
-    private final PIDController driveController = new PIDController(
+    private final PIDController driveControllerX = new PIDController(
         DriveConstants.PositionControllers.drive.Kp, 
         DriveConstants.PositionControllers.drive.Ki, 
         DriveConstants.PositionControllers.drive.Kd);
+    private final PIDController driveControllerY = new PIDController(
+            DriveConstants.PositionControllers.drive.Kp, 
+            DriveConstants.PositionControllers.drive.Ki, 
+            DriveConstants.PositionControllers.drive.Kd);
 
 
     private double limeLightTX = 0;
@@ -112,7 +116,6 @@ public class SwerveSub extends SubsystemBase {
 
 
     public SwerveSub(){
-
 
 
  new Thread(() -> {  /// try catch function is a fancy if else statement
@@ -327,20 +330,37 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
             autoTurnParrelleToCoralStationSetpoint_degrees = autoTargetConstants.Offsets.coralStationRED_degrees;
         }
 
-        double positionError_degrees = autoTurnParrelleToCoralStationSetpoint_degrees - getHeading();
+        double positionError_degrees = getHeadingError_degrees();
         return positionError_degrees * autoTargetConstants.autoOrientCoralSationKp;
     }
+
+    public double getHeadingError_degrees(){
+        return autoTurnParrelleToCoralStationSetpoint_degrees - getHeading();
+    }
     
-    /**returns chassies power output to allow robot to drive to target,
-     *  element [0] of the output is x power output
-     * element[1] of the output is y power output
+    /**@return chassies power output to allow robot to drive to target,
+     *   element [0] of the output is x power output
+     *  element[1] of the output is y power output
      */
     public double[] driveToTarget(double setpointX_meters, double setpointY_meters){
         double drivePower[] = new double[2];
-        drivePower[0] = driveController.calculate(getPose().getX(), setpointX_meters);
-        drivePower[1] = driveController.calculate(getPose().getY(), setpointY_meters);
+        drivePower[0] = driveControllerX.calculate(getPose().getX(), setpointX_meters);
+        drivePower[1] = driveControllerY.calculate(getPose().getY(), setpointY_meters);
 
         return  drivePower;
+    }
+
+        /**@return position controller error,
+     *   element [0] of the output is x controller error
+     *  element[1] of the output is y controller error
+     */
+    public double[] getPositionControllerError_Meters(){
+        double[] driverControllerError = new double[2];
+
+        driverControllerError[0] = driveControllerX.getError();
+        driverControllerError[1] = driveControllerY.getError();
+
+        return driverControllerError;
     }
 
 

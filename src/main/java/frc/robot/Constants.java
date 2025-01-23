@@ -97,6 +97,10 @@ public final class Constants {
             public static final double Kp = 0;
             public static final double Ki = 0;
             public static final double Kd = 0;
+            public static final double tolerance = 0.01;
+          }
+          public static final class turning{
+            public static double tolerance = 0.01;
           }
         }
 
