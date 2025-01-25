@@ -112,7 +112,7 @@ public final class Constants {
 
         public static final int kMoveArmIdx  = 1; // A button
 
-
+        public static final int kCoralIntakeIdx = 8;
 
         public static final double kDeadband = 0.5;
 
@@ -124,6 +124,11 @@ public final class Constants {
       public static final double kP = 0.00175;
       public static final double kI = 0;
       public static final double kD = 0.0000525;
+      
+    } 
+    public static final class intakeConstants {
+      public static final int kMotorPort = 13;
+
       
     } 
 

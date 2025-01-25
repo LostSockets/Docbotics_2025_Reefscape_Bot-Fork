@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ArmSub;
-
+import frc.robot.subsystems.CoralIntakeSub;
 import frc.robot.subsystems.SwerveSub;
 import frc.robot.subsystems.LimelightSub;
 
@@ -43,6 +43,7 @@ public class RobotContainer {
 
 
   private final SwerveSub swerveSub =  new SwerveSub();
+  private final CoralIntakeSub coralIntakeSub = new CoralIntakeSub();
  // private final ArmSub armsub = new ArmSub();
   private final LimelightSub limelightSub = new LimelightSub();
   private final Joystick driverJoyStick = new Joystick(OIConstants.kDriverControllerPort);
@@ -78,6 +79,9 @@ public class RobotContainer {
 
   private void configureBindings() {
     //new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new MoveArmCMD(armsub));
+    Command setIntakePower = new RunCommand(() -> { coralIntakeSub.setIntakeMotorPower(1);});
+    new JoystickButton(driverJoyStick, OIConstants.kCoralIntakeIdx ).whileTrue(setIntakePower);
+    
 
 
     
