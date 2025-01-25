@@ -144,8 +144,8 @@ public final class Constants {
 
         public static final int kMoveArmIdx  = 1; // A button
 
-
-
+        /** X button */
+        public static final int kDriveToTarget = 4;
         public static final double kDeadband = 0.5;
 
 

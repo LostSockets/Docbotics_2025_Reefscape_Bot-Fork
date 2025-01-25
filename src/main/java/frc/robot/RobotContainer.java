@@ -8,6 +8,7 @@ package frc.robot;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.DriveToTargetCMD;
 import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.MoveArmCMD;
 import frc.robot.commands.SwerveJoystickCmd;
@@ -80,6 +81,7 @@ public class RobotContainer {
   private void configureBindings() {
     //new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new MoveArmCMD(armsub));
 
+    new JoystickButton(driverJoyStick, OIConstants.kDriveToTarget ).whileTrue(new DriveToTargetCMD(swerveSub));
 
     
   }
