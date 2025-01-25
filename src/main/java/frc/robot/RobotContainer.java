@@ -9,7 +9,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ManageLimeLightCMD;
-import frc.robot.commands.MoveArmCMD;
+import frc.robot.commands.ClimbCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 
 

@@ -126,6 +126,13 @@ public final class Constants {
       public static final double kD = 0.0000525;
       
     } 
+    public static final class ClimbConstants {
+      public static final int kMotorPort = 13;
+      public static final double kP = 0.00175;
+      public static final double kI = 0;
+      public static final double kD = 0.0000525;
+      
+    } 
 
 
     public static final class AutoConstants {
