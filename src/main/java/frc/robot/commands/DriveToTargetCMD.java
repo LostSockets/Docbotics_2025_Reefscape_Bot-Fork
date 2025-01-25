@@ -22,7 +22,6 @@ public class DriveToTargetCMD extends Command {
      private Translation2d changeInEncoderDisplacmentFromStartPose_Translation_Meters;
 
 
-     private Translation2d initialRobotDisplacementFromTarget_TargetSpace_Meters;
      private Translation2d currentRobotDisplacementFromTarget_TargetSpace_Meters;
 
     private boolean initialScan;
@@ -54,30 +53,14 @@ public class DriveToTargetCMD extends Command {
             
             Z+ → Pointing out of the target (orthogonal to target's plane).
             */
-            
 
             Pose3d targetPose_Meters = LimelightHelpers.getBotPose3d_TargetSpace("limelight");
 
-            initialRobotDisplacementFromTarget_TargetSpace_Meters = new Translation2d(
+            currentRobotDisplacementFromTarget_TargetSpace_Meters = new Translation2d(
                 targetPose_Meters.getX(),
                 targetPose_Meters.getZ());
                 
 
-            /*  RobotSpace reference
-            3d Cartesian Coordinate System with (0,0,0) located at the center of the robot’s frame projected down to the floor.
-
-            X+ → Pointing forward (Forward Vector)
-            
-            Y+ → Pointing toward the robot’s right (Right Vector)
-            
-            Z+ → Pointing upward (Up Vector)
-            */
-            //records current Pose
-
-            Pose2d currentRobotPose_meters = swerveSubsystem.getPose();
-            initialEncoderDisplacmentFromStartPose_RobotSpace_Meters = new Translation2d(
-                currentRobotPose_meters.getX(),
-             currentRobotPose_meters.getY());
 
             
 
@@ -86,27 +69,14 @@ public class DriveToTargetCMD extends Command {
     }
     @Override
     public void execute(){
-        // find the encoder displacment from the april tag localization
-        //t
-        Pose2d currentRobotPose_meters = swerveSubsystem.getPose();
-        currentEncoderDisplacmentFromStartPose_RobotSpace_Meters = new Translation2d(
-            currentRobotPose_meters.getX(),
-         currentRobotPose_meters.getY());
-         //find the change robot displace since our initial encoder displament
-         // delta_d = d_2 - d_1
-         changeInEncoderDisplacmentFromStartPose_Translation_Meters =
-         currentEncoderDisplacmentFromStartPose_RobotSpace_Meters.minus
-         (initialEncoderDisplacmentFromStartPose_RobotSpace_Meters);
+        Pose3d targetPose_Meters = LimelightHelpers.getBotPose3d_TargetSpace("limelight");
 
-         //find the change inrobot  displacement from target 
-         // T = t - deleta_d
-        currentRobotDisplacementFromTarget_TargetSpace_Meters = 
-        initialRobotDisplacementFromTarget_TargetSpace_Meters.
-        plus(changeInEncoderDisplacmentFromStartPose_Translation_Meters);
+        currentRobotDisplacementFromTarget_TargetSpace_Meters = new Translation2d(
+            targetPose_Meters.getX(),
+            targetPose_Meters.getZ());
+            
 
-        
-
-        //drive robot to position based
+        //drive robot to position based on limelight target distance
         double[] powerOutput = swerveSubsystem.driveToTarget(
             currentRobotDisplacementFromTarget_TargetSpace_Meters.getX(),
             currentRobotDisplacementFromTarget_TargetSpace_Meters.getY()); 
@@ -168,8 +138,8 @@ public class DriveToTargetCMD extends Command {
         SmartDashboard.putNumber("changeInEncoderDisplacmentFromStartPose_y", changeInEncoderDisplacmentFromStartPose_Translation_Meters.getY());
 
 
-        SmartDashboard.putNumber("initialRobotDisplacementFromTarget_x", initialRobotDisplacementFromTarget_TargetSpace_Meters.getX());
-        SmartDashboard.putNumber("initialRobotDisplacementFromTarget_x", initialRobotDisplacementFromTarget_TargetSpace_Meters.getY());
+        SmartDashboard.putNumber("initialRobotDisplacementFromTarget_x", currentRobotDisplacementFromTarget_TargetSpace_Meters.getX());
+        SmartDashboard.putNumber("initialRobotDisplacementFromTarget_x", currentRobotDisplacementFromTarget_TargetSpace_Meters.getY());
 
         SmartDashboard.putNumber("currentRobotDisplacementFromTarget_y", currentRobotDisplacementFromTarget_TargetSpace_Meters.getY());
         SmartDashboard.putNumber("currentRobotDisplacementFromTarget_x", currentRobotDisplacementFromTarget_TargetSpace_Meters.getX());
