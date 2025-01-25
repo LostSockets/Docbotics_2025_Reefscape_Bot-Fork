@@ -45,6 +45,8 @@ public class RobotContainer {
   private final SwerveSub swerveSub =  new SwerveSub();
  // private final ArmSub armsub = new ArmSub();
   private final LimelightSub limelightSub = new LimelightSub();
+  private final BridgeSub bridgeSub = new BridgeSub();
+
   private final Joystick driverJoyStick = new Joystick(OIConstants.kDriverControllerPort);
 
 
@@ -78,6 +80,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     //new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new MoveArmCMD(armsub));
+
+    new JoystickButton(driverJoyStick, OIConstants.kClimbIdx ).whileTrue(new MoveBridgeCMD(bridgeSub));
 
 
     

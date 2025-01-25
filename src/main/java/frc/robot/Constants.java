@@ -108,7 +108,7 @@ public final class Constants {
         public static final int kDriverFieldOrientedButtonIdx = 1;
         public static final int kOrientToTargetIdx = 2; //B button 
         public static final int kDriveGyroResetButtonIdx = 2;
-      
+        public static final int kClimbIdx = 0;
 
         public static final int kMoveArmIdx  = 1; // A button
 
