@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
@@ -116,13 +117,17 @@ public class DriveToTargetCMD extends Command {
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             powerOutput[0],
            -powerOutput[1], 
-           swerveSubsystem.turnParrelleToCoralStation(),
+           swerveSubsystem.turnParrelleToCoralStationPower(),
            swerveSubsystem.getRotation2d());
 
             // convert chassis speeds to individual module states; later to switch to velocity
              SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
             // set state to each wheel
             swerveSubsystem.setModuleStates(moduleStates);
+            
+            sendTelemetry();
+
+        
 
 
 
@@ -151,6 +156,23 @@ public class DriveToTargetCMD extends Command {
     @Override 
     public void end(boolean interrupted){
         swerveSubsystem.stopModules();
+    }
+    public void sendTelemetry(){
+        SmartDashboard.putNumber("initialEncoderDisplacmentFromStartPose_x", initialEncoderDisplacmentFromStartPose_RobotSpace_Meters.getX());
+        SmartDashboard.putNumber("initialEncoderDisplacmentFromStartPose_y", initialEncoderDisplacmentFromStartPose_RobotSpace_Meters.getY());
+
+        SmartDashboard.putNumber("currentEncoderDisplacmentFromStartPose_x", currentEncoderDisplacmentFromStartPose_RobotSpace_Meters.getX());
+        SmartDashboard.putNumber("currentEncoderDisplacmentFromStartPose_y", currentEncoderDisplacmentFromStartPose_RobotSpace_Meters.getY());
+
+        SmartDashboard.putNumber("changeInEncoderDisplacmentFromStartPose_x", changeInEncoderDisplacmentFromStartPose_Translation_Meters.getX());
+        SmartDashboard.putNumber("changeInEncoderDisplacmentFromStartPose_y", changeInEncoderDisplacmentFromStartPose_Translation_Meters.getY());
+
+
+        SmartDashboard.putNumber("initialRobotDisplacementFromTarget_x", initialRobotDisplacementFromTarget_TargetSpace_Meters.getX());
+        SmartDashboard.putNumber("initialRobotDisplacementFromTarget_x", initialRobotDisplacementFromTarget_TargetSpace_Meters.getY());
+
+        SmartDashboard.putNumber("currentRobotDisplacementFromTarget_y", currentRobotDisplacementFromTarget_TargetSpace_Meters.getY());
+        SmartDashboard.putNumber("currentRobotDisplacementFromTarget_x", currentRobotDisplacementFromTarget_TargetSpace_Meters.getX());
     }
 
 }

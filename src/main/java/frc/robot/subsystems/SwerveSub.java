@@ -322,9 +322,11 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
         return targetingAngularVelocity;
 
     }
-    public double turnParrelleToCoralStation(){
-        
-
+    public double getHeadingError_degrees(){
+        return autoTurnParrelleToCoralStationSetpoint_degrees - getHeading();
+    }
+    
+    public double turnParrelleToCoralStationPower(){
         
         if(LimelightHelpers.getFiducialID("limelight") == 13){
             autoTurnParrelleToCoralStationSetpoint_degrees = autoTargetConstants.Offsets.coralStationRED_degrees;
@@ -334,10 +336,7 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
         return positionError_degrees * autoTargetConstants.autoOrientCoralSationKp;
     }
 
-    public double getHeadingError_degrees(){
-        return autoTurnParrelleToCoralStationSetpoint_degrees - getHeading();
-    }
-    
+
     /**@return chassies power output to allow robot to drive to target,
      *   element [0] of the output is x power output
      *  element[1] of the output is y power output
