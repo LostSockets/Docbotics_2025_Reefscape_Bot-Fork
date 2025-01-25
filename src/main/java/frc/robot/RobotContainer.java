@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ArmSub;
-
+import frc.robot.subsystems.ClimbSub;
 import frc.robot.subsystems.SwerveSub;
 import frc.robot.subsystems.LimelightSub;
 
@@ -45,6 +45,7 @@ public class RobotContainer {
   private final SwerveSub swerveSub =  new SwerveSub();
  // private final ArmSub armsub = new ArmSub();
   private final LimelightSub limelightSub = new LimelightSub();
+  private final ClimbSub climbSub  = new ClimbSub();
   private final Joystick driverJoyStick = new Joystick(OIConstants.kDriverControllerPort);
 
 
@@ -78,7 +79,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     //new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new MoveArmCMD(armsub));
-
+    new JoystickButton(driverJoyStick, OIConstants.kClimbIdx ).whileTrue(new ClimbCMD(climbSub));
 
     
   }
