@@ -119,8 +119,8 @@ public final class Constants {
 
     }
         
-    public static final class ArmConstants {
-      public static final int kArmMotorPort = 13;
+    public static final class bridgeConstants {
+      public static final int kBridgeMotorPort = 13;
       public static final double kP = 0.00175;
       public static final double kI = 0;
       public static final double kD = 0.0000525;

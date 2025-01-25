@@ -5,11 +5,11 @@
 package frc.robot;
 
 
-import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.bridgeConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ManageLimeLightCMD;
-import frc.robot.commands.MoveArmCMD;
+import frc.robot.commands.MoveBridgeCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 
 
@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.ArmSub;
+import frc.robot.subsystems.BridgeSub;
 
 import frc.robot.subsystems.SwerveSub;
 import frc.robot.subsystems.LimelightSub;
