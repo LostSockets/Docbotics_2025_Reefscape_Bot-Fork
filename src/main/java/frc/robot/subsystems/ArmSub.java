@@ -31,18 +31,28 @@ public class ArmSub extends SubsystemBase{
 
 
 
-
+    /**
+     * @return motor of the arm.  */
     public SparkMax getMotor(){
         return armMotor;
     }
 
+    /**
+     * @return returns the arm encoder position in degrees.
+     */  
     public double getGetArmEncoderPosition_degrees(){
         return armMotor.getAbsoluteEncoder().getPosition();
     }
-
+    /** @return the PID controller of the arm.
+    *
+     */
     public PIDController getArmController(){
         return armController;
     }
+    /**
+     * sets the arm Motor power.
+     * @param power percentage of motor power from -1 to 1
+     */
     public void setArmMotorPower(double power){
         armMotor.set(power);
     }
