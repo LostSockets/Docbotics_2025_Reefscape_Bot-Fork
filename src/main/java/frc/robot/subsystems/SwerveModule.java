@@ -157,7 +157,10 @@ public class SwerveModule {
     public SwerveModuleState getState(){
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPositon()));
     }
-    
+        /**Gets the the current swerve module position.
+     * @return swerve position which is the current position and rotation 2d (rad)
+     * 
+     */
     public SwerveModulePosition getSwerveModulePosition(){
         return new SwerveModulePosition(getDrivePostion(), new Rotation2d(getTurningPositon()));
     }

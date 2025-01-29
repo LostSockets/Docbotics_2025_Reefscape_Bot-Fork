@@ -106,7 +106,7 @@ public class SwerveSub extends SubsystemBase {
 
 
  new Thread(() -> {  /// try catch function is a fancy if else statement
-        try{              // it tries to run a thread of resseting the gryo but if it exception e happens it stops 
+        try{              // it tries to run a thread of reseting the gryo but if it exception e happens it stops. 
             Thread.sleep(1000);
         }catch (Exception e){
         }
@@ -124,6 +124,7 @@ public class SwerveSub extends SubsystemBase {
             e.printStackTrace();
     }
         
+    // configures the auto builder which is used in Pathplanner to generate autonmous robot sequences.
           AutoBuilder.configure(
             this::getPose, // Robot pose supplier
             this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -184,22 +185,28 @@ public class SwerveSub extends SubsystemBase {
     }
 
     /**
-     * get the Pose2d of the robot (translation 2d, rotation 2d )
+     * @return the Pose2d of the robot (translation 2d(m), rotation 2d (rad)).
      */
     public Pose2d getPose(){
         return odometer.getPoseMeters();
     } 
     /**
-     * reset the current pose of the robot,
+     * Resets the current pose(rotation2d (rad), ) of the robot.
      */
     public void resetPose(Pose2d pose){
         odometer.resetPosition(gyro.getRotation2d(), getModulePositionsAuto() , pose);
     }
+    /**Converts the module states into chassis speeds which are used for 
+     * calculating the inverse kinematics of the swerve modules so we can drive 
+     * the modules to our desired position.
+     *  After the conversion, it returns the chassis speeds.
+     * @return speed of the chassis (x speed, y speed, turning speed) all relative to the robot.
+     */
      public ChassisSpeeds getSpeeds() {
          return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()); 
     }
 
-
+/**  Converts the current reference frame of chassis speeds into robot relative. */ 
     public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds){
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
 
@@ -210,7 +217,7 @@ public class SwerveSub extends SubsystemBase {
 
 
     /**
-     * sets the swerve module states
+     * Sets the swerve module states.
      */
     public void setModuleStates(SwerveModuleState[] desiredStates){
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
@@ -235,7 +242,8 @@ public class SwerveSub extends SubsystemBase {
     }
 
 /**
- get the current positions of the all the swerve modules
+ Gets the current positions of the all the swerve modules.
+ @return an array of all SwerveModulePosition(m).
  */
 public SwerveModulePosition[] getModulePositionsAuto() { // not updating
     SwerveModulePosition[] positions = new SwerveModulePosition[swerveModules.length];
@@ -245,26 +253,30 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
     return positions;
   }
 
-
+    //*Zeros the gyros heading. */
     public void zeroHeading(){
         gyro.reset();
     }
 
     /**
-    puts the value between 0 and 360 because gryo is naturally continous 
+    Converts the the gyros heading output between 0 and 360 degrees 
+    because gryo is naturally continous.
      */
     public double getHeading(){
         return Math.IEEEremainder(-gyro.getAngle(), 360); 
     }
-
+/**Converts into gryos heading in radians so the value
+    can be converted into Rotation2d .
+    @return the gyro heading in rotation 2d (rad) */
     public Rotation2d getRotation2d(){
         return Rotation2d.fromDegrees(getHeading());
-    } // converts into Rotation2d
+    } 
 
 
 
         /**
-         * returns the an array of all swerve moddule states
+         * @return an array of all swerve module states
+         *  (module speed in m/s , turing pos rad).
          */
       public SwerveModuleState[] getModuleStates() {
         SwerveModuleState[] states = new SwerveModuleState[swerveModules.length];
@@ -276,7 +288,7 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
 
 
       /**
-       * stop all swerve modules
+       * Stops all swerve modules.
        */
     public void stopModules(){
         frontLeft.stop();
@@ -289,7 +301,7 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
 
 
     /**
-    * orient the robot so that the camera is facing the target directly
+    * Orient the robot so that the camera is facing the target directly.
     *
      */
     public double orientToTarget(){
