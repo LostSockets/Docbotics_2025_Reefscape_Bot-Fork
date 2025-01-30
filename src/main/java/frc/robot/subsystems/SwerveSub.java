@@ -38,11 +38,13 @@ import com.pathplanner.lib.config.RobotConfig;
 
 
 public class SwerveSub extends SubsystemBase {
+
+    // defines swerve modules
     public final SwerveModule frontRight = new SwerveModule(
             DriveConstants.kFrontRightDriveMotorPort,
             DriveConstants.kFrontRightTurningMotorPort,
-            DriveConstants.kFrontRightDriveEncoderReversed,
-            DriveConstants.kFrontRightTurningEncoderReversed,
+            DriveConstants.kIsFrontRightDriveEncoderReversed,
+            DriveConstants.kIsFrontRightTurningEncoderReversed,
             DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
             DriveConstants.DriveAbsoluteEncoderOffsetRad.kBackRight,
             DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
@@ -50,20 +52,18 @@ public class SwerveSub extends SubsystemBase {
     public final SwerveModule frontLeft = new SwerveModule(
             DriveConstants.kFrontLeftDriveMotorPort,
             DriveConstants.kFrontLeftTurningMotorPort,
-            DriveConstants.kFrontLeftDriveEncoderReversed,
-            DriveConstants.kFrontLeftTurningEncoderReversed,
+            DriveConstants.kIsFrontLeftDriveEncoderReversed,
+            DriveConstants.kIsFrontLeftTurningEncoderReversed,
             DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
             DriveConstants.DriveAbsoluteEncoderOffsetRad.kFrontLeft,
             DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
 
-
-
     public final SwerveModule backRight = new SwerveModule(
             DriveConstants.kBackRightDriveMotorPort,
             DriveConstants.kBackRightTurningMotorPort,
-            DriveConstants.kBackRightDriveEncoderReversed,
-            DriveConstants.kBackRightTurningEncoderReversed,
+            DriveConstants.kIsBackRightDriveEncoderReversed,
+            DriveConstants.kIsBackRightTurningEncoderReversed,
             DriveConstants.kBackRightDriveAbsoluteEncoderPort,
             DriveConstants.DriveAbsoluteEncoderOffsetRad.kBackRight,
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
@@ -71,22 +71,26 @@ public class SwerveSub extends SubsystemBase {
     public final SwerveModule backLeft = new SwerveModule(
             DriveConstants.kBackLeftDriveMotorPort,
             DriveConstants.kBackLeftTurningMotorPort,
-            DriveConstants.kBackLeftDriveEncoderReversed,
-            DriveConstants.kBackLeftTurningEncoderReversed,
+            DriveConstants.kIsBackLeftDriveEncoderReversed,
+            DriveConstants.kIsBackLeftTurningEncoderReversed,
             DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
             DriveConstants.DriveAbsoluteEncoderOffsetRad.kBackLeft,
             DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
             
-    private final SwerveModuleState[] mySwerveStates = new SwerveModuleState[]{ // used for debugging to Adavantage Scope
+
+
+    /** swerve modules states, used in debugging in AdvantageScope */
+    private final SwerveModuleState[] mySwerveStates = new SwerveModuleState[]{ 
         frontLeft.getState(), frontRight.getState(), backLeft.getState(), backRight.getState()
     };
 
-
+    /**Array of all swerve modules */
     private final SwerveModule swerveModules[] = new SwerveModule[]{
         frontLeft,frontRight,
         backLeft, backRight
     };
-
+    /**used in Auto targeting so that when robot loses sight of April tag temperorarily
+    it will have a tx value to base its auto targeting controller on. */
     private double initial_limeLightTX = 0;
 
 
@@ -95,6 +99,7 @@ public class SwerveSub extends SubsystemBase {
 
     private RobotConfig config;
     
+    /**gyro. plugged into USB port on RIO. */
     private final AHRS gyro = new AHRS(AHRS.NavXComType.kUSB1);
 
 
@@ -124,6 +129,8 @@ public class SwerveSub extends SubsystemBase {
             e.printStackTrace();
     }
         
+
+    
     // configures the auto builder which is used in Pathplanner to generate autonmous robot sequences.
           AutoBuilder.configure(
             this::getPose, // Robot pose supplier

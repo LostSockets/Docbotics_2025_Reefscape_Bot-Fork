@@ -29,13 +29,7 @@ public class SwerveModule {
     private final SparkMaxConfig driveMotorConfig = new SparkMaxConfig();
 
     private final SparkMax turningMotor;
-    private final SparkMaxConfig turnMotorConfig = new SparkMaxConfig();
- 
- 
-
-
-
-
+    private final SparkMaxConfig turnMotorConfig = new SparkMaxConfig(); 
     private final PIDController turningPidController;
 
     private final CANcoder absoluteEncoder;
@@ -81,7 +75,7 @@ public class SwerveModule {
         .velocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
 
         /* Sets turning contrllers PID Constants */
-        turningPidController = new PIDController(ModuleConstants.kTurning, 0,0);
+        turningPidController = new PIDController(ModuleConstants.kTurningControllerPValue, 0,0);
 
         /* Sets the PID controller to a continous input from -pi to pi radians, this is useful because 
         this controller is rotating our wheels. For example, if we have an angle at 3.1 radians and 

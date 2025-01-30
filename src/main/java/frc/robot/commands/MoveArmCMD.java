@@ -27,8 +27,7 @@ public class MoveArmCMD extends Command{
 
     @Override
     public void initialize(){
-        
-
+        // stop arm motor 
         armMotor.set(0);
         armMotor.stopMotor();
         
@@ -48,13 +47,15 @@ public class MoveArmCMD extends Command{
     }
     @Override
     public void end(boolean interrupted){
+        //when the the command end, stop the arm motor
         SmartDashboard.putBoolean("isArmCommandRunning", false);
         armMotor.set(0);
         armMotor.stopMotor();
     }
     @Override
     public boolean isFinished(){
-        //
+        /**  if the arm motor is with 3 degrees of its setpoint
+         * the command can end*/
         if(Math.abs(armController.getError()) <= 3){
             return true;
         }
