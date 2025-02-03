@@ -16,7 +16,9 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 
 public class ArmSub extends SubsystemBase{
+    /** Motor of the arm. */
     private SparkMax armMotor = new SparkMax(ArmConstants.kArmMotorPort, MotorType.kBrushless);
+    /** PID controller of the arm. */
     private PIDController armController= new PIDController(
         ArmConstants.kP,
         ArmConstants.kI,

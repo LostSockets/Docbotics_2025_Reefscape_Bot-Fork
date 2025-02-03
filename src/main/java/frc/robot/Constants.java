@@ -3,12 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
-import javax.swing.undo.StateEdit;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 
@@ -48,10 +44,10 @@ public final class Constants {
 
         //Swerve kinematics constants. Used in swerve subsystem to convert desired chassis speeds
         //into the individual motor speeds for each swerve modules.
-        public static final double kTrackWidth = Units.inchesToMeters(19.75); //changed
-        // Distance between right and left wheels
-        public static final double kWheelBase = Units.inchesToMeters(26.5); //changed
-        // Distance between front and back wheels
+        public static final double kTrackWidth = Units.inchesToMeters(19.75); //changed.
+        // Distance between right and left wheels.
+        public static final double kWheelBase = Units.inchesToMeters(26.5); //changed.
+        // Distance between front and back wheels.
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
                 new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
                 new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -95,7 +91,7 @@ public final class Constants {
 
         /** Absolute encoder offsets of the swerve module. This is set by aligning the swerve
          * modules so that they are  parrelle and straight, with flat side out for better allignment.
-         * these values can be see on the Phoenix tuner and are given in rotation, so we convert to radians,
+         * These values can be see on the Phoenix tuner and are given in rotation, so we convert to radians,
          */
         public static final class DriveAbsoluteEncoderOffsetRad{
           public static final double kFrontLeft = 0.35864 * 2 * Math.PI ;
@@ -103,12 +99,12 @@ public final class Constants {
           public static final double kFrontRight = -0.2861 * 2 * Math.PI;
           public static final double kBackRight = 0.08715 * 2 * Math.PI ;
         }
-        /** Max speed of the drive motors in meters per second. used in both swerve module class and 
+        /** Max speed of the drive motors in meters per second. Used in both swerve module class and 
          * swerve subsystem to limit drive motor speeds.
          */
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         /** Max speed of the turning motors in radians  per second. 
-         * Used in orient to target code to limit turning speeds and in
+         * Used in orient to target function to limit turning speeds and in
          * kTeleDriveMaxAngularSpeedRadiansPerSecond to define the max tele-op turning speed,  */
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
@@ -134,18 +130,18 @@ public final class Constants {
     
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
-        /* ID of the joystick axis's. used in SwerveJoystick Command
+        /* ID of the joystick axis's. Used in SwerveJoystick Command
           to determine which direction an input in certain joystick axis's 
-          will go*/
+          will go.*/
         public static final int kDriverXAxis = 0;
         public static final int kDriverYAxis = 1;
         public static final int kDriverRotAxis = 4;
   
-        /** Configure robot into field oriented mode button */
+        /** Configure robot into field oriented mode button. */
         public static final int kDriverFieldOrientedButtonIdx = 1;
         /**Orient to Target button. B button. */
         public static final int kOrientToTargetIdx = 2; 
-        /**reset gyro buttton */
+        /**reset gyro buttton. */
         public static final int kDriveGyroResetButtonIdx = 2;
       
         /** Move Arm Button. A button. */
@@ -154,13 +150,13 @@ public final class Constants {
 
         /** deadband of the joystick when driving in tele-op.
         Prevents small changes in the joystick from moving the
-        robot
+        robot.
         */
         public static final double kDeadband = 0.5;
 
 
     }
-        //Constants for the arm
+        //Constants for the arm.
     public static final class ArmConstants {
       // CAN ID of arm motor.
       public static final int kArmMotorPort = 13;
@@ -183,9 +179,4 @@ public final class Constants {
 
   }
 
-
-  public static class IndexerConstants {
-    public static final int kIndexerPWMPort = 2;
-    
-  }
 }

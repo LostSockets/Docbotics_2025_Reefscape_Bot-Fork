@@ -30,10 +30,11 @@ public class SwerveModule {
 
     private final SparkMax turningMotor;
     private final SparkMaxConfig turnMotorConfig = new SparkMaxConfig(); 
+    //** Used for turning the wheels to the desired angle. */
     private final PIDController turningPidController;
 
     private final CANcoder absoluteEncoder;
-    private final boolean absoluteEncoderReversed;
+    private final boolean isAbsoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad;
     
 
@@ -47,7 +48,7 @@ public class SwerveModule {
       boolean absoluteEncoderReversed){
 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
-        this.absoluteEncoderReversed = absoluteEncoderReversed;
+        this.isAbsoluteEncoderReversed = absoluteEncoderReversed;
         absoluteEncoder = new CANcoder(absoluteEncoderID); 
 
 
@@ -56,7 +57,7 @@ public class SwerveModule {
         turningMotor = new SparkMax(turningMotorID, MotorType.kBrushless);
 
         //Configures drive and turning motor of
-        //the swerve module
+        //the swerve module.
         driveMotorConfig
         .inverted(driveMotorReversed);
         turnMotorConfig
@@ -64,7 +65,7 @@ public class SwerveModule {
 
         
 
-        /* Sets the unit conversion factors of the swerve module encoders */
+        /* Sets the unit conversion factors of the swerve module encoders. */
         driveMotorConfig.encoder
         .positionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter)
         .velocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
@@ -74,13 +75,13 @@ public class SwerveModule {
         .positionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad)
         .velocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
 
-        /* Sets turning contrllers PID Constants */
+        /* Sets turning contrllers PID Constants. */
         turningPidController = new PIDController(ModuleConstants.kTurningControllerPValue, 0,0);
 
         /* Sets the PID controller to a continous input from -pi to pi radians, this is useful because 
         this controller is rotating our wheels. For example, if we have an angle at 3.1 radians and 
         my setpoint is at 0 radians, it will turn the 0.04 radians towards the setpoint rather than turning
-        -3.1 radians */
+        -3.1 radians. */
         turningPidController.enableContinuousInput(-Math.PI, Math.PI); 
         
  
@@ -129,19 +130,19 @@ public class SwerveModule {
     public double getAbsoluteEncoderRad(){
 
         double angle = (absoluteEncoder.getAbsolutePosition().getValueAsDouble());  
-        // give the how much percent of a rotation were reading
-        angle *= 2.0 * Math.PI; // convert to radians
+        // Gives the how much percent of a rotation were reading.
+        angle *= 2.0 * Math.PI; // Convert to radians.
         angle -= absoluteEncoderOffsetRad; 
 
         
 
-        return angle * (absoluteEncoderReversed ? -1.0 : 1.0); // Gives the Encoder value based on if the Encoder is reversed.
+        return angle * (isAbsoluteEncoderReversed ? -1.0 : 1.0); // Gives the Encoder value based on if the Encoder is reversed.
     }
 
     /** Resets all encoders of the module. */
     public void resetEncoders(){
         driveMotor.getEncoder().setPosition(0);
-        turningMotor.getEncoder().setPosition(getAbsoluteEncoderRad()); // reset the turning encoder to absoulute encoder value
+        turningMotor.getEncoder().setPosition(getAbsoluteEncoderRad()); // Resets the turning encoder to absoulute encoder value
     }
     /**Gets the the current swerve module state.
      * @return swerve state which is the current velocity in m/s and 

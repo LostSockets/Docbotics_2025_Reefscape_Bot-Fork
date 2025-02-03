@@ -39,7 +39,7 @@ import com.pathplanner.lib.config.RobotConfig;
 
 public class SwerveSub extends SubsystemBase {
 
-    // defines swerve modules
+    // Defines swerve modules.
     public final SwerveModule frontRight = new SwerveModule(
             DriveConstants.kFrontRightDriveMotorPort,
             DriveConstants.kFrontRightTurningMotorPort,
@@ -79,21 +79,21 @@ public class SwerveSub extends SubsystemBase {
             
 
 
-    /** swerve modules states, used in debugging in AdvantageScope */
+    /** Swerve modules states, used in debugging in AdvantageScope. */
     private final SwerveModuleState[] mySwerveStates = new SwerveModuleState[]{ 
         frontLeft.getState(), frontRight.getState(), backLeft.getState(), backRight.getState()
     };
 
-    /**Array of all swerve modules */
+    /**Array of all swerve modules. */
     private final SwerveModule swerveModules[] = new SwerveModule[]{
         frontLeft,frontRight,
         backLeft, backRight
     };
-    /**used in Auto targeting so that when robot loses sight of April tag temperorarily
+    /**Used in Auto targeting so that when robot loses sight of April tag temperorarily
     it will have a tx value to base its auto targeting controller on. */
     private double initial_limeLightTX = 0;
 
-
+    /**Used to get the pose of the robot. */
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, 
     new Rotation2d(0), getModulePositionsAuto() );
 
@@ -110,7 +110,7 @@ public class SwerveSub extends SubsystemBase {
 
 
 
- new Thread(() -> {  /// try catch function is a fancy if else statement
+ new Thread(() -> {  /// Try catch function is a fancy if else statement,
         try{              // it tries to run a thread of reseting the gryo but if it exception e happens it stops. 
             Thread.sleep(1000);
         }catch (Exception e){
@@ -120,12 +120,12 @@ public class SwerveSub extends SubsystemBase {
         zeroHeading();
         
             // Load the RobotConfig from the GUI settings. You should probably
-            // store this in your Constants file
+            // store this in your Constants file.
             
             try{
             config = RobotConfig.fromGUISettings();
             } catch (Exception e) {
-            // Handle exception as needed
+            // Handle exception as needed.
             e.printStackTrace();
     }
         
@@ -133,20 +133,20 @@ public class SwerveSub extends SubsystemBase {
     
     // configures the auto builder which is used in Pathplanner to generate autonmous robot sequences.
           AutoBuilder.configure(
-            this::getPose, // Robot pose supplier
-            this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
-            this::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-            new PPHolonomicDriveController( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+            this::getPose, // Robot pose supplier.
+            this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose).
+            this::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE.
+            (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds.
+            new PPHolonomicDriveController( // HolonomicPathFollowerConfig, this should likely live in your Constants class.
+                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants.
+                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants.
                 
             ),
             config,
             () -> {
-              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // Boolean supplier that controls when the path will be mirrored for the red alliance,
               // This will flip the path being followed to the red side of the field.
-              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE.
 
               var alliance = DriverStation.getAlliance();
               if (alliance.isPresent()) {
@@ -161,21 +161,21 @@ public class SwerveSub extends SubsystemBase {
     }
     @Override
     public void periodic(){
-
+        /*Update robot's odemeter. */
         odometer.update(getRotation2d(),  getModulePositionsAuto()
         );
-
+        /*Sends telemtry on  robot heading and location. */
         SmartDashboard.putNumber("robot Heading", getHeading());
         SmartDashboard.putString("robot location", getPose().getTranslation().toString());
 
-
+        /*Update swerve module positions. */
         SwerveModulePosition[] debugModulePosition = getModulePositionsAuto();
         for(int i = 0; i <= 3; ++i){
             SmartDashboard.putString("SwerveModulePostions [" + i + "]" , "distance : " + debugModulePosition[i].distanceMeters
             + "Speeds : " + debugModulePosition[i].angle);
-
+        /*Sends robot pose telemtry to Advantagescope  */ 
         Logger.recordOutput("pose2d", getPose());
-
+        /*Sends swerve module positions telemtry to SmartDashBoard. */
         SmartDashboard.putNumber("SwerveModuleTurningPostions [" + 1 + "]" ,  frontLeft.getTurningPositon());
         SmartDashboard.putNumber("SwerveModuleTurningPostions [" + 2 + "]" ,  frontRight.getTurningPositon());
         SmartDashboard.putNumber("SwerveModuleTurningPostions [" + 3 + "]" ,  backLeft.getTurningPositon());
@@ -183,8 +183,8 @@ public class SwerveSub extends SubsystemBase {
         }
 
         Logger.recordOutput("heading",getHeading());
-      
-
+        
+        /* Send telemetry on individual modules to SmartDashboard. */
         frontLeft.sendToDashboard();
         frontRight.sendToDashboard();
         backLeft.sendToDashboard();
@@ -235,10 +235,10 @@ public class SwerveSub extends SubsystemBase {
         backLeft.setDesiredState(desiredStates[3]); 
 
 
-        //ouputs to Adavantage Log
+        //Outputs telemetry to Adavantage Log.
 
-        // log desired states is an array that orders the desired states in the order 
-        // Advantage Log wants ( FL,FR, BL, BR )
+        // Logs desired states is an array that orders the desired states in the order 
+        // Advantage Log wants ( FL,FR, BL, BR ).
         SwerveModuleState[] LogDesiredStates = new SwerveModuleState[]{desiredStates[1], desiredStates[0],
          desiredStates[3], desiredStates[2]};
 
