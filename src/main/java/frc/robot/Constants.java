@@ -111,7 +111,8 @@ public final class Constants {
 
     public static final int kMoveArmIdx = 1; // A button
 
-    /**Button ID to move the elevator to level 2 on the Reef.
+    /**
+     * Button ID to move the elevator to level 2 on the Reef.
      * (A button)
      */
     public static final int kMoveIntakeToLevel2Idx = 2;
@@ -150,12 +151,14 @@ public final class Constants {
     /** Minimum height the Intake relative to the ground. */
     public static final double minIntakeHeightToGround_Meters = 0;
 
-    /** Used in slew rate limiter in JoystickMoveIntakeCMD in 
+    /**
+     * Used in slew rate limiter in JoystickMoveIntakeCMD in
      * order to smooth the change in joystick input.
      */
     public static final double elevatorJoystickSensitivity = 0.1;
-    /** Used in JoystickMoveIntakeCMD 
-     * to keep small input in the joystick 
+    /**
+     * Used in JoystickMoveIntakeCMD
+     * to keep small input in the joystick
      * from moving the intake.
      */
     public static final double elevatorJoystickDeadband = 0.1;

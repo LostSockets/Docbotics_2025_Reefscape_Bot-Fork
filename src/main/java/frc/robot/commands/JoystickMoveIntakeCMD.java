@@ -23,11 +23,11 @@ public class JoystickMoveIntakeCMD extends Command {
     /** Joystick input to control the elevator. */
     public final Supplier<Double> elevatorPowerJoystickFunction;
     /** used to smooth the joystick input controlling the elevator */
-    private final SlewRateLimiter elevatorPowerLimiter; 
+    private final SlewRateLimiter elevatorPowerLimiter;
 
     public JoystickMoveIntakeCMD(
-        ElevatorSub elevatorSub,
-        Supplier<Double> elevatorPowerJoystickFunction) {
+            ElevatorSub elevatorSub,
+            Supplier<Double> elevatorPowerJoystickFunction) {
         this.elevatorSub = elevatorSub;
         this.primaryLeftElevatorMotor = elevatorSub.getPrimaryLeftElevatorMotor();
         this.rightElevatorMotor = elevatorSub.getRightElevatorMotor();
@@ -55,17 +55,19 @@ public class JoystickMoveIntakeCMD extends Command {
 
     @Override
     public void execute() {
-        /* Send elevator telemetry */
-        SmartDashboard.putNumber("elevatorPosition_meters", elevatorSub.getPrimaryElevatorPosition());
 
         double elevatorPower = elevatorPowerJoystickFunction.get();
-        /** if there is a small input in the joystick, do not move the move the elevator */
-        elevatorPower = 
-        Math.abs(elevatorPower) > ElevatorConstants.elevatorJoystickDeadband ? elevatorPower : 0.0; 
+        /**
+         * If there is a small input in the joystick, do not move the move the elevator.
+         */
+        elevatorPower = Math.abs(elevatorPower) > ElevatorConstants.elevatorJoystickDeadband ? elevatorPower : 0.0;
 
         elevatorPower = elevatorPowerLimiter.calculate(elevatorPower);
+        /* Send elevator telemetry. */
+        SmartDashboard.putNumber("elevatorPosition_meters", elevatorSub.getPrimaryElevatorPosition());
+        SmartDashboard.putNumber("elevatorPower", elevatorPower);
 
-
+        /** Apply applicable joystick inputs. */
         primaryLeftElevatorMotor.set(elevatorPower);
     }
 
