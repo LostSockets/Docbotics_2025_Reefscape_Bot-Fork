@@ -111,6 +111,11 @@ public final class Constants {
 
     public static final int kMoveArmIdx = 1; // A button
 
+    /**Button ID to move the elevator to level 2 on the Reef.
+     * (A button)
+     */
+    public static final int kMoveIntakeToLevel2Idx = 2;
+
     public static final double kDeadband = 0.5;
 
   }
@@ -132,8 +137,9 @@ public final class Constants {
     public static final double kP = 0.00175;
     public static final double kI = 0;
     public static final double kD = 0.0000525;
-    /** Initial height of the tallest part of the elevator to the ground. */
-    public static final double initialHeightOfElevatorToGround_Meters = 101.1;
+    /** Initial height of the intake to the ground in meters. */
+    public static final double initialHeightOfIntakeToGround_Meters = 101.1;
+
     /**
      * Conversion from rotation of the primary elevator motor
      * to meters. Used for getting current position of the tallest point on the

@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.ArmSub;
 import frc.robot.subsystems.ElevatorSub;
 
-public class MoveElevatorToSetpointCMD extends Command {
+public class MoveIntakeToSetpointCMD extends Command {
     public final ElevatorSub elevatorSub;
     public final SparkMax primaryLeftElevatorMotor;
     public final SparkMax rightElevatorMotor;
     public final PIDController elevatorController;
 
-    public MoveElevatorToSetpointCMD(ElevatorSub elevatorSub) {
+    public MoveIntakeToSetpointCMD(ElevatorSub elevatorSub) {
         this.elevatorSub = elevatorSub;
         this.primaryLeftElevatorMotor = elevatorSub.getPrimaryLeftElevatorMotor();
         this.rightElevatorMotor = elevatorSub.getRightElevatorMotor();
@@ -32,7 +32,7 @@ public class MoveElevatorToSetpointCMD extends Command {
         /**
          * When command starts, stop all elevator motors.
          * Right elevator motor will always FOLLOW
-         * the left elevator motor in the OPPOSITE,.
+         * the left elevator motor in the OPPOSITE direction.
          */
         primaryLeftElevatorMotor.set(0);
         primaryLeftElevatorMotor.stopMotor();
@@ -65,7 +65,7 @@ public class MoveElevatorToSetpointCMD extends Command {
     @Override
     public boolean isFinished() {
         /*
-         * When current elevator position is less than 0.5m away
+         * When current elevator position is less than 0.2m away
          * end the command.
          */
         if (Math.abs(elevatorController.getError()) <= 0.2) {

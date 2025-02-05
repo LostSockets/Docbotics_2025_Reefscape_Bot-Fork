@@ -40,7 +40,7 @@ public class ElevatorSub extends SubsystemBase {
                 .follow(ElevatorConstants.kLeftElevatorMotorPort, true);
         /**
          * Convert primary elevator motor encoder ticks to
-         * displacement inn elevator height in meters.
+         * distance of the intake to the ground in meters.
          */
         leftElevatorMotorConfig.encoder.positionConversionFactor(ElevatorConstants.elevatorMotorRotationToMeters);
 
@@ -53,7 +53,7 @@ public class ElevatorSub extends SubsystemBase {
 
     }
 
-    /** @return the left elevator Motor. */
+    /** @return the primary left elevator Motor. */
     public SparkMax getPrimaryLeftElevatorMotor() {
         return primaryLeftElevatorMotor;
     }
@@ -66,7 +66,7 @@ public class ElevatorSub extends SubsystemBase {
     /** @return primary elevator Motor position in meters. */
     public double getPrimaryElevatorPosition() {
         return primaryLeftElevatorMotor.getEncoder().getPosition()
-                + ElevatorConstants.initialHeightOfElevatorToGround_Meters;
+                + ElevatorConstants.initialHeightOfIntakeToGround_Meters;
     }
 
     /** @return the elevator PID Controller */
