@@ -147,6 +147,19 @@ public final class Constants {
      */
     public static final double elevatorMotorRotationToMeters = 0.146;
 
+    /** Minimum height the Intake relative to the ground. */
+    public static final double minIntakeHeightToGround_Meters = 0;
+
+    /** Used in slew rate limiter in JoystickMoveIntakeCMD in 
+     * order to smooth the change in joystick input.
+     */
+    public static final double elevatorJoystickSensitivity = 0.1;
+    /** Used in JoystickMoveIntakeCMD 
+     * to keep small input in the joystick 
+     * from moving the intake.
+     */
+    public static final double elevatorJoystickDeadband = 0.1;
+
     /** Elevator setpoints from the ground */
     public static final class elevatorSetpoint {
       public final static double reefLevel2Setpoint_meters = 0;
