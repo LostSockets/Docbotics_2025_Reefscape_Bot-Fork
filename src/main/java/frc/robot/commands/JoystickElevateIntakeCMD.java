@@ -17,6 +17,12 @@ public class JoystickElevateIntakeCMD extends Command {
     /** used to smooth the joystick input controlling the elevator */
     private final SlewRateLimiter elevatorPowerLimiter;
 
+    /**
+     * 
+     * @param elevatorSub                   elevator subsystem.
+     * @param elevatorPowerJoystickFunction joystickInput to the control
+     *                                      the height of the intake .
+     */
     public JoystickElevateIntakeCMD(
             ElevatorSub elevatorSub,
             Supplier<Double> elevatorPowerJoystickFunction) {
@@ -42,7 +48,7 @@ public class JoystickElevateIntakeCMD extends Command {
         primaryLeftElevatorMotor.set(0);
         primaryLeftElevatorMotor.stopMotor();
 
-        SmartDashboard.putBoolean("isElevatorCommandRunning", true);
+        SmartDashboard.putBoolean("isJoystickElevateIntakeCMD", true);
     }
 
     @Override
@@ -70,7 +76,10 @@ public class JoystickElevateIntakeCMD extends Command {
      */
     @Override
     public void end(boolean interrupted) {
-        SmartDashboard.putBoolean("isElevatorCommandRunning", false);
+        /** Set the idling height of the Intake to the be current height of Intake. */
+        elevatorSub.setIntakeHeightSetPoint_Meters(elevatorSub.getPrimaryElevatorPosition());
+
+        SmartDashboard.putBoolean("isJoystickElevateIntakeCMD", false);
         primaryLeftElevatorMotor.set(0);
         primaryLeftElevatorMotor.stopMotor();
     }

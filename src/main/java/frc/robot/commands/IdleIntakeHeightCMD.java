@@ -8,26 +8,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.ElevatorSub;
 
-public class ElevateIntakeToSetpointCMD extends Command {
+public class IdleIntakeHeightCMD extends Command {
     public final ElevatorSub elevatorSub;
     public final SparkMax primaryLeftElevatorMotor;
     public final SparkMax rightElevatorMotor;
     public final PIDController elevatorController;
-    public final double intakeHeightSetPoint_Meters;
 
     /**
      * 
      * @param elevatorSub elevator subsystem.
-     * @param intakeHeightSetPoint_Meters  intake height set point.
      */
-    public ElevateIntakeToSetpointCMD(
-            ElevatorSub elevatorSub,
-            double intakeHeightSetPoint_Meters) {
+    public IdleIntakeHeightCMD(
+            ElevatorSub elevatorSub) {
         this.elevatorSub = elevatorSub;
         this.primaryLeftElevatorMotor = elevatorSub.getPrimaryLeftElevatorMotor();
         this.rightElevatorMotor = elevatorSub.getRightElevatorMotor();
         this.elevatorController = elevatorSub.getElevatorController();
-        this.intakeHeightSetPoint_Meters = intakeHeightSetPoint_Meters;
         addRequirements(elevatorSub);
 
     }
@@ -43,10 +39,7 @@ public class ElevateIntakeToSetpointCMD extends Command {
         primaryLeftElevatorMotor.set(0);
         primaryLeftElevatorMotor.stopMotor();
 
-        /** Set the Intake height set point in meters. */
-        elevatorSub.setIntakeHeightSetPoint_Meters(intakeHeightSetPoint_Meters);
-        SmartDashboard.putBoolean("isElevateIntakeToSetpointCMD", true);
-
+        SmartDashboard.putBoolean("IdleIntakeHeightCMD", true);
 
     }
 
@@ -70,20 +63,14 @@ public class ElevateIntakeToSetpointCMD extends Command {
      */
     @Override
     public void end(boolean interrupted) {
-        SmartDashboard.putBoolean("isElevateIntakeToSetpointCMD", false);
+        SmartDashboard.putBoolean("IdleIntakeHeightCMD", false);
         primaryLeftElevatorMotor.set(0);
         primaryLeftElevatorMotor.stopMotor();
     }
 
     @Override
     public boolean isFinished() {
-        /*
-         * When current elevator position is less than 0.2m away
-         * end the command.
-         */
-        if (Math.abs(elevatorController.getError()) <= 0.2) {
-            return true;
-        }
+
         return false;
     }
 }

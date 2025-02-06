@@ -30,7 +30,7 @@ public class ElevatorSub extends SubsystemBase {
             ElevatorConstants.kP,
             ElevatorConstants.kI,
             ElevatorConstants.kD);
-
+    private double intakeSetpointFromGround_Meters = ElevatorConstants.minIntakeHeightToGround_Meters;
     public ElevatorSub() {
         /**
          * Right elevator motor will follow the
@@ -73,5 +73,15 @@ public class ElevatorSub extends SubsystemBase {
     public PIDController getElevatorController() {
         return elevatorPIDController;
     }
-
+    /**@return the height set-point of the intake in meters   */
+    public double getIntakeHeightSetPoint_Meters(){
+        return intakeSetpointFromGround_Meters;
+    }
+    /**
+     * Sets the height set point of the intake in meters.
+     * @param heightSetPoint_Meters height set point of the intake in meters. 
+     */
+    public void setIntakeHeightSetPoint_Meters(double heightSetPoint_Meters){
+        intakeSetpointFromGround_Meters = heightSetPoint_Meters;
+    }
 }
