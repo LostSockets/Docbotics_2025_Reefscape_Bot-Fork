@@ -129,7 +129,7 @@ public final class Constants {
 
   }
 
-  /** Constants for the elevator. */
+  /** Constants for the elevator. (TEMPORARY, NEEDS TO ALL BE TUNED) */
   public static final class ElevatorConstants {
     /* Motor ports for the elevator. */
     public static final int kLeftElevatorMotorPort = 13;
@@ -165,6 +165,7 @@ public final class Constants {
 
     /** Elevator setpoints from the ground */
     public static final class elevatorSetpoint {
+      
       public final static double reefLevel2Setpoint_meters = 0;
       public final static double reefLevel3Setpoint_meters = 0;
     }

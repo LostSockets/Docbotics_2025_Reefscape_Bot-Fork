@@ -1,22 +1,14 @@
 package frc.robot.commands;
 
 import java.util.function.Supplier;
-
-import com.revrobotics.RelativeEncoder;
-
 import com.revrobotics.spark.SparkMax;
-
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.ArmSub;
 import frc.robot.subsystems.ElevatorSub;
 
-public class JoystickMoveIntakeCMD extends Command {
+public class JoystickElevateIntakeCMD extends Command {
     public final ElevatorSub elevatorSub;
     public final SparkMax primaryLeftElevatorMotor;
     public final SparkMax rightElevatorMotor;
@@ -25,7 +17,7 @@ public class JoystickMoveIntakeCMD extends Command {
     /** used to smooth the joystick input controlling the elevator */
     private final SlewRateLimiter elevatorPowerLimiter;
 
-    public JoystickMoveIntakeCMD(
+    public JoystickElevateIntakeCMD(
             ElevatorSub elevatorSub,
             Supplier<Double> elevatorPowerJoystickFunction) {
         this.elevatorSub = elevatorSub;
@@ -56,19 +48,20 @@ public class JoystickMoveIntakeCMD extends Command {
     @Override
     public void execute() {
 
-        double elevatorPower = elevatorPowerJoystickFunction.get();
+        double desiredElevatorPower = elevatorPowerJoystickFunction.get();
         /**
          * If there is a small input in the joystick, do not move the move the elevator.
          */
-        elevatorPower = Math.abs(elevatorPower) > ElevatorConstants.elevatorJoystickDeadband ? elevatorPower : 0.0;
+        double deadbandAppliedElevatorPower = Math
+                .abs(desiredElevatorPower) > ElevatorConstants.elevatorJoystickDeadband ? desiredElevatorPower : 0.0;
 
-        elevatorPower = elevatorPowerLimiter.calculate(elevatorPower);
+        double slewedElevatorPower = elevatorPowerLimiter.calculate(deadbandAppliedElevatorPower);
         /* Send elevator telemetry. */
         SmartDashboard.putNumber("elevatorPosition_meters", elevatorSub.getPrimaryElevatorPosition());
-        SmartDashboard.putNumber("elevatorPower", elevatorPower);
+        SmartDashboard.putNumber("elevatorPower", slewedElevatorPower);
 
         /** Apply applicable joystick inputs. */
-        primaryLeftElevatorMotor.set(elevatorPower);
+        primaryLeftElevatorMotor.set(slewedElevatorPower);
     }
 
     /**

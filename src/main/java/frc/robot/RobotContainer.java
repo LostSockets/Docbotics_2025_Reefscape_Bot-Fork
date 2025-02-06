@@ -10,7 +10,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.MoveArmCMD;
-import frc.robot.commands.MoveIntakeToSetpointCMD;
+import frc.robot.commands.ElevateIntakeToSetpointCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 
 
@@ -82,7 +82,7 @@ public class RobotContainer {
     //new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new MoveArmCMD(armsub));
     
     // when A is pressed, move intake to level 2.
-    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx ).whileTrue(new MoveIntakeToSetpointCMD(elevatorSub));
+    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx ).whileTrue(new ElevateIntakeToSetpointCMD(elevatorSub));
 
 
     

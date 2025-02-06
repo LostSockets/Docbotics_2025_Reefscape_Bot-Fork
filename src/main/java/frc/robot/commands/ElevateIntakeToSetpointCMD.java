@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.ArmSub;
 import frc.robot.subsystems.ElevatorSub;
 
-public class MoveIntakeToSetpointCMD extends Command {
+public class ElevateIntakeToSetpointCMD extends Command {
     public final ElevatorSub elevatorSub;
     public final SparkMax primaryLeftElevatorMotor;
     public final SparkMax rightElevatorMotor;
     public final PIDController elevatorController;
 
-    public MoveIntakeToSetpointCMD(ElevatorSub elevatorSub) {
+    public ElevateIntakeToSetpointCMD(ElevatorSub elevatorSub) {
         this.elevatorSub = elevatorSub;
         this.primaryLeftElevatorMotor = elevatorSub.getPrimaryLeftElevatorMotor();
         this.rightElevatorMotor = elevatorSub.getRightElevatorMotor();
