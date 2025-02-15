@@ -113,7 +113,7 @@ public final class Constants {
     // **Button that powers coral intake. */
     public static final int kCoralIntakeIdx = 8;
     // *Button that pitches the intake to its desired set point. */
-    public static final int kPitchIntakeToSetPointIdx = 8;
+    public static final int kPitchIntakeToSetPointIdx = 2;
 
     public static final double kDeadband = 0.5;
 
@@ -131,11 +131,11 @@ public final class Constants {
     /** CAN ID of the intake motor that consumes the coral. */
     public static final int kIntakeConsumerMotorPort = 13;
     /** CAN ID of the intake motor pitches the intake. */
-    public static final int kIntakePitcherMotorPort = 13;
+    public static final int kIntakePitcherMotorPort = 16;
 
     /* PID coefficients of the intake pitcher controller. */
 
-    public static final double intakePitcher_kP = 0.00175;
+    public static final double intakePitcher_kP = 0.007;
     public static final double intakePitcher_kI = 0;
     public static final double intakePitcher_kD = 0.0000525;
 

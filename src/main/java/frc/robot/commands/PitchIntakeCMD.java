@@ -37,9 +37,10 @@ public class PitchIntakeCMD extends Command {
         // Telemetry.
         SmartDashboard.putData(intakePitchController);
         SmartDashboard.putNumber("intakePitchPositionError_degrees", intakePitchController.getError());
-        SmartDashboard.putNumber("intakePtichPosition_degrees", currentIntakePosition_degrees);
+        SmartDashboard.putNumber("intakePitchPosition_degrees", currentIntakePosition_degrees);
         // Pitches intake to set point based on intake pitch controller.
-        double output = intakePitchController.calculate(currentIntakePosition_degrees, 169);
+        double output = intakePitchController.calculate(currentIntakePosition_degrees, 14);
+        SmartDashboard.putNumber("intakePitcherOutput", output);
         intakePitcherMotor.set(output);
     }
 
@@ -57,9 +58,9 @@ public class PitchIntakeCMD extends Command {
          * when the position error of the Intake Pitcher is less
          * than 3 degrees, end the command
          */
-        if (Math.abs(intakePitchController.getError()) <= 3) {
-            return true;
-        }
+        // if (Math.abs(intakePitchController.getError()) <= 3) {
+        //     return true;
+        // }
         return false;
     }
 }
