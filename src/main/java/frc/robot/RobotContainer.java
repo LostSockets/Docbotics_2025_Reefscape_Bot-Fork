@@ -10,6 +10,7 @@ import frc.robot.commands.ElevateIntakeToSetpointCMD;
 import frc.robot.commands.IdleIntakeHeightCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.SwerveSub;
@@ -67,7 +68,9 @@ public class RobotContainer {
               new ElevateIntakeToSetpointCMD(
                   elevatorSub,
                   15));
-              
+
+        RunCommand resetEncoderCommand = new RunCommand( Torun -> elevatorSub.resetElevatorEncoders(), elevatorSub)
+        new JoystickButton(driverJoyStick, 4).whileTrue()
 
   }
 
