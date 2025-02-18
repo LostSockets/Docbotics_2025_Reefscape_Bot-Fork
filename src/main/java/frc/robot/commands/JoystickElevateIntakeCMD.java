@@ -58,8 +58,8 @@ public class JoystickElevateIntakeCMD extends Command {
         /**
          * If there is a small input in the joystick, do not move the move the elevator.
          */
-        double deadbandAppliedElevatorPower = Math
-                .abs(desiredElevatorPower) > ElevatorConstants.elevatorJoystickDeadband ? desiredElevatorPower : 0.0;
+        double deadbandAppliedElevatorPower = 
+            Math.abs(desiredElevatorPower) > ElevatorConstants.elevatorJoystickDeadband ? desiredElevatorPower : 0.0;
 
         double slewedElevatorPower = elevatorPowerLimiter.calculate(deadbandAppliedElevatorPower);
         /* Send elevator telemetry. */

@@ -52,7 +52,7 @@ public class IdleIntakeHeightCMD extends Command {
         SmartDashboard.putNumber("elevatorPosition_meters", elevatorSub.getPrimaryElevatorPosition());
         // Drive elevator Motor to set-point based on elevator controller.
         //AFTER TESTING CHANGE SETPOINT TO THE VARIABLE SETPOINT IN ELEVATORSUB. 
-        double output = elevatorController.calculate(elevatorSub.getPrimaryElevatorPosition(), 0.5);
+        double output = elevatorController.calculate(elevatorSub.getPrimaryElevatorPosition(), elevatorSub.getIntakeHeightSetPoint_Meters());
 
         primaryLeftElevatorMotor.set(output);
     }

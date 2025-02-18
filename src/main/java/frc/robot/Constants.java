@@ -132,8 +132,8 @@ public final class Constants {
   /** Constants for the elevator. (TEMPORARY, NEEDS TO ALL BE TUNED) */
   public static final class ElevatorConstants {
     /* Motor ports for the elevator. */
-    public static final int kLeftElevatorMotorPort = 13;
-    public static final int kRightElevatorMotorPort = 13;
+    public static final int kLeftElevatorMotorPort = 9;
+    public static final int kRightElevatorMotorPort = 11;
     /** PID coefficients for elevator controller. */
     public static final double kP = 0.00175;
     public static final double kI = 0;

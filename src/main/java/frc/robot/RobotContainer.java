@@ -63,6 +63,12 @@ public class RobotContainer {
             elevatorSub,
             0));
 
+        new JoystickButton(driverJoyStick, 3).whileTrue(
+              new ElevateIntakeToSetpointCMD(
+                  elevatorSub,
+                  15));
+              
+
   }
 
   public Command getAutonomousCommand() {
