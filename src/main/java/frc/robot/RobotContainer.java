@@ -64,14 +64,13 @@ public class RobotContainer {
             elevatorSub,
             0));
 
-        new JoystickButton(driverJoyStick, 3).whileTrue( //FIX ME
+        new JoystickButton(driverJoyStick, 3).whileTrue(
               new ElevateIntakeToSetpointCMD(
                   elevatorSub,
                   15));
 
-        // Command resetEncoderCommand = new RunCommand( () ->{ elevatorSub.resetElevatorEncoders();},
-        //  elevatorSub);
-        // new JoystickButton(driverJoyStick, 4).whileTrue(resetEncoderCommand);
+        RunCommand resetEncoderCommand = new RunCommand( Torun -> elevatorSub.resetElevatorEncoders(), elevatorSub)
+        new JoystickButton(driverJoyStick, 4).whileTrue()
 
   }
 
