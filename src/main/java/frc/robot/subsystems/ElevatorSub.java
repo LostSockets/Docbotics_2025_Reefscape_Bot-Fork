@@ -84,8 +84,4 @@ public class ElevatorSub extends SubsystemBase {
     public void setIntakeHeightSetPoint_Meters(double heightSetPoint_Meters){
         intakeSetpointFromGround_Meters = heightSetPoint_Meters;
     }
-    /**reset the  the encoders of the motors */
-    public void resetElevatorEncoders(){
-        primaryLeftElevatorMotor.getEncoder().setPosition(0);
-    }
 }
