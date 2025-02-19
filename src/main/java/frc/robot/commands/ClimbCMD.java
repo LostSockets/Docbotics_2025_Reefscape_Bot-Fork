@@ -41,9 +41,9 @@ public class ClimbCMD extends Command{
         //telemetry
         SmartDashboard.putData(climbController);
         SmartDashboard.putNumber("climbPostionError_degrees",climbController.getError());
-        SmartDashboard.putNumber("climbPostion_degrees",climbSub.getGetArmEncoderPosition_degrees());
+        SmartDashboard.putNumber("climbPostion_degrees",climbSub.getGetClimbEncoderPosition_degrees());
         //drive climb Motor to setpoint based on arm controller
-        double output = climbController.calculate(climbSub.getGetArmEncoderPosition_degrees(), 169);
+        double output = climbController.calculate(climbSub.getGetClimbEncoderPosition_degrees(), 169);
         climbMotor.set(output);       
     }
     @Override
