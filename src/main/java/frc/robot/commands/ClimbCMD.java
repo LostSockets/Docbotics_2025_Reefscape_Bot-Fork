@@ -18,7 +18,7 @@ public class ClimbCMD extends Command{
     
     public ClimbCMD(ClimbSub climbSub){
         this.climbSub = climbSub;
-        this.climbMotor = climbSub.getMotor();
+        this.climbMotor = climbSub.getPrimaryClimbMotor();
         climbController = climbSub.getClimbController();
         addRequirements(climbSub);
         

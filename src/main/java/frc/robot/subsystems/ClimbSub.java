@@ -13,11 +13,21 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ClimbConstants;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 
 
 public class ClimbSub extends SubsystemBase{
-    private SparkMax climbMotor = new SparkMax(ClimbConstants.kMotorPort, MotorType.kBrushless);
+    /*Climb Motors. */
+    private SparkMax primaryLeftclimbMotor = new SparkMax(ClimbConstants.kPrimaryLeftClimbMotorPort, MotorType.kBrushless);
+    private SparkMax rightClimbMotor = new SparkMax(ClimbConstants.kRightClimbMotorPort, MotorType.kBrushless);
+    
+    /*Climb Motor Configurations */
+    private SparkMaxConfig primarLeftclimbMotorConfig = new SparkMaxConfig();
+    private SparkMaxConfig rightClimbMotorConfig = new SparkMaxConfig();
+
+
+    
     private PIDController climbController= new PIDController(
         ArmConstants.kP,
         ArmConstants.kI,
@@ -27,20 +37,20 @@ public class ClimbSub extends SubsystemBase{
 
 
 
-
-    public SparkMax getMotor(){
-        return climbMotor;
+    /**@return get primary climber motor  */
+    public SparkMax getPrimaryClimbMotor(){
+        return primaryLeftclimbMotor;
     }
 
     public double getGetArmEncoderPosition_degrees(){
-        return climbMotor.getAbsoluteEncoder().getPosition();
+        return primaryLeftclimbMotor.getAbsoluteEncoder().getPosition();
     }
 
     public PIDController getClimbController(){
         return climbController;
     }
     public void setArmMotorPower(double power){
-        climbMotor.set(power);
+        primaryLeftclimbMotor.set(power);
     }
 
 
