@@ -33,7 +33,7 @@ public class PitchIntakeCMD extends Command {
 
     @Override
     public void execute() {
-        double currentIntakePosition_degrees = intakePitcherMotor.getEncoder().getPosition();
+        double currentIntakePosition_degrees = intakePitcherMotor.getAbsoluteEncoder().getPosition();
         // Telemetry.
         SmartDashboard.putData(intakePitchController);
         SmartDashboard.putNumber("intakePitchPositionError_degrees", intakePitchController.getError());

@@ -132,7 +132,8 @@ public final class Constants {
     public static final int kIntakeConsumerMotorPort = 13;
     /** CAN ID of the intake motor pitches the intake. */
     public static final int kIntakePitcherMotorPort = 16;
-
+    /**Converts rotations of the intake pitcher motor to degrees */
+    public static final double intakePitcherRotationsToDegrees = 360;
     /* PID coefficients of the intake pitcher controller. */
 
     public static final double intakePitcher_kP = 0.007;

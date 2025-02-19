@@ -5,15 +5,21 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class CoralIntakeSub extends SubsystemBase {
     private SparkMax intakePitcherMotor = new SparkMax(IntakeConstants.kIntakePitcherMotorPort, MotorType.kBrushless);
     private SparkMax intakeConsumerMotor = new SparkMax(IntakeConstants.kIntakeConsumerMotorPort, MotorType.kBrushless);
+
+    private SparkMaxConfig intakePitcherMotorConfig = new SparkMaxConfig();
     private PIDController intakePitchController = new PIDController(
             IntakeConstants.intakePitcher_kP,
             IntakeConstants.intakePitcher_kI,
             IntakeConstants.intakePitcher_kD);
-
+    public CoralIntakeSub(){
+        intakePitcherMotorConfig.absoluteEncoder.positionConversionFactor(IntakeConstants.intakePitcherRotationsToDegrees);
+        
+    }
     /**
      * @return the intake motor that consumes the Coral.
      */
