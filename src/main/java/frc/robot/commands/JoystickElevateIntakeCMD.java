@@ -63,7 +63,7 @@ public class JoystickElevateIntakeCMD extends Command {
 
         double slewedElevatorPower = elevatorPowerLimiter.calculate(deadbandAppliedElevatorPower);
         /* Send elevator telemetry. */
-        SmartDashboard.putNumber("elevatorPosition_meters", elevatorSub.getPrimaryElevatorPosition());
+        SmartDashboard.putNumber("elevatorPosition_Inches", elevatorSub.getPrimaryElevatorPosition());
         SmartDashboard.putNumber("elevatorPower", slewedElevatorPower);
 
         /** Apply applicable joystick inputs. */
@@ -77,7 +77,7 @@ public class JoystickElevateIntakeCMD extends Command {
     @Override
     public void end(boolean interrupted) {
         /** Set the idling height of the Intake to the be current height of Intake. */
-        elevatorSub.setIntakeHeightSetPoint_Meters(elevatorSub.getPrimaryElevatorPosition());
+        elevatorSub.setIntakeHeightSetPoint_Inches(elevatorSub.getPrimaryElevatorPosition());
 
         SmartDashboard.putBoolean("isJoystickElevateIntakeCMD", false);
         primaryLeftElevatorMotor.set(0);

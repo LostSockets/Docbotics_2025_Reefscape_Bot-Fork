@@ -72,6 +72,8 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("elevatorPosition_meters", m_robotContainer.
+    elevatorSub.getPrimaryElevatorPosition());
 
     CommandScheduler.getInstance().run();
 

@@ -23,7 +23,7 @@ public class ElevatorSub extends SubsystemBase {
     private SparkMax rightElevatorMotor = new SparkMax(ElevatorConstants.kRightElevatorMotorPort, MotorType.kBrushless);
     /* Elevator motor configurations. */
     private SparkMaxConfig rightElevatorMotorConfig = new SparkMaxConfig();
-    private SparkMaxConfig leftElevatorMotorConfig = new SparkMaxConfig();
+    private SparkMaxConfig primaryLeftElevatorMotorConfig = new SparkMaxConfig();
 
     /** PID controller to move the elevator move to position. */
     private PIDController elevatorPIDController = new PIDController(
@@ -42,7 +42,7 @@ public class ElevatorSub extends SubsystemBase {
          * Convert primary elevator motor encoder ticks to
          * distance of the intake to the ground in meters.
          */
-        leftElevatorMotorConfig.encoder.positionConversionFactor(ElevatorConstants.elevatorMotorRotationToMeters);
+        primaryLeftElevatorMotorConfig.encoder.positionConversionFactor(ElevatorConstants.elevatorMotorRotationToMeters);
 
         /**
          * apply right and left elevator motor config. Will only change new parameters.
@@ -65,23 +65,26 @@ public class ElevatorSub extends SubsystemBase {
 
     /** @return primary elevator Motor position in meters. */
     public double getPrimaryElevatorPosition() {
-        return primaryLeftElevatorMotor.getEncoder().getPosition()
-                + ElevatorConstants.initialHeightOfIntakeToGround_Meters;
+        return primaryLeftElevatorMotor.getEncoder().getPosition();
     }
 
     /** @return the elevator PID Controller */
     public PIDController getElevatorController() {
         return elevatorPIDController;
     }
-    /**@return the height set-point of the intake in meters   */
-    public double getIntakeHeightSetPoint_Meters(){
+    /**@return the height set-point of the intake in Inches   */
+    public double getIntakeHeightSetPoint_Inches(){
         return intakeSetpointFromGround_Meters;
     }
     /**
      * Sets the height set point of the intake in meters.
-     * @param heightSetPoint_Meters height set point of the intake in meters. 
+     * @param heightSetPoint_Inches height set point of the intake in meters. 
      */
-    public void setIntakeHeightSetPoint_Meters(double heightSetPoint_Meters){
-        intakeSetpointFromGround_Meters = heightSetPoint_Meters;
+    public void setIntakeHeightSetPoint_Inches(double heightSetPoint_Inches){
+        intakeSetpointFromGround_Meters = heightSetPoint_Inches;
+    }
+    /**resets the encoders current position */
+    public void resetElevatorEncoders(){
+        primaryLeftElevatorMotor.getEncoder().setPosition(0);
     }
 }

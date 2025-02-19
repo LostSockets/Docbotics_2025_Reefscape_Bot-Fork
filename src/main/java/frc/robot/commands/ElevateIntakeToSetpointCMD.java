@@ -18,16 +18,16 @@ public class ElevateIntakeToSetpointCMD extends Command {
     /**
      * 
      * @param elevatorSub elevator subsystem.
-     * @param intakeHeightSetPoint_Meters  intake height set point.
+     * @param intakeHeightSetPoint_Inches  intake height set point.
      */
     public ElevateIntakeToSetpointCMD(
             ElevatorSub elevatorSub,
-            double intakeHeightSetPoint_Meters) {
+            double intakeHeightSetPoint_Inches) {
         this.elevatorSub = elevatorSub;
         this.primaryLeftElevatorMotor = elevatorSub.getPrimaryLeftElevatorMotor();
         this.rightElevatorMotor = elevatorSub.getRightElevatorMotor();
         this.elevatorController = elevatorSub.getElevatorController();
-        this.intakeHeightSetPoint_Meters = intakeHeightSetPoint_Meters;
+        this.intakeHeightSetPoint_Meters = intakeHeightSetPoint_Inches;
         addRequirements(elevatorSub);
 
     }
@@ -44,7 +44,7 @@ public class ElevateIntakeToSetpointCMD extends Command {
         primaryLeftElevatorMotor.stopMotor();
 
         /** Set the Intake height set point in meters. */
-        elevatorSub.setIntakeHeightSetPoint_Meters(intakeHeightSetPoint_Meters);
+        elevatorSub.setIntakeHeightSetPoint_Inches(intakeHeightSetPoint_Meters);
         SmartDashboard.putBoolean("isElevateIntakeToSetpointCMD", true);
 
 
@@ -54,9 +54,9 @@ public class ElevateIntakeToSetpointCMD extends Command {
     public void execute() {
         /* Send elevator telemetry */
         SmartDashboard.putData(elevatorController);
-        SmartDashboard.putNumber("intakeHeightSetPoint", elevatorSub.getIntakeHeightSetPoint_Meters());
-        SmartDashboard.putNumber("elevatorPositionError_meters", elevatorController.getError());
-        SmartDashboard.putNumber("elevatorPosition_meters", elevatorSub.getPrimaryElevatorPosition());
+        SmartDashboard.putNumber("intakeHeightSetPoint", elevatorSub.getIntakeHeightSetPoint_Inches());
+        SmartDashboard.putNumber("elevatorPositionError_Inches", elevatorController.getError());
+        SmartDashboard.putNumber("elevatorPosition_Inches", elevatorSub.getPrimaryElevatorPosition());
         // Drive elevator Motor to set-point based on elevator controller.
         //AFTER TESTING CHANGE SETPOINT TO THE VARIABLE SETPOINT IN ELEVATORSUB. 
         double output = elevatorController.calculate(elevatorSub.getPrimaryElevatorPosition(), intakeHeightSetPoint_Meters);
@@ -78,7 +78,7 @@ public class ElevateIntakeToSetpointCMD extends Command {
     @Override
     public boolean isFinished() {
         /*
-         * When current elevator position is less than 0.2m away
+         * When current elevator position is less than 0.2" away
          * end the command.
          */
         if (Math.abs(elevatorController.getError()) <= 0.2) {

@@ -135,18 +135,22 @@ public final class Constants {
     public static final int kLeftElevatorMotorPort = 9;
     public static final int kRightElevatorMotorPort = 11;
     /** PID coefficients for elevator controller. */
-    public static final double kP = 0.00175;
+    public static final double kP = 0.01;
     public static final double kI = 0;
     public static final double kD = 0.0000525;
     /** Initial height of the intake to the ground in meters. */
     public static final double initialHeightOfIntakeToGround_Meters = 101.1;
-
+    /**Converts revolutions of the elevator motor's encoder to gear revolutions. */
+    public static double elevatorMotorEncoderRevToGearRev = 1/ 20;
+    public static double elevatorSprocketPitchDiameter_inches = 1.751;
+    /** converts elevator gear revolutions to linear motion in inches*/
+    public static double ElevatorGearRevToLinearMotion_Inches = elevatorSprocketPitchDiameter_inches * Math.PI;
     /**
      * Conversion from rotation of the primary elevator motor
      * to meters. Used for getting current position of the tallest point on the
      * to the ground
      */
-    public static final double elevatorMotorRotationToMeters = 0.146;
+    public static final double elevatorMotorRotationToMeters = elevatorMotorEncoderRevToGearRev * ElevatorGearRevToLinearMotion_Inches;
 
     /** Minimum height the Intake relative to the ground. */
     public static final double minIntakeHeightToGround_Meters = 0;
