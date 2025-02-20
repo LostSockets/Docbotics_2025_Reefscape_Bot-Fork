@@ -4,33 +4,24 @@
 
 package frc.robot;
 
-import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.IntakeCoralCMD;
 import frc.robot.commands.ManageLimeLightCMD;
-import frc.robot.commands.MoveArmCMD;
 import frc.robot.commands.PitchIntakeCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.ArmSub;
 import frc.robot.subsystems.CoralIntakeSub;
 import frc.robot.subsystems.SwerveSub;
 import frc.robot.subsystems.LimelightSub;
 
-import com.fasterxml.jackson.core.io.IOContext;
-import com.pathplanner.lib.auto.NamedCommands;
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import edu.wpi.first.math.controller.PIDController;
+
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotContainer {
 
@@ -63,18 +54,13 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new
-    // MoveArmCMD(armsub));
 
 
-    /*ERROR WILL HAPPEN HERE, because once coral intake button is not pressed
-    theres no end condition to 
-    stop the IntakeConsumer.
-     when Coral Intake button is pressed, run the coral intake.*/
-    Command setIntakePower = new RunCommand(() -> {
-      coralIntakeSub.getIntakeConsumerMotor().set(1);
-    });
-    new JoystickButton(driverJoyStick, OIConstants.kCoralIntakeIdx).whileTrue(setIntakePower);
+
+    /* when consumer intake coral button is pressed, power the intake consumer motor to intake 
+     * the coral.
+    */
+    new JoystickButton(driverJoyStick, OIConstants.kCoralIntakeIdx).whileTrue(new IntakeCoralCMD(coralIntakeSub));
 
     // * When pitch intake button is pressed, rotate the intake to the desire
     // set-point. */
