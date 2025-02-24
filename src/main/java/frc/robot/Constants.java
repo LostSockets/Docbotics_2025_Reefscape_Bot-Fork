@@ -84,13 +84,13 @@ public final class Constants {
     public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -0.2861 * 2 * Math.PI;
     public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.08715 * 2 * Math.PI;
 
-    public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
-    public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-    public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 3;
-    public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
-    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 3;
+        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
+        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
     public static class autoTargetConstants {
       public static final double autoOrientKp = 0.0035;
@@ -105,17 +105,25 @@ public final class Constants {
     public static final int kDriverYAxis = 1;
     public static final int kDriverRotAxis = 4;
 
-    public static final int kDriverFieldOrientedButtonIdx = 1;
-    public static final int kOrientToTargetIdx = 2; // B button
-    public static final int kDriveGyroResetButtonIdx = 2;
+        public static final int kDriverFieldOrientedButtonIdx = 1;
+        public static final int kOrientToTargetIdx = 2; //B button 
+        public static final int kDriveGyroResetButtonIdx = 2;
+      
 
-    public static final int kMoveArmIdx = 1; // A button
+        public static final int kMoveArmIdx  = 1; // A button
+            // **Button that powers coral intake. */
+    public static final int kCoralIntakeIdx = 8;
+    // *Button that pitches the intake to its desired set point. */
+    public static final int kPitchIntakeToSetPointIdx = 2;
 
-    /**
+        /**
      * Button ID to move the elevator to level 2 on the Reef.
      * (A button)
      */
     public static final int kMoveIntakeToLevel2Idx = 2;
+    
+
+
 
     public static final double kDeadband = 0.5;
 
@@ -172,6 +180,27 @@ public final class Constants {
       
       public final static double reefLevel2Setpoint_meters = 0;
       public final static double reefLevel3Setpoint_meters = 0;
+    }
+
+  }
+  public static final class IntakeConstants {
+    /** CAN ID of the intake motor that consumes the coral. */
+    public static final int kIntakeConsumerMotorPort = 13;
+    /** CAN ID of the intake motor pitches the intake. */
+    public static final int kIntakePitcherMotorPort = 16;
+    /**Converts rotations of the intake pitcher motor to degrees */
+    public static final double intakePitcherRotationsToDegrees = 360;
+    /* PID coefficients of the intake pitcher controller. */
+
+    public static final double intakePitcher_kP = 0.007;
+    public static final double intakePitcher_kI = 0;
+    public static final double intakePitcher_kD = 0.0000525;
+
+    /** angular set points of the intake pitcher in degrees. */
+    public static final class IntakePitchSetPoints_degrees {
+      public static final double L1Pitch_degrees = 0;
+      public static final double L2Pitch_degrees = 0;
+      public static final double L3Pitch_degrees = 0;
     }
 
   }
