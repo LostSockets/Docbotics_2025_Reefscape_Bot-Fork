@@ -5,14 +5,14 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ElevateIntakeToSetpointCMD;
 import frc.robot.commands.IntakeCoralCMD;
 import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.PitchIntakeCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 
-
-
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.CoralIntakeSub;
@@ -20,15 +20,10 @@ import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.SwerveSub;
 import frc.robot.subsystems.LimelightSub;
 
-import com.fasterxml.jackson.core.io.IOContext;
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-
 
 public class RobotContainer {
 
@@ -47,23 +42,23 @@ public class RobotContainer {
     // Configure the trigger bindings
     swerveSub.setDefaultCommand(
         new SwerveJoystickCmd(
-        swerveSub,
-        () -> -driverJoyStick.getRawAxis(OIConstants.kDriverYAxis),
-        () -> driverJoyStick.getRawAxis(OIConstants.kDriverXAxis),
-        () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
-        () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
-        () -> driverJoyStick.getRawButton(OIConstants.kOrientToTargetIdx)
-        )
-      ); // by defualt will work on fields reference frame
-      
+            swerveSub,
+            () -> -driverJoyStick.getRawAxis(OIConstants.kDriverYAxis),
+            () -> driverJoyStick.getRawAxis(OIConstants.kDriverXAxis),
+            () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
+            () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
+            () -> driverJoyStick.getRawButton(OIConstants.kOrientToTargetIdx))); // by default will work on fields
+                                                                                 // reference frame
+
     limelightSub.setDefaultCommand(
         new ManageLimeLightCMD(limelightSub));
 
-    /**By default the the elevator will be in Idle state
+    /**
+     * By default the the elevator will be in Idle state
      * where it just tries to maintain the intake height set point.
-    */
+     */
     // elevatorSub.setDefaultCommand(
-    //   new IdleIntakeHeightCMD(elevatorSub));
+    // new IdleIntakeHeightCMD(elevatorSub));
 
     configureBindings();
   }
@@ -72,40 +67,39 @@ public class RobotContainer {
     // new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new
     // MoveArmCMD(armsub));
 
-    // when A is pressed, move intake to level 2.
-    // new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).whileTrue(
-    //     new ElevateIntakeToSetpointCMD(
-    //         elevatorSub,
-    //         0));
+    // new JoystickButton(driverJoyStick,
+    // OIConstants.kMoveIntakeToLevel2Idx).whileTrue(
+    // new ElevateIntakeToSetpointCMD(
+    // elevatorSub,
+    // 0));
+    // move intake to level 2.
+    Command resetEncodersCommand = new RunCommand(() -> {
+      elevatorSub.resetElevatorEncoders();
+    }, elevatorSub);
+    SmartDashboard.putData("resetEncodersCommand", resetEncodersCommand);
+    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).whileTrue(
+        new ElevateIntakeToSetpointCMD(
+            elevatorSub,
+            15));
 
-    //     new JoystickButton(driverJoyStick, 3).whileTrue(
-    //           new ElevateIntakeToSetpointCMD(
-    //               elevatorSub,
-    //               15));
+    Command scoreL2Reef = new ParallelCommandGroup(
+        new PitchIntakeCMD(coralIntakeSub, 15),
+        new ElevateIntakeToSetpointCMD(
+            elevatorSub,
+            15));
 
-      Command resetEncodersCommand = new RunCommand(() ->{
-        elevatorSub.resetElevatorEncoders();
-      }
-      , elevatorSub);
-      SmartDashboard.putData("resetEncodersCommand",resetEncodersCommand);
-              
-
-  
-
-
-
-    /* when consumer intake coral button is pressed, power the intake consumer motor to intake 
+    /*
+     * when consumer intake coral button is pressed, power the intake consumer motor
+     * to intake
      * the coral.
-    */
+     */
     new JoystickButton(driverJoyStick, OIConstants.kCoralIntakeIdx).whileTrue(new IntakeCoralCMD(coralIntakeSub));
 
     // * When pitch intake button is pressed, rotate the intake to the desire
     // set-point. */
-    new JoystickButton(driverJoyStick, OIConstants.kPitchIntakeToSetPointIdx)
-        .whileTrue(new PitchIntakeCMD(coralIntakeSub));
-    }
-
-  
+    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx)
+        .whileTrue(new PitchIntakeCMD(coralIntakeSub, 15));
+  }
 
   public Command getAutonomousCommand() {
 

@@ -110,11 +110,10 @@ public final class Constants {
         public static final int kDriveGyroResetButtonIdx = 2;
       
 
-        public static final int kMoveArmIdx  = 1; // A button
             // **Button that powers coral intake. */
     public static final int kCoralIntakeIdx = 8;
     // *Button that pitches the intake to its desired set point. */
-    public static final int kPitchIntakeToSetPointIdx = 2;
+    public static final int kPitchIntakeToSetPointIdx = 1;
 
         /**
      * Button ID to move the elevator to level 2 on the Reef.
@@ -122,6 +121,11 @@ public final class Constants {
      */
     public static final int kMoveIntakeToLevel2Idx = 2;
     
+        /**
+     * Button ID to move the elevator to level 3 on the Reef.
+     * (A button)
+     */
+    public static final int kMoveIntakeToLevel3Idx = 3;
 
 
 

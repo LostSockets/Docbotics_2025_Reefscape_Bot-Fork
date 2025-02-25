@@ -61,7 +61,7 @@ public class ElevateIntakeToSetpointCMD extends Command {
         //AFTER TESTING CHANGE SETPOINT TO THE VARIABLE SETPOINT IN ELEVATORSUB. 
         double output = elevatorController.calculate(elevatorSub.getPrimaryElevatorPosition(), intakeHeightSetPoint_Meters);
 
-        primaryLeftElevatorMotor.set(output);
+       // primaryLeftElevatorMotor.set(output);
     }
 
     /**

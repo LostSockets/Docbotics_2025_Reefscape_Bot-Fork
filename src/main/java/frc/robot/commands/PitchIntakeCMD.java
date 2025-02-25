@@ -12,11 +12,13 @@ public class PitchIntakeCMD extends Command {
     private final CoralIntakeSub intakeSub;
     private final SparkMax intakePitcherMotor;
     private final PIDController intakePitchController;
+    private final double setpoint_degrees;
 
-    public PitchIntakeCMD(CoralIntakeSub intakeSub) {
+    public PitchIntakeCMD(CoralIntakeSub intakeSub, double setpoint_degrees) {
         this.intakeSub = intakeSub;
         this.intakePitcherMotor = intakeSub.getIntakePitcherMotor();
         this.intakePitchController = intakeSub.getIntakePitchController();
+        this.setpoint_degrees = setpoint_degrees;
         addRequirements(intakeSub);
 
     }
@@ -39,9 +41,9 @@ public class PitchIntakeCMD extends Command {
         SmartDashboard.putNumber("intakePitchPositionError_degrees", intakePitchController.getError());
         SmartDashboard.putNumber("intakePitchPosition_degrees", currentIntakePosition_degrees);
         // Pitches intake to set point based on intake pitch controller.
-        double output = intakePitchController.calculate(currentIntakePosition_degrees, 14);
+        double output = intakePitchController.calculate(currentIntakePosition_degrees, setpoint_degrees);
         SmartDashboard.putNumber("intakePitcherOutput", output);
-        intakePitcherMotor.set(output);
+        //intakePitcherMotor.set(output);
     }
 
     @Override
