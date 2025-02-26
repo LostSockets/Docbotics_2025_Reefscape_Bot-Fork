@@ -90,7 +90,7 @@ public class RobotContainer {
     Command scoreL2Reef = new ParallelCommandGroup(
       new InstantCommand(() -> 
       {elevatorSub.setIntakeHeightSetPoint_Inches(15);
-      coralIntakeSub.setIntakePitchSetpoint_degrees(30);}));
+      coralIntakeSub.setIntakePitchSetpoint_degrees(115);}));
 
     Command setIntakePositionToDefault = new ParallelCommandGroup(
       new InstantCommand(() -> 
@@ -106,9 +106,12 @@ public class RobotContainer {
     onTrue(scoreL2Reef);
 
     /**When button pressed reset the gyro. */
-    new JoystickButton(driverJoyStick, OIConstants.kDriveGyroResetButtonIdx).onTrue(
+    new JoystickButton(driverJoyStick, OIConstants.kDriveGyroResetButtonIdx).whileTrue(
       new ResetHeadingCMD(swerveSub)
     );
+      /**When button pressed reset the gyro. */
+    new JoystickButton(driverJoyStick, OIConstants.kCoralIntakeIdx).whileTrue(
+      new IntakeCoralCMD(coralIntakeSub));
 
   }
 

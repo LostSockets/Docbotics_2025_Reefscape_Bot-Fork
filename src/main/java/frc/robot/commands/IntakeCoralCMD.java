@@ -32,7 +32,7 @@ public class IntakeCoralCMD extends Command {
     @Override
     public void execute() {
         /* power intake consumer motor */
-        intakeConsumerMotor.set(1);
+        intakeConsumerMotor.set(0.3);
     }
 
     @Override
