@@ -31,6 +31,7 @@ public class PitchIntakeCMD extends Command {
         /* When command starts, stop the intake pitcher */
         intakePitcherMotor.set(0);
         intakePitcherMotor.stopMotor();
+        intakeSub.setIntakePitchSetpoint_degrees(setpoint_degrees);
         
 
         SmartDashboard.putBoolean("isIntakePitcherCommandRunning", true);

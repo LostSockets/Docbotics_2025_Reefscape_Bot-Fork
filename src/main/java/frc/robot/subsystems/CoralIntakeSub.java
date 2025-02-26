@@ -25,6 +25,8 @@ public class CoralIntakeSub extends SubsystemBase {
     /**angular set point of the pitcher in degrees. */
     private double pitcherSetpoint_degrees = 0;
     public CoralIntakeSub(){
+        intakePitchController.enableContinuousInput(0, 360);
+
         intakePitcherMotorConfig.absoluteEncoder.positionConversionFactor(IntakeConstants.intakePitcherRotationsToDegrees);
         intakePitcherMotor.configure(intakePitcherMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 

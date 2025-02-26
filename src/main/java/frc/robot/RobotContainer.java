@@ -61,6 +61,9 @@ public class RobotContainer {
      */
      elevatorSub.setDefaultCommand(
      new IdleIntakeHeightCMD(elevatorSub));
+     coralIntakeSub.setDefaultCommand(
+      new IdlePitchIntakeAngleCMD(coralIntakeSub)
+     );
 
 
     configureBindings();
@@ -104,6 +107,9 @@ public class RobotContainer {
     // set-point. */
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx)
         .whileTrue(new PitchIntakeCMD(coralIntakeSub, 30
+        ));
+        new JoystickButton(driverJoyStick, 1)
+        .whileTrue(new PitchIntakeCMD(coralIntakeSub, 0
         ));
   }
 
