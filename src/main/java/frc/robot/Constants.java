@@ -111,7 +111,9 @@ public final class Constants {
       
 
             // **Button that powers coral intake. */
-    public static final int kCoralIntakeIdx = 4;
+    public static final int kIntakeCoralIdx = 5;
+                // **Button that powers coral intake. */
+                public static final int kOutakeCoralIdx = 6;
     // *Button that moves intake to default height and angle. */
     public static final int kMoveIntakeToDefaultPosIdx = 1;
 
@@ -127,6 +129,7 @@ public final class Constants {
      */
     public static final int kMoveIntakeToLevel3Idx = 3;
 
+    public static final int kMoveIntakeToCoralStationIdx = 7;
 
 
     public static final double kDeadband = 0.5;

@@ -6,15 +6,15 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.subsystems.CoralIntakeSub;
+import frc.robot.subsystems.CoralPitcherIntakeSub;
 
 public class PitchIntakeCMD extends Command {
-    private final CoralIntakeSub intakeSub;
+    private final CoralPitcherIntakeSub intakeSub;
     private final SparkMax intakePitcherMotor;
     private final PIDController intakePitchController;
     private final double setpoint_degrees;
 
-    public PitchIntakeCMD(CoralIntakeSub intakeSub, double setpoint_degrees) {
+    public PitchIntakeCMD(CoralPitcherIntakeSub intakeSub, double setpoint_degrees) {
         this.intakeSub = intakeSub;
         this.intakePitcherMotor = intakeSub.getIntakePitcherMotor();
         this.intakePitchController = intakeSub.getIntakePitchController();

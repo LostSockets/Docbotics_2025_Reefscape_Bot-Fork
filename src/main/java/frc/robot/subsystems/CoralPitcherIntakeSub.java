@@ -10,11 +10,10 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-public class CoralIntakeSub extends SubsystemBase {
+public class CoralPitcherIntakeSub extends SubsystemBase {
     /**Motor that rotates the intake. */
     private SparkMax intakePitcherMotor = new SparkMax(IntakeConstants.kIntakePitcherMotorPort, MotorType.kBrushless);
-    /**Motor that allows the intake to consume coral. */
-    private SparkMax intakeConsumerMotor = new SparkMax(IntakeConstants.kIntakeConsumerMotorPort, MotorType.kBrushless);
+
     /**Motor controller configuratiion of the intake pitcher motor. */
     private SparkMaxConfig intakePitcherMotorConfig = new SparkMaxConfig();
     /**PID controller to rotate the intake to an angular setpoint */
@@ -24,19 +23,14 @@ public class CoralIntakeSub extends SubsystemBase {
             IntakeConstants.intakePitcher_kD);
     /**angular set point of the pitcher in degrees. */
     private double pitcherSetpoint_degrees = 0;
-    public CoralIntakeSub(){
+    public CoralPitcherIntakeSub(){
         intakePitchController.enableContinuousInput(0, 360);
 
         intakePitcherMotorConfig.absoluteEncoder.positionConversionFactor(IntakeConstants.intakePitcherRotationsToDegrees);
         intakePitcherMotor.configure(intakePitcherMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
     }
-    /**
-     * @return the intake motor that consumes the Coral.
-     */
-    public SparkMax getIntakeConsumerMotor() {
-        return intakeConsumerMotor;
-    }
+
 
     /**
      * @return the motor that pitches the intake.

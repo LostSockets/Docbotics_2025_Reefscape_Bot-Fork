@@ -5,17 +5,19 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.CoralIntakeConsumerSub;
+import frc.robot.subsystems.CoralPitcherIntakeSub;
 
-import frc.robot.subsystems.CoralIntakeSub;
-
-public class IntakeCoralCMD extends Command {
-    private final CoralIntakeSub intakeSub;
+public class powerCoralIntakeCMD extends Command {
+    private final CoralIntakeConsumerSub intakeConsumerSub;
     private final SparkMax intakeConsumerMotor;
+    private final double power;
 
-    public IntakeCoralCMD(CoralIntakeSub intakeSub) {
-        this.intakeSub = intakeSub;
-        this.intakeConsumerMotor = intakeSub.getIntakeConsumerMotor();
-        addRequirements(intakeSub);
+    public powerCoralIntakeCMD(CoralIntakeConsumerSub intakeConsumerSub, double power) {
+        this.intakeConsumerSub = intakeConsumerSub;
+        this.intakeConsumerMotor = intakeConsumerSub.getIntakeConsumerMotor();
+        this.power = power;
+        addRequirements(intakeConsumerSub);
 
     }
 
@@ -32,7 +34,7 @@ public class IntakeCoralCMD extends Command {
     @Override
     public void execute() {
         /* power intake consumer motor */
-        intakeConsumerMotor.set(0.3);
+        intakeConsumerMotor.set(power);
     }
 
     @Override

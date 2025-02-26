@@ -8,7 +8,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ElevateIntakeToSetpointCMD;
 import frc.robot.commands.IdleIntakeHeightCMD;
 import frc.robot.commands.IdlePitchIntakeAngleCMD;
-import frc.robot.commands.IntakeCoralCMD;
+import frc.robot.commands.powerCoralIntakeCMD;
 import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.PitchIntakeCMD;
 import frc.robot.commands.ResetHeadingCMD;
@@ -19,7 +19,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.CoralIntakeSub;
+import frc.robot.subsystems.CoralIntakeConsumerSub;
+import frc.robot.subsystems.CoralPitcherIntakeSub;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.SwerveSub;
 import frc.robot.subsystems.LimelightSub;
@@ -35,7 +36,8 @@ public class RobotContainer {
   // new CommandXboxController(OIConstants.kDriverControllerPort);
 
   private final SwerveSub swerveSub = new SwerveSub();
-  public final CoralIntakeSub coralIntakeSub = new CoralIntakeSub();
+  public final CoralPitcherIntakeSub coralPitcherIntakeSub = new CoralPitcherIntakeSub();
+  private final CoralIntakeConsumerSub coralIntakeConsumerSub = new CoralIntakeConsumerSub();
   // private final ArmSub armsub = new ArmSub();
   private final LimelightSub limelightSub = new LimelightSub();
   public final ElevatorSub elevatorSub = new ElevatorSub();
@@ -64,8 +66,8 @@ public class RobotContainer {
      new IdleIntakeHeightCMD(elevatorSub));
 
      
-     coralIntakeSub.setDefaultCommand(
-      new IdlePitchIntakeAngleCMD(coralIntakeSub)
+     coralPitcherIntakeSub.setDefaultCommand(
+      new IdlePitchIntakeAngleCMD(coralPitcherIntakeSub)
      );
 
 
@@ -86,16 +88,20 @@ public class RobotContainer {
     SmartDashboard.putData("resetEncodersCommand", resetEncodersCommand);
 
 
+    Command consumerCoralAtCoralStation = new ParallelCommandGroup(
+      new InstantCommand(() -> 
+      {elevatorSub.setIntakeHeightSetPoint_Inches(30.8);
+      coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(144);}));
 
     Command scoreL2Reef = new ParallelCommandGroup(
       new InstantCommand(() -> 
       {elevatorSub.setIntakeHeightSetPoint_Inches(15);
-      coralIntakeSub.setIntakePitchSetpoint_degrees(115);}));
+      coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(115);}));
 
     Command setIntakePositionToDefault = new ParallelCommandGroup(
       new InstantCommand(() -> 
       {elevatorSub.setIntakeHeightSetPoint_Inches(0);
-      coralIntakeSub.setIntakePitchSetpoint_degrees(10);}));
+      coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(10);}));
       
     /**When button pressed moved Intake to default height and angle. */  
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToDefaultPosIdx).
@@ -104,15 +110,21 @@ public class RobotContainer {
 
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).
     onTrue(scoreL2Reef);
+    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToCoralStationIdx).
+    onTrue(consumerCoralAtCoralStation);
 
     /**When button pressed reset the gyro. */
     new JoystickButton(driverJoyStick, OIConstants.kDriveGyroResetButtonIdx).whileTrue(
       new ResetHeadingCMD(swerveSub)
     );
       /**When button pressed reset the gyro. */
-    new JoystickButton(driverJoyStick, OIConstants.kCoralIntakeIdx).whileTrue(
-      new IntakeCoralCMD(coralIntakeSub));
+    new JoystickButton(driverJoyStick, OIConstants.kOutakeCoralIdx).whileTrue(
+      new powerCoralIntakeCMD(coralIntakeConsumerSub, 0.3));
+      new JoystickButton(driverJoyStick, OIConstants.kIntakeCoralIdx).whileTrue(
+        new powerCoralIntakeCMD(coralIntakeConsumerSub, -0.3));
 
+    
+    
   }
 
   public Command getAutonomousCommand() {
