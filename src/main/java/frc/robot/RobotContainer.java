@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ElevateIntakeToSetpointCMD;
 import frc.robot.commands.IdleIntakeHeightCMD;
+import frc.robot.commands.IdlePitchIntakeAngleCMD;
 import frc.robot.commands.IntakeCoralCMD;
 import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.PitchIntakeCMD;
@@ -61,6 +62,7 @@ public class RobotContainer {
      elevatorSub.setDefaultCommand(
      new IdleIntakeHeightCMD(elevatorSub));
 
+
     configureBindings();
   }
 
@@ -72,33 +74,37 @@ public class RobotContainer {
     new ElevateIntakeToSetpointCMD(
     elevatorSub,
     0));
-    //move intake to level 2.
+  
+
+    /**Command to reset intake elevator motors */
     Command resetEncodersCommand = new RunCommand(() -> {
       elevatorSub.resetElevatorEncoders();
     }, elevatorSub);
     SmartDashboard.putData("resetEncodersCommand", resetEncodersCommand);
+
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).whileTrue(
         new ElevateIntakeToSetpointCMD(
             elevatorSub,
             10));
 
-    Command scoreL2Reef = new ParallelCommandGroup(
-        new PitchIntakeCMD(coralIntakeSub, 15),
-        new ElevateIntakeToSetpointCMD(
-            elevatorSub,
-            15));
+    // Command scoreL2Reef = new ParallelCommandGroup(
+    //     new PitchIntakeCMD(coralIntakeSub, 15),
+    //     new ElevateIntakeToSetpointCMD(
+    //         elevatorSub,
+    //         15));
 
     /*
      * when consumer intake coral button is pressed, power the intake consumer motor
      * to intake
      * the coral.
      */
-    new JoystickButton(driverJoyStick, OIConstants.kCoralIntakeIdx).whileTrue(new IntakeCoralCMD(coralIntakeSub));
+   // new JoystickButton(driverJoyStick, OIConstants.kCoralIntakeIdx).whileTrue(new IntakeCoralCMD(coralIntakeSub));
 
     // * When pitch intake button is pressed, rotate the intake to the desire
     // set-point. */
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx)
-        .whileTrue(new PitchIntakeCMD(coralIntakeSub, 15));
+        .whileTrue(new PitchIntakeCMD(coralIntakeSub, 30
+        ));
   }
 
   public Command getAutonomousCommand() {

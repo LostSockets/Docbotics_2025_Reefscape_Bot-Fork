@@ -59,9 +59,9 @@ public class ElevateIntakeToSetpointCMD extends Command {
         SmartDashboard.putNumber("elevatorPosition_Inches", elevatorSub.getPrimaryElevatorPosition());
         // Drive elevator Motor to set-point based on elevator controller.
         //AFTER TESTING CHANGE SETPOINT TO THE VARIABLE SETPOINT IN ELEVATORSUB. 
-        double output = elevatorController.calculate(elevatorSub.getPrimaryElevatorPosition(), intakeHeightSetPoint_Meters);
+        //double output = elevatorController.calculate(elevatorSub.getPrimaryElevatorPosition(), intakeHeightSetPoint_Meters);
 
-        primaryLeftElevatorMotor.set(output);
+        //primaryLeftElevatorMotor.set(output);
     }
 
     /**

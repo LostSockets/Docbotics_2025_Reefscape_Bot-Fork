@@ -11,14 +11,19 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class CoralIntakeSub extends SubsystemBase {
+    /**Motor that rotates the intake. */
     private SparkMax intakePitcherMotor = new SparkMax(IntakeConstants.kIntakePitcherMotorPort, MotorType.kBrushless);
+    /**Motor that allows the intake to consume coral. */
     private SparkMax intakeConsumerMotor = new SparkMax(IntakeConstants.kIntakeConsumerMotorPort, MotorType.kBrushless);
-
+    /**Motor controller configuratiion of the intake pitcher motor. */
     private SparkMaxConfig intakePitcherMotorConfig = new SparkMaxConfig();
+    /**PID controller to rotate the intake to an angular setpoint */
     private PIDController intakePitchController = new PIDController(
             IntakeConstants.intakePitcher_kP,
             IntakeConstants.intakePitcher_kI,
             IntakeConstants.intakePitcher_kD);
+    /**angular set point of the pitcher in degrees. */
+    private double pitcherSetpoint_degrees = 0;
     public CoralIntakeSub(){
         intakePitcherMotorConfig.absoluteEncoder.positionConversionFactor(IntakeConstants.intakePitcherRotationsToDegrees);
         intakePitcherMotor.configure(intakePitcherMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
@@ -41,6 +46,14 @@ public class CoralIntakeSub extends SubsystemBase {
     /** @return the PID controller of the intake pitcher */
     public PIDController getIntakePitchController() {
         return intakePitchController;
+    }
+    /**Sets the angular setpoint of the intake in degrees. */
+    public void setIntakePitchSetpoint_degrees(double setpoint_degrees){
+        pitcherSetpoint_degrees = setpoint_degrees;
+    }
+    /**@return the angular setpoint of the intake in degrees. */
+    public double getIntakePitchSetpoint_degrees( ){
+        return pitcherSetpoint_degrees;
     }
 
 }

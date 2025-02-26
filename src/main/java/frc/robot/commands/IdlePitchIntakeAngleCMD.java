@@ -8,19 +8,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.CoralIntakeSub;
 
-public class PitchIntakeCMD extends Command {
+public class IdlePitchIntakeAngleCMD extends Command {
     private final CoralIntakeSub intakeSub;
     private final SparkMax intakePitcherMotor;
     private final PIDController intakePitchController;
-    private final double setpoint_degrees;
+    private double setpoint_degrees;
 
-    public PitchIntakeCMD(CoralIntakeSub intakeSub, double setpoint_degrees) {
+    public IdlePitchIntakeAngleCMD(CoralIntakeSub intakeSub) {
         this.intakeSub = intakeSub;
         this.intakePitcherMotor = intakeSub.getIntakePitcherMotor();
         this.intakePitchController = intakeSub.getIntakePitchController();
-        this.setpoint_degrees = setpoint_degrees;
-
-
+        
         addRequirements(intakeSub);
 
     }
@@ -31,20 +29,20 @@ public class PitchIntakeCMD extends Command {
         /* When command starts, stop the intake pitcher */
         intakePitcherMotor.set(0);
         intakePitcherMotor.stopMotor();
-        
+        /*Gets the intake angle set point from the intake subsystem. */
+        setpoint_degrees = intakeSub.getIntakePitchSetpoint_degrees();
+       
 
-        SmartDashboard.putBoolean("isIntakePitcherCommandRunning", true);
+        SmartDashboard.putBoolean("isIdleIntakePitcherCommandRunning", true);
     }
 
     @Override
     public void execute() {
-        /**Gets the current position of the intake pitcher motor. */
         double currentIntakePosition_degrees = intakePitcherMotor.getAbsoluteEncoder().getPosition();
         // Telemetry.
         SmartDashboard.putData(intakePitchController);
         SmartDashboard.putNumber("intakePitchPositionError_degrees", intakePitchController.getError());
         SmartDashboard.putNumber("intakePitchPosition_degrees", currentIntakePosition_degrees);
-        SmartDashboard.putNumber("IntakeSetpoint_degrees", setpoint_degrees );
         // Pitches intake to set point based on intake pitch controller.
         double output = intakePitchController.calculate(currentIntakePosition_degrees, setpoint_degrees);
         SmartDashboard.putNumber("intakePitcherOutput", output);
@@ -54,7 +52,7 @@ public class PitchIntakeCMD extends Command {
     @Override
     public void end(boolean interrupted) {
         /* when command ends, stop  the intake pitch motor. */
-        SmartDashboard.putBoolean("isIntakePitcherCommandRunning", false);
+        SmartDashboard.putBoolean("isIdleIntakePitcherCommandRunning", false);
         intakePitcherMotor.set(0);
         intakePitcherMotor.stopMotor();
     }
