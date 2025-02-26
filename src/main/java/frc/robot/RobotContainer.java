@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ElevateIntakeToSetpointCMD;
+import frc.robot.commands.IdleIntakeHeightCMD;
 import frc.robot.commands.IntakeCoralCMD;
 import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.PitchIntakeCMD;
@@ -57,8 +58,8 @@ public class RobotContainer {
      * By default the the elevator will be in Idle state
      * where it just tries to maintain the intake height set point.
      */
-    // elevatorSub.setDefaultCommand(
-    // new IdleIntakeHeightCMD(elevatorSub));
+     elevatorSub.setDefaultCommand(
+     new IdleIntakeHeightCMD(elevatorSub));
 
     configureBindings();
   }
@@ -67,12 +68,11 @@ public class RobotContainer {
     // new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new
     // MoveArmCMD(armsub));
 
-    // new JoystickButton(driverJoyStick,
-    // OIConstants.kMoveIntakeToLevel2Idx).whileTrue(
-    // new ElevateIntakeToSetpointCMD(
-    // elevatorSub,
-    // 0));
-    // move intake to level 2.
+    new JoystickButton(driverJoyStick, 1).whileTrue(
+    new ElevateIntakeToSetpointCMD(
+    elevatorSub,
+    0));
+    //move intake to level 2.
     Command resetEncodersCommand = new RunCommand(() -> {
       elevatorSub.resetElevatorEncoders();
     }, elevatorSub);
@@ -80,7 +80,7 @@ public class RobotContainer {
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).whileTrue(
         new ElevateIntakeToSetpointCMD(
             elevatorSub,
-            15));
+            10));
 
     Command scoreL2Reef = new ParallelCommandGroup(
         new PitchIntakeCMD(coralIntakeSub, 15),

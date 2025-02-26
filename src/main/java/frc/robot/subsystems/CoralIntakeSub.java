@@ -4,6 +4,9 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -18,7 +21,8 @@ public class CoralIntakeSub extends SubsystemBase {
             IntakeConstants.intakePitcher_kD);
     public CoralIntakeSub(){
         intakePitcherMotorConfig.absoluteEncoder.positionConversionFactor(IntakeConstants.intakePitcherRotationsToDegrees);
-        
+        intakePitcherMotor.configure(intakePitcherMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+
     }
     /**
      * @return the intake motor that consumes the Coral.

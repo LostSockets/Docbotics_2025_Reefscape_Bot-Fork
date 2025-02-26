@@ -147,7 +147,7 @@ public final class Constants {
     public static final int kLeftElevatorMotorPort = 9;
     public static final int kRightElevatorMotorPort = 11;
     /** PID coefficients for elevator controller. */
-    public static final double kP = 0.01;
+    public static final double kP = 0.07;
     public static final double kI = 0;
     public static final double kD = 0.0000525;
     /** Initial height of the intake to the ground in meters. */
