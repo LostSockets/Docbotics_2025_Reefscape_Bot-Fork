@@ -46,15 +46,14 @@ public class IdleIntakeHeightCMD extends Command {
     @Override
     public void execute() {
         /* Send elevator telemetry */
-        SmartDashboard.putData(elevatorController);
+        SmartDashboard.putData("elevatorController", elevatorController);
         SmartDashboard.putNumber("intakeHeightSetPoint", elevatorSub.getIntakeHeightSetPoint_Inches());
         SmartDashboard.putNumber("elevatorPositionError_Inches", elevatorController.getError());
         SmartDashboard.putNumber("elevatorPosition_Inches", elevatorSub.getPrimaryElevatorPosition());
         // Drive elevator Motor to set-point based on elevator controller.
         //AFTER TESTING CHANGE SETPOINT TO THE VARIABLE SETPOINT IN ELEVATORSUB. 
         double output = elevatorController.calculate(elevatorSub.getPrimaryElevatorPosition(), elevatorSub.getIntakeHeightSetPoint_Inches());
-
-        //primaryLeftElevatorMotor.set(output);
+        primaryLeftElevatorMotor.set(output);
     }
 
     /**

@@ -112,12 +112,12 @@ public final class Constants {
 
             // **Button that powers coral intake. */
     public static final int kCoralIntakeIdx = 8;
-    // *Button that pitches the intake to its desired set point. */
-    public static final int kPitchIntakeToSetPointIdx = 1;
+    // *Button that moves intake to default height and angle. */
+    public static final int kMoveIntakeToDefaultPosIdx = 1;
 
         /**
-     * Button ID to move the elevator to level 2 on the Reef.
-     * (A button)
+     * Button ID to move the intake to the angle and height for
+     * score level 2 of the reef. 
      */
     public static final int kMoveIntakeToLevel2Idx = 2;
     
@@ -196,7 +196,7 @@ public final class Constants {
     public static final double intakePitcherRotationsToDegrees = 360;
     /* PID coefficients of the intake pitcher controller. */
 
-    public static final double intakePitcher_kP = 0.004;
+    public static final double intakePitcher_kP = 0.006;
     public static final double intakePitcher_kI = 0;
     public static final double intakePitcher_kD = 0.0000525;
 

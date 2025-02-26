@@ -29,8 +29,7 @@ public class IdlePitchIntakeAngleCMD extends Command {
         /* When command starts, stop the intake pitcher */
         intakePitcherMotor.set(0);
         intakePitcherMotor.stopMotor();
-        /*Gets the intake angle set point from the intake subsystem. */
-        setpoint_degrees = intakeSub.getIntakePitchSetpoint_degrees();
+
        
 
         SmartDashboard.putBoolean("isIdleIntakePitcherCommandRunning", true);
@@ -40,11 +39,11 @@ public class IdlePitchIntakeAngleCMD extends Command {
     public void execute() {
         double currentIntakePosition_degrees = intakePitcherMotor.getAbsoluteEncoder().getPosition();
         // Telemetry.
-        SmartDashboard.putData(intakePitchController);
+        SmartDashboard.putData("intakePitcherController",intakePitchController);
         SmartDashboard.putNumber("intakePitchPositionError_degrees", intakePitchController.getError());
         SmartDashboard.putNumber("intakePitchPosition_degrees", currentIntakePosition_degrees);
         // Pitches intake to set point based on intake pitch controller.
-        double output = intakePitchController.calculate(currentIntakePosition_degrees, setpoint_degrees);
+        double output = intakePitchController.calculate(currentIntakePosition_degrees, intakeSub.getIntakePitchSetpoint_degrees());
         SmartDashboard.putNumber("intakePitcherOutput", output);
         intakePitcherMotor.set(output);
     }

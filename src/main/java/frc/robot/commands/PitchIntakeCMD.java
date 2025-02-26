@@ -45,7 +45,7 @@ public class PitchIntakeCMD extends Command {
         SmartDashboard.putData(intakePitchController);
         SmartDashboard.putNumber("intakePitchPositionError_degrees", intakePitchController.getError());
         SmartDashboard.putNumber("intakePitchPosition_degrees", currentIntakePosition_degrees);
-        SmartDashboard.putNumber("IntakeSetpoint_degrees", setpoint_degrees );
+
         // Pitches intake to set point based on intake pitch controller.
         double output = intakePitchController.calculate(currentIntakePosition_degrees, setpoint_degrees);
         SmartDashboard.putNumber("intakePitcherOutput", output);

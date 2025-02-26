@@ -14,6 +14,7 @@ import frc.robot.commands.PitchIntakeCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -33,7 +34,7 @@ public class RobotContainer {
   // new CommandXboxController(OIConstants.kDriverControllerPort);
 
   private final SwerveSub swerveSub = new SwerveSub();
-  private final CoralIntakeSub coralIntakeSub = new CoralIntakeSub();
+  public final CoralIntakeSub coralIntakeSub = new CoralIntakeSub();
   // private final ArmSub armsub = new ArmSub();
   private final LimelightSub limelightSub = new LimelightSub();
   public final ElevatorSub elevatorSub = new ElevatorSub();
@@ -61,6 +62,8 @@ public class RobotContainer {
      */
      elevatorSub.setDefaultCommand(
      new IdleIntakeHeightCMD(elevatorSub));
+
+     
      coralIntakeSub.setDefaultCommand(
       new IdlePitchIntakeAngleCMD(coralIntakeSub)
      );
@@ -73,10 +76,7 @@ public class RobotContainer {
     // new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new
     // MoveArmCMD(armsub));
 
-    new JoystickButton(driverJoyStick, 1).whileTrue(
-    new ElevateIntakeToSetpointCMD(
-    elevatorSub,
-    0));
+
   
 
     /**Command to reset intake elevator motors */
@@ -85,32 +85,24 @@ public class RobotContainer {
     }, elevatorSub);
     SmartDashboard.putData("resetEncodersCommand", resetEncodersCommand);
 
-    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).whileTrue(
-        new ElevateIntakeToSetpointCMD(
-            elevatorSub,
-            10));
 
-    // Command scoreL2Reef = new ParallelCommandGroup(
-    //     new PitchIntakeCMD(coralIntakeSub, 15),
-    //     new ElevateIntakeToSetpointCMD(
-    //         elevatorSub,
-    //         15));
 
-    /*
-     * when consumer intake coral button is pressed, power the intake consumer motor
-     * to intake
-     * the coral.
-     */
-   // new JoystickButton(driverJoyStick, OIConstants.kCoralIntakeIdx).whileTrue(new IntakeCoralCMD(coralIntakeSub));
+    Command scoreL2Reef = new ParallelCommandGroup(
+      new InstantCommand(() -> 
+      {elevatorSub.setIntakeHeightSetPoint_Inches(15);
+      coralIntakeSub.setIntakePitchSetpoint_degrees(30);}));
 
-    // * When pitch intake button is pressed, rotate the intake to the desire
-    // set-point. */
-    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx)
-        .whileTrue(new PitchIntakeCMD(coralIntakeSub, 30
-        ));
-        new JoystickButton(driverJoyStick, 1)
-        .whileTrue(new PitchIntakeCMD(coralIntakeSub, 0
-        ));
+    Command setIntakePositionToDefault = new ParallelCommandGroup(
+      new InstantCommand(() -> 
+      {elevatorSub.setIntakeHeightSetPoint_Inches(0);
+      coralIntakeSub.setIntakePitchSetpoint_degrees(10);}));
+
+    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToDefaultPosIdx).
+    onTrue(setIntakePositionToDefault);
+
+    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).
+    onTrue(scoreL2Reef);
+
   }
 
   public Command getAutonomousCommand() {
