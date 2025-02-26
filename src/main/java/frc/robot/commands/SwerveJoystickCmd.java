@@ -89,11 +89,11 @@ public class SwerveJoystickCmd extends Command {
 
     ;
     ChassisSpeeds chassisSpeeds;
-    //  if(fieldOrientedFunction.get()){ // field orientations
-    //     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-    //       xspeed, -yspeed, -turningSpeed, swerveSubsystem.getRotation2d());
+     if(fieldOrientedFunction.get()){ // field orientations
+        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+          xspeed, -yspeed, -turningSpeed, swerveSubsystem.getRotation2d());
 
-    //   }
+      }
        if(targetOrientedFunction.get()){
          chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
            xspeed, -yspeed, swerveSubsystem.orientToTarget(), swerveSubsystem.getRotation2d());

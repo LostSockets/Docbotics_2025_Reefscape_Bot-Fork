@@ -11,6 +11,7 @@ import frc.robot.commands.IdlePitchIntakeAngleCMD;
 import frc.robot.commands.IntakeCoralCMD;
 import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.PitchIntakeCMD;
+import frc.robot.commands.ResetHeadingCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -49,10 +50,9 @@ public class RobotContainer {
             () -> -driverJoyStick.getRawAxis(OIConstants.kDriverYAxis),
             () -> driverJoyStick.getRawAxis(OIConstants.kDriverXAxis),
             () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
-            () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
-            () -> driverJoyStick.getRawButton(OIConstants.kOrientToTargetIdx))); // by default will work on fields
-                                                                                 // reference frame
-
+             /// By default will be on field oriented.
+            () -> !driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx), 
+            () -> driverJoyStick.getRawButton(OIConstants.kOrientToTargetIdx))); 
     limelightSub.setDefaultCommand(
         new ManageLimeLightCMD(limelightSub));
 
@@ -96,12 +96,19 @@ public class RobotContainer {
       new InstantCommand(() -> 
       {elevatorSub.setIntakeHeightSetPoint_Inches(0);
       coralIntakeSub.setIntakePitchSetpoint_degrees(10);}));
-
+      
+    /**When button pressed moved Intake to default height and angle. */  
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToDefaultPosIdx).
     onTrue(setIntakePositionToDefault);
+    /**When button pressed moved Intake to reef level 2 height and angle. */  
 
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).
     onTrue(scoreL2Reef);
+
+    /**When button pressed reset the gyro. */
+    new JoystickButton(driverJoyStick, OIConstants.kDriveGyroResetButtonIdx).onTrue(
+      new ResetHeadingCMD(swerveSub)
+    );
 
   }
 

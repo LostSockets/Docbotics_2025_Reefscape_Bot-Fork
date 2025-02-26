@@ -105,9 +105,9 @@ public final class Constants {
     public static final int kDriverYAxis = 1;
     public static final int kDriverRotAxis = 4;
 
-        public static final int kDriverFieldOrientedButtonIdx = 1;
+        public static final int kDriverFieldOrientedButtonIdx = 3;
         public static final int kOrientToTargetIdx = 2; //B button 
-        public static final int kDriveGyroResetButtonIdx = 2;
+        public static final int kDriveGyroResetButtonIdx = 9;
       
 
             // **Button that powers coral intake. */
