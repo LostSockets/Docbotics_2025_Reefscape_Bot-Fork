@@ -39,15 +39,15 @@ public final class Constants {
 
   public static final class DriveConstants {
 
-    public static final double kTrackWidth = Units.inchesToMeters(19.75); // changed
-    // Distance between right and left wheels
-    public static final double kWheelBase = Units.inchesToMeters(26.5); // changed
-    // Distance between front and back wheels
-    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+        public static final double kTrackWidth = Units.inchesToMeters(19.75); //changed
+        // Distance between right and left wheels
+        public static final double kWheelBase = Units.inchesToMeters(28.6); //changed 2025 01 25
+        // Distance between front and back wheels
+        public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
+                new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
 
     public static final int kFrontLeftDriveMotorPort = 5;
     public static final int kBackLeftDriveMotorPort = 8;
