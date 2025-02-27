@@ -11,6 +11,8 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,6 +30,9 @@ public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  
+
+
 
 
 
@@ -37,6 +42,8 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void robotInit() {
+    CameraServer.startAutomaticCapture();
+
     // logger code 
 
     Logger.recordMetadata("ProjectName", "6110_SwerveTest_2024_02_20"); // Set a metadata value
