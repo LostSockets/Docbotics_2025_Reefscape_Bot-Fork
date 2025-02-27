@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
+import frc.robot.autoCommands.autoPowerCoralIntakeCMD;
 import frc.robot.commands.ElevateIntakeToSetpointCMD;
 import frc.robot.commands.IdleIntakeHeightCMD;
 import frc.robot.commands.IdlePitchIntakeAngleCMD;
@@ -119,12 +120,10 @@ public class RobotContainer {
       coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(60);}));  
 
       NamedCommands.registerCommand("setIntakePositionToDefault", setIntakePositionToDefault);
-     //FIX ME
-      // NamedCommands.registerCommand("Intake", new powerCoralIntakeCMD(coralIntakeConsumerSub, 0.3).withTimeout(1));
-//FIX ME
-      //NamedCommands.registerCommand("Outake", new powerCoralIntakeCMD(coralIntakeConsumerSub, -0.3).withTimeout(1));
-      /**When button pressed moved Intake to default height and angle. */  
-    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToDefaultPosIdx).
+      NamedCommands.registerCommand("intake", new autoPowerCoralIntakeCMD(coralIntakeConsumerSub, 0.3));
+
+      NamedCommands.registerCommand("outake", new autoPowerCoralIntakeCMD(coralIntakeConsumerSub, -0.3));
+      new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToDefaultPosIdx).
     onTrue(setIntakePositionToDefault);
     /**When button pressed moved Intake to reef level 2 height and angle. */  
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).
