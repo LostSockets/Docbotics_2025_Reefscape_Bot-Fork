@@ -147,6 +147,7 @@ public class SwerveModule {
     public void stop(){
         driveMotor.set(0);
         turningMotor.set(0);
+        turningPidController.setSetpoint(0);
         
     }
     public void sendToDashboard(){
