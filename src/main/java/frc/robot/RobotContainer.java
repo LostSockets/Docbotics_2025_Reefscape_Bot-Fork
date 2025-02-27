@@ -95,8 +95,13 @@ public class RobotContainer {
 
     Command scoreL2Reef = new ParallelCommandGroup(
       new InstantCommand(() -> 
-      {elevatorSub.setIntakeHeightSetPoint_Inches(15);
-      coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(115);}));
+      {elevatorSub.setIntakeHeightSetPoint_Inches(90);
+      coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(51);}));
+
+    Command scoreL3Reef = new ParallelCommandGroup(
+        new InstantCommand(() -> 
+        {elevatorSub.setIntakeHeightSetPoint_Inches(90);
+        coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(101);}));
 
     Command setIntakePositionToDefault = new ParallelCommandGroup(
       new InstantCommand(() -> 
@@ -110,6 +115,9 @@ public class RobotContainer {
 
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).
     onTrue(scoreL2Reef);
+    
+    new JoystickButton(driverJoyStick, 8).
+    onTrue(scoreL3Reef);
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToCoralStationIdx).
     onTrue(consumerCoralAtCoralStation);
 

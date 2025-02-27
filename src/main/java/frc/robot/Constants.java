@@ -185,8 +185,9 @@ public final class Constants {
     /** Elevator setpoints from the ground */
     public static final class elevatorSetpoint {
       
-      public final static double reefLevel2Setpoint_meters = 0;
-      public final static double reefLevel3Setpoint_meters = 0;
+      public final static double reefLevel2Setpoint_inches = 0;
+      public final static double reefLevel3Setpoint_inches = 0;
+      public final static double coralStationSetpoint_inches = 30.8;
     }
 
   }
@@ -205,7 +206,7 @@ public final class Constants {
 
     /** angular set points of the intake pitcher in degrees. */
     public static final class IntakePitchSetPoints_degrees {
-      public static final double L1Pitch_degrees = 0;
+      public static final double coralStation_degrees = 144;
       public static final double L2Pitch_degrees = 0;
       public static final double L3Pitch_degrees = 0;
     }
