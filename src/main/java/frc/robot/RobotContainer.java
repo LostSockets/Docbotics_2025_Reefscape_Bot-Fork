@@ -5,6 +5,8 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
+import frc.robot.autoCommands.autoPowerCoralIntakeCMD;
+import frc.robot.autoCommands.resetSwerveModuleSpeedsCMD;
 import frc.robot.commands.ElevateIntakeToSetpointCMD;
 import frc.robot.commands.IdleIntakeHeightCMD;
 import frc.robot.commands.IdlePitchIntakeAngleCMD;
@@ -36,7 +38,7 @@ public class RobotContainer {
   // private final CommandXboxController m_driverController =
   // new CommandXboxController(OIConstants.kDriverControllerPort);
 
-  private final SwerveSub swerveSub = new SwerveSub();
+  public final SwerveSub swerveSub = new SwerveSub();
   public final CoralPitcherIntakeSub coralPitcherIntakeSub = new CoralPitcherIntakeSub();
   private final CoralIntakeConsumerSub coralIntakeConsumerSub = new CoralIntakeConsumerSub();
   // private final ArmSub armsub = new ArmSub();
@@ -119,12 +121,11 @@ public class RobotContainer {
       coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(60);}));  
 
       NamedCommands.registerCommand("setIntakePositionToDefault", setIntakePositionToDefault);
-     //FIX ME
-      // NamedCommands.registerCommand("Intake", new powerCoralIntakeCMD(coralIntakeConsumerSub, 0.3).withTimeout(1));
-//FIX ME
-      //NamedCommands.registerCommand("Outake", new powerCoralIntakeCMD(coralIntakeConsumerSub, -0.3).withTimeout(1));
-      /**When button pressed moved Intake to default height and angle. */  
-    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToDefaultPosIdx).
+      NamedCommands.registerCommand("intake", new autoPowerCoralIntakeCMD(coralIntakeConsumerSub, 0.3));
+      
+      NamedCommands.registerCommand("intake", new autoPowerCoralIntakeCMD(coralIntakeConsumerSub, 0.3));
+      NamedCommands.registerCommand("resetSwerveModuleSpeedsCMD", new resetSwerveModuleSpeedsCMD(swerveSub));
+      new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToDefaultPosIdx).
     onTrue(setIntakePositionToDefault);
     /**When button pressed moved Intake to reef level 2 height and angle. */  
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).

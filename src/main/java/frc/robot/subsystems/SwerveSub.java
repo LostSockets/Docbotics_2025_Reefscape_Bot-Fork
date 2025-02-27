@@ -256,6 +256,10 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
         return Rotation2d.fromDegrees(getHeading());
     } // converts into Rotation2d
 
+    public void resetSwerveModules(){
+        
+    }
+
 
 
 
