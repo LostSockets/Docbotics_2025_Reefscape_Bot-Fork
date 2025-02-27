@@ -71,7 +71,12 @@ public class RobotContainer {
      coralPitcherIntakeSub.setDefaultCommand(
       new IdlePitchIntakeAngleCMD(coralPitcherIntakeSub)
      );
-
+     
+     coralIntakeConsumerSub.setDefaultCommand(
+      new powerCoralIntakeCMD(
+        coralIntakeConsumerSub, 
+        () -> driverJoyStick.getRawAxis(OIConstants.kIntakeAxis),
+        () -> driverJoyStick.getRawAxis(OIConstants.kOutakeAxis) ));
 
     configureBindings();
   }
@@ -105,7 +110,7 @@ public class RobotContainer {
     Command scoreL3Reef = new ParallelCommandGroup(
         new InstantCommand(() -> 
         {elevatorSub.setIntakeHeightSetPoint_Inches(84);
-        coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(112);})); 
+        coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(118);})); 
         NamedCommands.registerCommand("scoreL3Reef", scoreL3Reef);
 
     Command setIntakePositionToDefault = new ParallelCommandGroup(
@@ -114,9 +119,10 @@ public class RobotContainer {
       coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(60);}));  
 
       NamedCommands.registerCommand("setIntakePositionToDefault", setIntakePositionToDefault);
-      NamedCommands.registerCommand("Intake", new powerCoralIntakeCMD(coralIntakeConsumerSub, 0.3).withTimeout(1));
-
-      NamedCommands.registerCommand("Outake", new powerCoralIntakeCMD(coralIntakeConsumerSub, -0.3).withTimeout(1));
+     //FIX ME
+      // NamedCommands.registerCommand("Intake", new powerCoralIntakeCMD(coralIntakeConsumerSub, 0.3).withTimeout(1));
+//FIX ME
+      //NamedCommands.registerCommand("Outake", new powerCoralIntakeCMD(coralIntakeConsumerSub, -0.3).withTimeout(1));
       /**When button pressed moved Intake to default height and angle. */  
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToDefaultPosIdx).
     onTrue(setIntakePositionToDefault);
@@ -124,7 +130,7 @@ public class RobotContainer {
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).
     onTrue(scoreL2Reef);
     
-    new JoystickButton(driverJoyStick, 8).
+    new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel3Idx).
     onTrue(scoreL3Reef);
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToCoralStationIdx).
     onTrue(consumerCoralAtCoralStation);
@@ -133,11 +139,6 @@ public class RobotContainer {
     new JoystickButton(driverJoyStick, OIConstants.kDriveGyroResetButtonIdx).whileTrue(
       new ResetHeadingCMD(swerveSub)
     );
-      /**When button pressed reset the gyro. */
-    new JoystickButton(driverJoyStick, OIConstants.kOutakeCoralIdx).whileTrue(
-      new powerCoralIntakeCMD(coralIntakeConsumerSub, 0.3));
-      new JoystickButton(driverJoyStick, OIConstants.kIntakeCoralIdx).whileTrue(
-        new powerCoralIntakeCMD(coralIntakeConsumerSub, -0.3));
 
     
     

@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -11,12 +13,18 @@ import frc.robot.subsystems.CoralPitcherIntakeSub;
 public class powerCoralIntakeCMD extends Command {
     private final CoralIntakeConsumerSub intakeConsumerSub;
     private final SparkMax intakeConsumerMotor;
-    private final double power;
+    public final Supplier<Double> intakeConsumerSpeedSupplier;
+    public final Supplier<Double> outakeConsumerSpeedSupplier;
 
-    public powerCoralIntakeCMD(CoralIntakeConsumerSub intakeConsumerSub, double power) {
+
+    public powerCoralIntakeCMD(
+        CoralIntakeConsumerSub intakeConsumerSub, 
+    Supplier<Double> intakeConsumerSpeedSupplier,
+    Supplier<Double> outakeConsumerSpeedSupplier) {
         this.intakeConsumerSub = intakeConsumerSub;
         this.intakeConsumerMotor = intakeConsumerSub.getIntakeConsumerMotor();
-        this.power = power;
+        this.intakeConsumerSpeedSupplier = intakeConsumerSpeedSupplier;
+        this.outakeConsumerSpeedSupplier = outakeConsumerSpeedSupplier;
         addRequirements(intakeConsumerSub);
 
     }
@@ -34,7 +42,9 @@ public class powerCoralIntakeCMD extends Command {
     @Override
     public void execute() {
         /* power intake consumer motor */
-        intakeConsumerMotor.set(power);
+        intakeConsumerMotor.set( 
+            (intakeConsumerSpeedSupplier.get() * 0.3) - 
+        (outakeConsumerSpeedSupplier.get() * 0.3) );
     }
 
     @Override
