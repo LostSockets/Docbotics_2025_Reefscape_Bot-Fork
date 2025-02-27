@@ -87,10 +87,10 @@ public final class Constants {
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond  / 1.5;
-        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 2;
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 5;
-        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 5;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond  / 2;
+        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 3;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 4;
+        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 4;
 
     public static class autoTargetConstants {
       public static final double autoOrientKp = 0.0035;
