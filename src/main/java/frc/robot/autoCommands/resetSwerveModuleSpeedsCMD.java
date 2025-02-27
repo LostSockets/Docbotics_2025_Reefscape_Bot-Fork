@@ -1,5 +1,6 @@
 package frc.robot.autoCommands;
 
+import java.io.Console;
 import java.util.function.Supplier;
 
 import com.revrobotics.spark.SparkMax;
@@ -24,11 +25,18 @@ public class resetSwerveModuleSpeedsCMD extends Command {
 
     }
 
+    @Override
+    public void end(boolean interrupted) 
+    {
+        SmartDashboard.putBoolean("stopModulesCMD", false);
 
+    }
 
     @Override
     public void execute() {
         swerveSub.stopModules();
+        SmartDashboard.putBoolean("stopModulesCMD", true);
+
     }
 
 
