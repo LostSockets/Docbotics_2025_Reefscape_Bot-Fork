@@ -29,6 +29,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotContainer {
@@ -43,8 +45,12 @@ public class RobotContainer {
   private final LimelightSub limelightSub = new LimelightSub();
   public final ElevatorSub elevatorSub = new ElevatorSub();
   private final Joystick driverJoyStick = new Joystick(OIConstants.kDriverControllerPort);
+  private AutoSelector autoSelector = new AutoSelector(this);
 
   public RobotContainer() {
+      ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
+    mainTab.add("autoMode", autoSelector.getAutoChooser()).withSize(2,1)
+    .withPosition(0, 0);
 
     // Configure the trigger bindings
     swerveSub.setDefaultCommand(
@@ -144,7 +150,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 
-    return new PathPlannerAuto("auto_MoveForward");
+    return autoSelector.getAutoChooser().getSelected();
 
   }
 }
