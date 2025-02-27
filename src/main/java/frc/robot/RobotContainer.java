@@ -79,8 +79,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     //new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new MoveArmCMD(armsub));
-    new JoystickButton(driverJoyStick, OIConstants.kClimbIdx ).whileTrue(new ClimbCMD(climbSub));
-
+    new JoystickButton(driverJoyStick, OIConstants.kClimbBargeIdx ).whileTrue(new ClimbCMD(climbSub, 0));
+    new JoystickButton(driverJoyStick, OIConstants.kOpenClimberIdx ).whileTrue(new ClimbCMD(climbSub, 30));
     
   }
 

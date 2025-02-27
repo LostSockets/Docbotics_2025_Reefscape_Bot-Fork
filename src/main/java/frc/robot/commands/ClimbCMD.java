@@ -13,10 +13,12 @@ public class ClimbCMD extends Command{
     public final ClimbSub climbSub; 
     public final SparkMax climbMotor;
     public final PIDController climbController;
+    private double setpoint_degrees;
 
 
     
-    public ClimbCMD(ClimbSub climbSub){
+    public ClimbCMD(ClimbSub climbSub, double setpoint_degrees){
+        this.setpoint_degrees = setpoint_degrees;
         this.climbSub = climbSub;
         this.climbMotor = climbSub.getPrimaryClimbMotor();
         climbController = climbSub.getClimbController();
@@ -43,7 +45,7 @@ public class ClimbCMD extends Command{
         SmartDashboard.putNumber("climbPostionError_degrees",climbController.getError());
         SmartDashboard.putNumber("climbPostion_degrees",climbSub.getGetClimbEncoderPosition_degrees());
         //drive climb Motor to setpoint based on arm controller
-        double output = climbController.calculate(climbSub.getGetClimbEncoderPosition_degrees(), 169);
+        double output = climbController.calculate(climbSub.getGetClimbEncoderPosition_degrees(), setpoint_degrees);
         climbMotor.set(output);       
     }
     @Override

@@ -111,8 +111,8 @@ public final class Constants {
       
 
         public static final int kMoveArmIdx  = 1; // A button
-        public static final int kClimbIdx  = 1; // A button
-
+        public static final int kClimbBargeIdx  = 1; // A button
+        public static final int kOpenClimberIdx  = 1; // A button
 
         public static final double kDeadband = 0.5;
 
