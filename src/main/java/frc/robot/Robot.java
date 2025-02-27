@@ -74,7 +74,11 @@ public class Robot extends LoggedRobot {
   public void robotPeriodic() {
     SmartDashboard.putNumber("elevatorPosition_Inches", m_robotContainer.
     elevatorSub.getPrimaryElevatorPosition());
+    SmartDashboard.putNumber("elevatorAppliedVoltage", m_robotContainer.
+    elevatorSub.getPrimaryLeftElevatorMotor().getAppliedOutput());
     SmartDashboard.putNumber("intakePitchPosition_degrees", m_robotContainer.coralPitcherIntakeSub.getIntakePitcherMotor().getAbsoluteEncoder().getPosition());
+
+    SmartDashboard.putNumber("intakePitchAppliedVoltage", m_robotContainer.coralPitcherIntakeSub.getIntakePitcherMotor().getAppliedOutput());
     SmartDashboard.putNumber("IntakeSetpoint_degrees", m_robotContainer.coralPitcherIntakeSub.getIntakePitchSetpoint_degrees()
    );
    SmartDashboard.putNumber("intakeHeightSetPoint", m_robotContainer.

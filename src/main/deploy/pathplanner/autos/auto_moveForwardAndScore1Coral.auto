@@ -9,24 +9,6 @@
           "data": {
             "pathName": "MoveToReef"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "consumeCoralAtCoralStation"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
-          }
         }
       ]
     }
