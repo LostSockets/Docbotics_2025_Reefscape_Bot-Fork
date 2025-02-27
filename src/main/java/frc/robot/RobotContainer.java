@@ -144,7 +144,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 
-    return new PathPlannerAuto("auto_MoveForward");
+    return new PathPlannerAuto("auto_moveForwardAndScore1Coral");
 
   }
 }
