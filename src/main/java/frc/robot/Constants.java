@@ -200,7 +200,7 @@ public final class Constants {
     public static final double intakePitcherRotationsToDegrees = 360;
     /* PID coefficients of the intake pitcher controller. */
 
-    public static final double intakePitcher_kP = 0.006;
+    public static final double intakePitcher_kP = 0.008;
     public static final double intakePitcher_kI = 0;
     public static final double intakePitcher_kD = 0.0000525;
 

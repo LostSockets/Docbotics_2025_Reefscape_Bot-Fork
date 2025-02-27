@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "hello"
+            "pathName": "moveForward1ft"
           }
         }
       ]

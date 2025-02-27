@@ -25,6 +25,7 @@ import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.SwerveSub;
 import frc.robot.subsystems.LimelightSub;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -92,27 +93,33 @@ public class RobotContainer {
       new InstantCommand(() -> 
       {elevatorSub.setIntakeHeightSetPoint_Inches(30.8);
       coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(144);}));
+      NamedCommands.registerCommand("consumeCoralAtCoralStation", consumerCoralAtCoralStation);
 
     Command scoreL2Reef = new ParallelCommandGroup(
       new InstantCommand(() -> 
-      {elevatorSub.setIntakeHeightSetPoint_Inches(90);
-      coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(51);}));
+      {elevatorSub.setIntakeHeightSetPoint_Inches(43);
+      coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(91);}));
+      NamedCommands.registerCommand("scoreL2Reef", scoreL2Reef);
 
     Command scoreL3Reef = new ParallelCommandGroup(
         new InstantCommand(() -> 
-        {elevatorSub.setIntakeHeightSetPoint_Inches(90);
-        coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(101);}));
+        {elevatorSub.setIntakeHeightSetPoint_Inches(84);
+        coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(112);}));
+        NamedCommands.registerCommand("scoreL3Reef", scoreL3Reef);
 
     Command setIntakePositionToDefault = new ParallelCommandGroup(
       new InstantCommand(() -> 
       {elevatorSub.setIntakeHeightSetPoint_Inches(0);
-      coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(10);}));
-      
-    /**When button pressed moved Intake to default height and angle. */  
+      coralPitcherIntakeSub.setIntakePitchSetpoint_degrees(60);}));
+
+      NamedCommands.registerCommand("setIntakePositionToDefault", setIntakePositionToDefault);
+      NamedCommands.registerCommand("Intake", new powerCoralIntakeCMD(coralIntakeConsumerSub, 0.3).withTimeout(1));
+
+      NamedCommands.registerCommand("Outake", new powerCoralIntakeCMD(coralIntakeConsumerSub, -0.3).withTimeout(1));
+      /**When button pressed moved Intake to default height and angle. */  
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToDefaultPosIdx).
     onTrue(setIntakePositionToDefault);
     /**When button pressed moved Intake to reef level 2 height and angle. */  
-
     new JoystickButton(driverJoyStick, OIConstants.kMoveIntakeToLevel2Idx).
     onTrue(scoreL2Reef);
     
@@ -137,7 +144,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 
-    return new PathPlannerAuto("Auto_driveForwardAndMoveArm");
+    return new PathPlannerAuto("auto_MoveForward");
 
   }
 }

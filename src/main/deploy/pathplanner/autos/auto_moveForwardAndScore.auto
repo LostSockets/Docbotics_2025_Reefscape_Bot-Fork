@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "hello"
+            "pathName": "moveForward1ft"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "moveArmCMD"
+            "name": "consumeCoralAtCoralStation"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
           }
         }
       ]
