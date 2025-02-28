@@ -5,9 +5,15 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "resetSwerveModuleSpeedsCMD"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "moveForwardAlot"
+            "pathName": "MoveToReef"
           }
         },
         {
@@ -20,6 +26,18 @@
           "type": "named",
           "data": {
             "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of MoveToReef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "resetSwerveModuleSpeedsCMD"
           }
         }
       ]
