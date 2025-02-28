@@ -132,6 +132,7 @@ public final class Constants {
     public static final int kMoveIntakeToLevel3Idx = 6;
 
     public static final int kMoveIntakeToCoralStationIdx = 5;
+    public static final int kSlowModeIdx = 4;
 
 
     public static final double kDeadband = 0.5;

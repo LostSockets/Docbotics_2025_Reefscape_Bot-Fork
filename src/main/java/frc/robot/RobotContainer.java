@@ -55,6 +55,7 @@ public class RobotContainer {
             () -> -driverJoyStick.getRawAxis(OIConstants.kDriverYAxis),
             () -> driverJoyStick.getRawAxis(OIConstants.kDriverXAxis),
             () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
+            () -> driverJoyStick.getRawButtonPressed(OIConstants.kSlowModeIdx),
              /// By default will be on field oriented.
             () -> !
             driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx), 
