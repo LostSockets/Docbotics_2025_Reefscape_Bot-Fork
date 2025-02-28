@@ -26,11 +26,11 @@ public class SwerveJoystickCmd extends Command {
       public final Supplier<Double> xSpdFunction;
       public final Supplier<Double> ySpdFunction;
       public final Supplier<Double> turningSpdFunction;
-      public final Supplier<Boolean> fieldOrientedFunction;
+      public final Supplier<Boolean> robotOrientedFunction;
       public final Supplier<Boolean> targetOrientedFunction;
       private final SlewRateLimiter xLimiter, yLimiter, turningLimiter; // slew rate limiter cap the the amount of change of a value
 
-      
+      public boolean isRobotOriented;      
       public static double CurrentXSpeed;
       public static double CurrentYSpeed;
       public static double CurrentTurningSpeed;
@@ -48,7 +48,7 @@ public class SwerveJoystickCmd extends Command {
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
-        this.fieldOrientedFunction = fieldOrientedFunction;
+        this.robotOrientedFunction = fieldOrientedFunction;
         this.targetOrientedFunction = targetOrientedFunction;
 
 
@@ -85,21 +85,27 @@ public class SwerveJoystickCmd extends Command {
     turningSpeed = turningLimiter.calculate(turningSpeed) *
      DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
-    //select orintatin of robot
+    //select orientation of robot
+    isRobotOriented = robotOrientedFunction.get();
 
-    ;
     ChassisSpeeds chassisSpeeds;
- 
+    if(isRobotOriented)
+    {
         chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
           xspeed, -yspeed, -turningSpeed, swerveSubsystem.getRotation2d());
-
+    }
+    else
+    {
+      chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(
+        xspeed, -yspeed, -turningSpeed, swerveSubsystem.getRotation2d());
+    }
 
     SmartDashboard.putBoolean("targetOn", targetOrientedFunction.get());
     
     CurrentXSpeed = xspeed;
     CurrentYSpeed = yspeed;
     CurrentTurningSpeed = turningSpeed;
-    CurrentOrientation = fieldOrientedFunction.get();
+    CurrentOrientation = robotOrientedFunction.get();
 
 
 

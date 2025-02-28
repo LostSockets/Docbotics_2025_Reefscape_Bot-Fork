@@ -56,8 +56,7 @@ public class RobotContainer {
             () -> driverJoyStick.getRawAxis(OIConstants.kDriverXAxis),
             () -> driverJoyStick.getRawAxis(OIConstants.kDriverRotAxis),
              /// By default will be on field oriented.
-            () -> !
-            driverJoyStick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx), 
+            () -> driverJoyStick.getRawButtonPressed(OIConstants.kDriverRobotOrientedButtonIdx), 
             () -> driverJoyStick.getRawButton(OIConstants.kOrientToTargetIdx))); 
     limelightSub.setDefaultCommand(
         new ManageLimeLightCMD(limelightSub));

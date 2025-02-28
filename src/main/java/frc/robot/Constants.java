@@ -107,7 +107,7 @@ public final class Constants {
     public static final int kIntakeAxis = 3;
     public static final int kOutakeAxis = 2;
 
-        public static final int kDriverFieldOrientedButtonIdx = 3;
+        public static final int kDriverRobotOrientedButtonIdx = 8;
         public static final int kOrientToTargetIdx = 2; //B button 
         public static final int kDriveGyroResetButtonIdx = 7;
       
