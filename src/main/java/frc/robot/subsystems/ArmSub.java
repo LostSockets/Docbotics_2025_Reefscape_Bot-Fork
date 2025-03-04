@@ -17,35 +17,35 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 
 public class ArmSub extends SubsystemBase{
-    private SparkMax armMotor = new SparkMax(ArmConstants.kArmMotorPort, MotorType.kBrushless);
-    private PIDController armController= new PIDController(
-        ArmConstants.kP,
-        ArmConstants.kI,
-        ArmConstants.kD);
-
-    
-    public ArmSub(){
-
-        
-    }
-
-
-
-
-    public SparkMax getMotor(){
-        return armMotor;
-    }
-
-    public double getGetArmEncoderPosition_degrees(){
-        return armMotor.getAbsoluteEncoder().getPosition();
-    }
-
-    public PIDController getArmController(){
-        return armController;
-    }
-    public void setArmMotorPower(double power){
-        armMotor.set(power);
-    }
+    //private SparkMax armMotor = new SparkMax(ArmConstants.kArmMotorPort, MotorType.kBrushless);
+    //private PIDController armController= new PIDController(
+    //    ArmConstants.kP,
+    //    ArmConstants.kI,
+    //    ArmConstants.kD);
+//
+    //
+    //public ArmSub(){
+//
+    //    
+    //}
+//
+//
+//
+//
+    //public SparkMax getMotor(){
+    //    return armMotor;
+    //}
+//
+    //public double getGetArmEncoderPosition_degrees(){
+    //    return armMotor.getAbsoluteEncoder().getPosition();
+    //}
+//
+    //public PIDController getArmController(){
+    //    return armController;
+    //}
+    //public void setArmMotorPower(double power){
+    //    armMotor.set(power);
+    //}
 
 
 
