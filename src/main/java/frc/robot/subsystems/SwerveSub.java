@@ -96,7 +96,7 @@ public class SwerveSub extends SubsystemBase {
 
     private RobotConfig config;
     
-    private final AHRS gyro = new AHRS(AHRS.NavXComType.kUSB1);
+    private final AHRS gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
     
     //new AHRS(SerialPort.Port.kUSB1);
 

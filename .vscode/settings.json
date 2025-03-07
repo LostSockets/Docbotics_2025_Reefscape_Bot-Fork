@@ -58,3 +58,6 @@
     "edu.wpi.first.math.**.struct.*",
   ]
 }
+{
+  "typescript.disableAutomaticTypeAcquisition": true
+}
