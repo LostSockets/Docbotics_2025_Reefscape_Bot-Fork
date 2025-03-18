@@ -84,11 +84,11 @@ public final class Constants {
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
-// Caden corpuz is a silly guy teehee
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;  // original: /3
-        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 2;  // original: /4
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;  // original: 3
-        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;  // original: 3
+
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond; // was divided by 3;
+        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond; // was divided by 4;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
+        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
         public static class autoTargetConstants{
           public static final double autoOrientKp = 0.0035;
@@ -105,7 +105,7 @@ public final class Constants {
         public static final int kDriverRotAxis = 4;
   
 
-        public static final int kDriverFieldOrientedButtonIdx = 1;
+        public static final int kDriverFieldOrientedButtonIdx = 1; //A button
         public static final int kOrientToTargetIdx = 2; //B button 
         public static final int kDriveGyroResetButtonIdx = 2;
       
