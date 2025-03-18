@@ -10,6 +10,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.MoveArmCMD;
+import frc.robot.commands.ResetHeadingCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 
 
@@ -26,35 +27,53 @@ import frc.robot.subsystems.ArmSub;
 import frc.robot.subsystems.SwerveSub;
 import frc.robot.subsystems.LimelightSub;
 
+import java.util.stream.Stream;
+
 import com.fasterxml.jackson.core.io.IOContext;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
 public class RobotContainer {
 
+  private final SendableChooser<Command> autoChooser;
+
   // private final CommandXboxController m_driverController =
   //     new CommandXboxController(OIConstants.kDriverControllerPort);
 
 
   private final SwerveSub swerveSub =  new SwerveSub();
- // private final ArmSub armsub = new ArmSub();
+  private final ArmSub armSub = new ArmSub();
   private final LimelightSub limelightSub = new LimelightSub();
   private final Joystick driverJoyStick = new Joystick(OIConstants.kDriverControllerPort);
 
 
 
 
+  public RobotContainer() {   
+
+    boolean isComp = false; // Change for competitions
+    
 
 
-  public RobotContainer() {
-    
-    
+    //Auto chooser
+    autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
+      // This will use Commands.none() as default
+      // This will only show autos that start with "comp" while at
+      // competition as defined by the programmer.
+      (stream) -> isComp 
+        ? stream.filter(auto -> auto.getName().startsWith("comp"))
+        : stream
+    );
+    //Dashboard key to select desired auto
+    SmartDashboard.putData("Auto Chooser",autoChooser);
 
     // Configure the trigger bindings
     swerveSub.setDefaultCommand(
@@ -68,6 +87,13 @@ public class RobotContainer {
         )
       ); // by defualt will work on fields reference frame
       
+
+    //Register ALL named commands here!
+    NamedCommands.registerCommand("MoveArmCMD", new MoveArmCMD(armSub));
+    NamedCommands.registerCommand("ResetHeadingCMD", new ResetHeadingCMD(swerveSub));
+    NamedCommands.registerCommand("ManageLimeLightCMD", new ManageLimeLightCMD(limelightSub));
+
+
     limelightSub.setDefaultCommand(
       new ManageLimeLightCMD(limelightSub)
     );
@@ -87,7 +113,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
 
-    return new PathPlannerAuto("Auto_driveForwardAndMoveArm");
+    return autoChooser.getSelected(); 
+    //return new PathPlannerAuto("Auto_driveForwardAndMoveArm");
 
 
   }
