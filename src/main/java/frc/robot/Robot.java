@@ -11,6 +11,8 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import com.pathplanner.lib.commands.FollowPathCommand;
+
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -59,6 +61,9 @@ public class Robot extends LoggedRobot {
 
 
     m_robotContainer = new RobotContainer();
+
+    //pathplanner warmup to alleviate delay in auto.
+    FollowPathCommand.warmupCommand().schedule();
 
 
   }
