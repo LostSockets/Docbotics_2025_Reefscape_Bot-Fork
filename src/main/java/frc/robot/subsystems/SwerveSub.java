@@ -249,7 +249,7 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
     }
 
     public double getHeading(){
-        return Math.IEEEremainder(-gyro.getAngle(), 360); //puts the value between 0 and 360 because gryo is naturally continous
+        return Math.IEEEremainder((-gyro.getAngle() * Constants.GyroConstants.gyroOffsetScaleFactor), 360); //puts the value between 0 and 360 because gyro is naturally continous, added gyro scaling factor to account for yaw error
     }
 
     public Rotation2d getRotation2d(){
