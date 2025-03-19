@@ -153,4 +153,9 @@ public final class Constants {
     public static final int kIndexerPWMPort = 2;
     
   }
+
+  public static class GyroConstants {
+    public static final double gyroOffset = -13.0 ;
+    
+  }
 }
