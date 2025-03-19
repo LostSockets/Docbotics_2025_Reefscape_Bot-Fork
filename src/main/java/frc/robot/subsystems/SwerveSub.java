@@ -253,7 +253,7 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
     }
 
     public Rotation2d getRotation2d(){
-        return Rotation2d.fromDegrees(getHeading());
+        return Rotation2d.fromDegrees(getHeading() * Constants.GyroConstants.gyroOffsetScaleFactor);  // added scale factor to gyro reading
     } // converts into Rotation2d
 
 

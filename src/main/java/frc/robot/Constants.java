@@ -155,7 +155,7 @@ public final class Constants {
   }
 
   public static class GyroConstants {
-    public static final double gyroOffset = -13.0 ;
+    public static final double gyroOffsetScaleFactor = 0.96389 ;  // 1.0361 if going the other way
     
   }
 }
