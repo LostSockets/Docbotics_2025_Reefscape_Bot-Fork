@@ -5,13 +5,15 @@
 package frc.robot;
 
 
-import frc.robot.Constants.ArmConstants;
+//import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.OperatorOIConstants;
 import frc.robot.commands.ManageLimeLightCMD;
-import frc.robot.commands.MoveArmCMD;
+//import frc.robot.commands.MoveArmCMD;
 import frc.robot.commands.ResetHeadingCMD;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.commands.MoveAlgaeCMD;
 
 
 
@@ -22,7 +24,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.ArmSub;
+import frc.robot.subsystems.AlgaeSub;
+//import frc.robot.subsystems.ArmSub;
 
 import frc.robot.subsystems.SwerveSub;
 import frc.robot.subsystems.LimelightSub;
@@ -50,9 +53,13 @@ public class RobotContainer {
 
 
   private final SwerveSub swerveSub =  new SwerveSub();
-  private final ArmSub armSub = new ArmSub();
+  //private final ArmSub armSub = new ArmSub();
   private final LimelightSub limelightSub = new LimelightSub();
+  private final AlgaeSub algaeSub = new AlgaeSub();
   private final Joystick driverJoyStick = new Joystick(OIConstants.kDriverControllerPort);
+  private final Joystick operatorJoyStick = new Joystick(OperatorOIConstants.kOperatorControllerPort);
+  //private final JoystickButton operatorButton = new JoystickButton(operatorJoyStick, OperatorOIConstants.kOperatorControllerPort); //oops
+  //private final JoystickButton operatorButtonY = new JoystickButton(OIConstants,)
 
 
 
@@ -89,9 +96,10 @@ public class RobotContainer {
       
 
     //Register ALL named commands here!
-    NamedCommands.registerCommand("MoveArmCMD", new MoveArmCMD(armSub));
+    //NamedCommands.registerCommand("MoveArmCMD", new MoveArmCMD(armSub));
     NamedCommands.registerCommand("ResetHeadingCMD", new ResetHeadingCMD(swerveSub));
     NamedCommands.registerCommand("ManageLimeLightCMD", new ManageLimeLightCMD(limelightSub));
+    NamedCommands.registerCommand("MoveAlgaeScoop", new MoveAlgaeCMD(algaeSub));
 
 
     limelightSub.setDefaultCommand(
@@ -104,7 +112,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     //new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new MoveArmCMD(armsub));
-
+    new JoystickButton(operatorJoyStick, OperatorOIConstants.kMoveScoopUpIdx).whileTrue(new MoveAlgaeCMD(algaeSub));
+    new JoystickButton(operatorJoyStick, OperatorOIConstants.kMoveScoopDownIdx).whileTrue(new MoveAlgaeCMD(algaeSub));
 
     
   }

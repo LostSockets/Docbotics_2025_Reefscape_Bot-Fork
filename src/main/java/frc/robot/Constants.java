@@ -112,20 +112,42 @@ public final class Constants {
 
         public static final int kMoveArmIdx  = 1; // A button
 
-
-
         public static final double kDeadband = 0.5;
-
-
     }
+
+    public static final class OperatorOIConstants {
+      public static final int kOperatorControllerPort = 1;
+
+      //public static final int kOperatorXAxis = 0;
+      //public static final int kOperatorYAxis = 1;
+      //public static final int kOperatorRotAxis = 4;
+
+
+      //public static final int kOperatorFieldOrientedButtonIdx = 1; //A button
+      //public static final int kOrientToTargetIdx = 2; //B button 
+      //public static final int kDriveGyroResetButtonIdx = 2;
+    
+      public static final int kMoveScoopUpIdx = 4; // A button
+      public static final int kMoveScoopDownIdx = 3;
+
+      public static final double kDeadband = 0.5;
+  }
         
-    public static final class ArmConstants {
-      public static final int kArmMotorPort = 13;
-      public static final double kP = 0.00175;
+    //public static final class ArmConstants {
+    //  public static final int kArmMotorPort = 13;
+    //  public static final double kP = 0.00175;
+    //  public static final double kI = 0;
+    //  public static final double kD = 0.0000525;
+    //  
+    //} 
+
+    public static final class AlgaeConstants { //Hudson's fun little coding adventure
+      public static final int leftMotorPort = 25;
+      public static final int rightMotorPort = 26;
+      public static final double kP = 0;
       public static final double kI = 0;
-      public static final double kD = 0.0000525;
-      
-    } 
+      public static final double kD = 0;
+    }
 
 
     public static final class AutoConstants {
