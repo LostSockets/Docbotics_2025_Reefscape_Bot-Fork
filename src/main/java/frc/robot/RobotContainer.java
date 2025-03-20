@@ -8,6 +8,7 @@ package frc.robot;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ClimberJoyCmd;
 import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.MoveArmCMD;
 import frc.robot.commands.ResetHeadingCMD;
@@ -26,6 +27,7 @@ import frc.robot.subsystems.ArmSub;
 
 import frc.robot.subsystems.SwerveSub;
 import frc.robot.subsystems.LimelightSub;
+import frc.robot.subsystems.ClimberSubsystem;
 
 import java.util.stream.Stream;
 
@@ -52,7 +54,10 @@ public class RobotContainer {
   private final SwerveSub swerveSub =  new SwerveSub();
   private final ArmSub armSub = new ArmSub();
   private final LimelightSub limelightSub = new LimelightSub();
+  private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+
   private final Joystick driverJoyStick = new Joystick(OIConstants.kDriverControllerPort);
+  private final Joystick joyOperator = new Joystick(Constants.OIConstants.kOperatorJoystickPort);
 
 
 
@@ -97,6 +102,8 @@ public class RobotContainer {
     limelightSub.setDefaultCommand(
       new ManageLimeLightCMD(limelightSub)
     );
+
+    climberSubsystem.setDefaultCommand(new ClimberJoyCmd(climberSubsystem, () -> -joyOperator.getRawAxis(Constants.OIConstants.kClimberAxis)));
 
     configureBindings();
   }

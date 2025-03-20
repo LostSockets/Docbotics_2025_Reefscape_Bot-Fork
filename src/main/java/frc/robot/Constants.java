@@ -99,6 +99,7 @@ public final class Constants {
     
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
+        public static final int kOperatorJoystickPort = 1;
 
         public static final int kDriverXAxis = 0;
         public static final int kDriverYAxis = 1;
@@ -111,7 +112,7 @@ public final class Constants {
       
 
         public static final int kMoveArmIdx  = 1; // A button
-
+        public static final int kClimberAxis = 5;
 
 
         public static final double kDeadband = 0.5;
@@ -152,6 +153,21 @@ public final class Constants {
   public static class IndexerConstants {
     public static final int kIndexerPWMPort = 2;
     
+  }
+
+  public static class ClimberConstants {
+    public static final int kClimberMotorPort1 = 26;
+    public static final int kClimberMotorPort2 = 25;
+    public static final Double kClimberSpeedPercentage = 0.5;
+    public static final double kmaxClimberEncoderHeight = 60.0;
+    public static final double kminClimberEncoderHeight = 5.0;
+
+    public static final int kClimberAxis = 5;
+    public static final int kClimberPIDPos0Button = 1;
+    public static final int kClimberPIDPos1Button = 2;
+    public static final int kClimberPIDPos2Button = 3;
+    public static final int kClimberPIDPos3Button = 4;
+
   }
 
   public static class GyroConstants {
