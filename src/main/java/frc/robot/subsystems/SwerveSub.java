@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.cameraserver.CameraServer;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -105,7 +106,7 @@ public class SwerveSub extends SubsystemBase {
 
     public SwerveSub(){
 
-
+    CameraServer.startAutomaticCapture().setResolution(320, 400);
 
  new Thread(() -> {  /// try catch function is a fancy if else statement
         try{              // it tries to run a thread of resseting the gryo but if it exception e happens it stops 
