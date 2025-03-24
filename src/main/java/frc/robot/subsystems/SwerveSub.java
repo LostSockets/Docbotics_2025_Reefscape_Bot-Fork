@@ -31,8 +31,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 
-
-
+import edu.wpi.first.cameraserver.CameraServer;
 
 
 
@@ -90,6 +89,7 @@ public class SwerveSub extends SubsystemBase {
     private double limeLightTX = 0;
 
 
+
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, 
     new Rotation2d(0), getModulePositionsAuto() );
 
@@ -105,7 +105,7 @@ public class SwerveSub extends SubsystemBase {
 
     public SwerveSub(){
 
-
+        CameraServer.startAutomaticCapture();
 
  new Thread(() -> {  /// try catch function is a fancy if else statement
         try{              // it tries to run a thread of resseting the gryo but if it exception e happens it stops 
