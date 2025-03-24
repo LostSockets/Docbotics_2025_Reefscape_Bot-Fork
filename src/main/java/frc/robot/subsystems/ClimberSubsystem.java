@@ -20,19 +20,20 @@ public class ClimberSubsystem extends SubsystemBase {
 
     private final SparkMax climberMotor1 = new SparkMax(Constants.ClimberConstants.kClimberMotorPort1, MotorType.kBrushed);
     private final SparkMax climberMotor2 = new SparkMax(Constants.ClimberConstants.kClimberMotorPort2, MotorType.kBrushed);
-    private final RelativeEncoder elevatorEncoder = climberMotor1.getEncoder();
+    //private final RelativeEncoder elevatorEncoder = climberMotor1.getEncoder();
 
-
+    /*
     public double getEncoderMeters() {
         return (((RelativeEncoder) elevatorEncoder).getPosition());
       }
+    */
 
     public ClimberSubsystem () {
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("ClimberEncoder Value",  getEncoderMeters());
+       // SmartDashboard.putNumber("ClimberEncoder Value",  getEncoderMeters());
 
     }
 

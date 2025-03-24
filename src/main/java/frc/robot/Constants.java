@@ -108,10 +108,10 @@ public final class Constants {
 
         public static final int kDriverFieldOrientedButtonIdx = 1; //A button
         public static final int kOrientToTargetIdx = 2; //B button 
-        public static final int kDriveGyroResetButtonIdx = 2;
+        // public static final int kDriveGyroResetButtonIdx = 2;
       
 
-        public static final int kMoveArmIdx  = 1; // A button
+        // public static final int kMoveArmIdx  = 1; // A button
         public static final int kClimberAxis = 5;
 
 
@@ -143,31 +143,36 @@ public final class Constants {
               new TrapezoidProfile.Constraints(
                       kMaxAngularSpeedRadiansPerSecond,
                       kMaxAngularAccelerationRadiansPerSecondSquared);
-      public static final class autoCommands{
+ 
+                      public static final class autoCommands{
         public static final String moveArmCMD ="moveArmCMD";
       }
 
   }
 
-
+/*
   public static class IndexerConstants {
     public static final int kIndexerPWMPort = 2;
     
   }
+*/
 
   public static class ClimberConstants {
     public static final int kClimberMotorPort1 = 26;
     public static final int kClimberMotorPort2 = 25;
     public static final Double kClimberSpeedPercentage = 0.5;
-    public static final double kmaxClimberEncoderHeight = 60.0;
-    public static final double kminClimberEncoderHeight = 5.0;
+//    public static final double kmaxClimberEncoderHeight = 60.0;
+//    public static final double kminClimberEncoderHeight = 5.0;
 
-    public static final int kClimberAxis = 5;
-    public static final int kClimberPIDPos0Button = 1;
+    public static final int kClimberAxis = 1;
+    public static final int CLIMBER_DOWN = 4;
+    public static final int CLIMBER_UP = 3;
+    public static final double CLIMBER_SPEED = 0.5;
+/*    public static final int kClimberPIDPos0Button = 1;
     public static final int kClimberPIDPos1Button = 2;
     public static final int kClimberPIDPos2Button = 3;
     public static final int kClimberPIDPos3Button = 4;
-
+*/
   }
 
   public static class GyroConstants {

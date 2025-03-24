@@ -7,7 +7,9 @@ package frc.robot;
 
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ClimberCmd;
 import frc.robot.commands.ClimberJoyCmd;
 import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.MoveArmCMD;
@@ -111,6 +113,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     //new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new MoveArmCMD(armsub));
+    new JoystickButton(joyOperator, ClimberConstants.CLIMBER_UP).whileTrue(new ClimberCmd(climberSubsystem, -ClimberConstants.CLIMBER_SPEED)); // climber up
+    new JoystickButton(joyOperator, ClimberConstants.CLIMBER_DOWN).whileTrue(new ClimberCmd(climberSubsystem, ClimberConstants.CLIMBER_SPEED)); // climber down
 
 
     
