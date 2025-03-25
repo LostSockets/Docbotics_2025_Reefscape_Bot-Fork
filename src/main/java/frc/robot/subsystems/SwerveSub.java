@@ -32,8 +32,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 
-
-
+import edu.wpi.first.cameraserver.CameraServer;
 
 
 
@@ -91,6 +90,7 @@ public class SwerveSub extends SubsystemBase {
     private double limeLightTX = 0;
 
 
+
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, 
     new Rotation2d(0), getModulePositionsAuto() );
 
@@ -106,7 +106,8 @@ public class SwerveSub extends SubsystemBase {
 
     public SwerveSub(){
 
-    CameraServer.startAutomaticCapture().setResolution(320, 400);
+    CameraServer.startAutomaticCapture().setResolution(320,400);
+
 
  new Thread(() -> {  /// try catch function is a fancy if else statement
         try{              // it tries to run a thread of resseting the gryo but if it exception e happens it stops 
@@ -250,11 +251,11 @@ public SwerveModulePosition[] getModulePositionsAuto() { // not updating
     }
 
     public double getHeading(){
-        return Math.IEEEremainder(-gyro.getAngle(), 360); //puts the value between 0 and 360 because gryo is naturally continous
+        return Math.IEEEremainder((-gyro.getAngle() * Constants.GyroConstants.gyroOffsetScaleFactor), 360); //puts the value between 0 and 360 because gyro is naturally continous, added gyro scaling factor to account for yaw error
     }
 
     public Rotation2d getRotation2d(){
-        return Rotation2d.fromDegrees(getHeading());
+        return Rotation2d.fromDegrees(getHeading());  
     } // converts into Rotation2d
 
 

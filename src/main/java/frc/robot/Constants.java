@@ -77,21 +77,21 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.20166 * 2 * Math.PI ;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0.35376 * 2 * Math.PI;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.747803 * 2 * Math.PI;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.812012 * 2 * Math.PI ;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.206543 * 2 * Math.PI ;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0.373169 * 2 * Math.PI;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.743164 * 2 * Math.PI;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.809814 * 2 * Math.PI ;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
-// Caden corpuz is a silly guy teehee
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 3;
-        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
+
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond; // was divided by 3;
+        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond; // was divided by 4;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
         public static class autoTargetConstants{
-          public static final double autoOrientKp = 0.0035;
+        public static final double autoOrientKp = 0.0035;
           
 
         }
@@ -99,33 +99,22 @@ public final class Constants {
     
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
+        public static final int kOperatorJoystickPort = 1;
 
         public static final int kDriverXAxis = 0;
         public static final int kDriverYAxis = 1;
         public static final int kDriverRotAxis = 4;
   
 
-        public static final int kDriverFieldOrientedButtonIdx = 1;
+        public static final int kDriverFieldOrientedButtonIdx = 1; //A button
         public static final int kOrientToTargetIdx = 2; //B button 
         public static final int kDriveGyroResetButtonIdx = 2;
-      
-
-        public static final int kMoveArmIdx  = 1; // A button
-
-
+    
 
         public static final double kDeadband = 0.5;
 
 
     }
-        
-    public static final class ArmConstants {
-      public static final int kArmMotorPort = 13;
-      public static final double kP = 0.00175;
-      public static final double kI = 0;
-      public static final double kD = 0.0000525;
-      
-    } 
 
 
     public static final class AutoConstants {
@@ -142,15 +131,26 @@ public final class Constants {
               new TrapezoidProfile.Constraints(
                       kMaxAngularSpeedRadiansPerSecond,
                       kMaxAngularAccelerationRadiansPerSecondSquared);
-      public static final class autoCommands{
+ 
+                      public static final class autoCommands{
         public static final String moveArmCMD ="moveArmCMD";
       }
 
   }
 
 
-  public static class IndexerConstants {
-    public static final int kIndexerPWMPort = 2;
+  public static class ClimberConstants {
+    public static final int kClimberMotorPort1 = 26;
+    public static final int kClimberMotorPort2 = 25;
+    public static final Double kClimberSpeedPercentage = 0.5;
+
+    public static final int CLIMBER_DOWN = 4;
+    public static final int CLIMBER_UP = 3;
+    public static final double CLIMBER_SPEED = 0.5;
+  }
+
+  public static class GyroConstants {
+    public static final double gyroOffsetScaleFactor = 1.0361;  // 0.96389 if going the other way
     
   }
 }
