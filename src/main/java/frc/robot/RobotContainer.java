@@ -5,14 +5,11 @@
 package frc.robot;
 
 
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ClimberCmd;
-import frc.robot.commands.ClimberJoyCmd;
 import frc.robot.commands.ManageLimeLightCMD;
-import frc.robot.commands.MoveArmCMD;
 import frc.robot.commands.ResetHeadingCMD;
 import frc.robot.commands.SwerveJoystickCmd;
 
@@ -25,7 +22,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.ArmSub;
 
 import frc.robot.subsystems.SwerveSub;
 import frc.robot.subsystems.LimelightSub;
@@ -54,7 +50,6 @@ public class RobotContainer {
 
 
   private final SwerveSub swerveSub =  new SwerveSub();
-  private final ArmSub armSub = new ArmSub();
   private final LimelightSub limelightSub = new LimelightSub();
   private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
@@ -96,15 +91,12 @@ public class RobotContainer {
       
 
     //Register ALL named commands here!
-    NamedCommands.registerCommand("MoveArmCMD", new MoveArmCMD(armSub));
     NamedCommands.registerCommand("ResetHeadingCMD", new ResetHeadingCMD(swerveSub));
     NamedCommands.registerCommand("ManageLimeLightCMD", new ManageLimeLightCMD(limelightSub));
 
     limelightSub.setDefaultCommand(
       new ManageLimeLightCMD(limelightSub)
     );
-
-    climberSubsystem.setDefaultCommand(new ClimberJoyCmd(climberSubsystem, () -> -joyOperator.getRawAxis(Constants.OIConstants.kClimberAxis)));
 
     configureBindings();
   }
