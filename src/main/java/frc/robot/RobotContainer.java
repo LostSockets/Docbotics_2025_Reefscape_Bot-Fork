@@ -100,7 +100,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("ResetHeadingCMD", new ResetHeadingCMD(swerveSub));
     NamedCommands.registerCommand("ManageLimeLightCMD", new ManageLimeLightCMD(limelightSub));
 
-
     limelightSub.setDefaultCommand(
       new ManageLimeLightCMD(limelightSub)
     );
