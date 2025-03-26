@@ -9,6 +9,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ClimberCmd;
+import frc.robot.commands.ClimberUpCmd;
 import frc.robot.commands.ManageLimeLightCMD;
 import frc.robot.commands.ResetHeadingCMD;
 import frc.robot.commands.SwerveJoystickCmd;
@@ -65,19 +66,13 @@ public class RobotContainer {
     boolean isComp = false; // Change for competitions
     
 
+    //Register ALL named commands here!
+    NamedCommands.registerCommand("ResetHeadingCMD", new ResetHeadingCMD(swerveSub));
+    NamedCommands.registerCommand("ManageLimeLightCMD", new ManageLimeLightCMD(limelightSub));
+    NamedCommands.registerCommand("ClimberUp", new ClimberUpCmd(climberSubsystem, 0.5));
+    NamedCommands.registerCommand("ClimberDown", new ClimberUpCmd(climberSubsystem, -0.5));
 
-    //Auto chooser
-    autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
-      // This will use Commands.none() as default
-      // This will only show autos that start with "comp" while at
-      // competition as defined by the programmer.
-      (stream) -> isComp 
-        ? stream.filter(auto -> auto.getName().startsWith("comp"))
-        : stream
-    );
-    //Dashboard key to select desired auto
-    SmartDashboard.putData("Auto Chooser",autoChooser);
-
+  
     // Configure the trigger bindings
     swerveSub.setDefaultCommand(
         new SwerveJoystickCmd(
@@ -91,14 +86,23 @@ public class RobotContainer {
       ); // by defualt will work on fields reference frame
       
 
-    //Register ALL named commands here!
-    NamedCommands.registerCommand("ResetHeadingCMD", new ResetHeadingCMD(swerveSub));
-    NamedCommands.registerCommand("ManageLimeLightCMD", new ManageLimeLightCMD(limelightSub));
 
     limelightSub.setDefaultCommand(
       new ManageLimeLightCMD(limelightSub)
     );
 
+      //Auto chooser
+      autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
+        // This will use Commands.none() as default
+        // This will only show autos that start with "comp" while at
+        // competition as defined by the programmer.
+        (stream) -> isComp 
+          ? stream.filter(auto -> auto.getName().startsWith("comp"))
+          : stream
+      );
+      //Dashboard key to select desired auto
+      SmartDashboard.putData("Auto Chooser",autoChooser);
+  
     configureBindings();
   }
 
@@ -107,7 +111,7 @@ public class RobotContainer {
     //new JoystickButton(driverJoyStick, OIConstants.kMoveArmIdx ).whileTrue(new MoveArmCMD(armsub));
     new JoystickButton(joyOperator, ClimberConstants.CLIMBER_UP).whileTrue(new ClimberCmd(climberSubsystem, -ClimberConstants.CLIMBER_SPEED)); // climber up
     new JoystickButton(joyOperator, ClimberConstants.CLIMBER_DOWN).whileTrue(new ClimberCmd(climberSubsystem, ClimberConstants.CLIMBER_SPEED)); // climber down
-
+    new JoystickButton(driverJoyStick, OIConstants.kDriveGyroResetButtonIdx).whileTrue(new ResetHeadingCMD(swerveSub)); // reset gyro?
 
     
   }
